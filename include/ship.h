@@ -5,26 +5,24 @@
 #include <utility>
 #include <vector>
 
-/*enum class asset {Vertical, Horizontal};
-typedef std::pair<int, int> coords;*/
-
 class ship{
 		protected:
-			//asset way = asset::Horizontal;
+			asset way = asset::Horizontal;
 			char alias {' '};
-			std::vector<short> hp; //
+			std::vector<short> hp;
 			short length;
-			//coords center; //Userei il primo numero per la riga e il secondo per la colonna
-
-			//Si potrebbe anche non dichiararle in realtà
-			void place();
-			bool action(ship s, coords target);
-			bool valid_box(coords target);
+			coords center; //Userei il primo numero per la riga e il secondo per la colonna			
 			
 		public: 
+			ship(asset way, coords& center);
+			
 			char get_alias() const;
-			//asset get_way() const;
+			asset get_way() const;
 			std::vector<short> get_hp() const;
 			short get_length() const;
+			void get_hit(coords&);	
+			bool is_dead();	
+			void heal();
+			char print(coords&);
 };
 #endif
