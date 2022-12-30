@@ -9,12 +9,13 @@
 class defense_grid:public grid{
     private:
         std::vector<corazzata> corazzate;
-        std::vector<supporto> navisupp;
+        std::vector<supporto> navi_supp;
         std::vector<esploratore> esploratori;
     public:
-        defense_grid( std::vector<corazzata> c, std::vector<supporto> s, std::vector<esploratore> e);
+        defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e);
         ship& get_ship(coords c);
-       
+        bool isShip(coords c);
+        coords move(coords c, short i);
         friend std::ostream operator <<(const std::ostream& os,const defense_grid&);
 
 };

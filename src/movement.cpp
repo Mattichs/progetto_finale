@@ -11,7 +11,7 @@ bool valid_box(coords& target){
 coords coords_translation(user_coords in){
     coords position;
     position.first = (short) in.first - 65;
-
+    position.second = in.second;
     return position;
 }
 
