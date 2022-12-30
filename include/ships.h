@@ -2,20 +2,26 @@
 #define SHIPS_H
 
 #include "movement.h"
+#include "ship.h"
+
+class empty : public ship {
+	public:
+		empty(coords& center);
+}; 
 
 class corazzata : public ship {
 	public:
-		corazzata(asset way, coords center);
+		corazzata(asset, coords&);
 };
 
-class supporto: public ship{
+class supporto : public ship{
 	public:
-		supporto(asset way, coords center);
+		supporto(asset, coords&);
 };
 
-class esploratore: public ship{
+class esploratore : public ship{
 	public:
-		esploratore(asset way, coords center);
+		esploratore(asset, coords&);
 };
 
 
