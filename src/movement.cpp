@@ -1,5 +1,5 @@
 #include "../include/movement.h"
-#include <stdexcept>
+#include <exception>
 
 bool valid_box(coords& target){
     if(target.first < 1 || target.first > 12 || target.second < 1 || target.second > 12) 
@@ -11,6 +11,7 @@ bool valid_box(coords& target){
 coords coords_translation(user_coords in){
     coords position;
     position.first = (short) in.first - 65;
+    position.second = in.second; 
 
     return position;
 }
@@ -46,8 +47,8 @@ std::vector<coords> get_position(coords& center, short length, asset way){
 
     for(int i = 0; i < length; i++){
         if(!valid_box(positions[i]))
-            throw std::invalid_argument("");
+            throw std::invalid_argument();
     }
 
-    return positions;                            
+    return positions;               
 }
