@@ -38,7 +38,7 @@ std::vector<coords> get_position(coords& center, short length, asset way){
 
         case asset::Vertical:
             for(int i = 0; i < length; i++){
-                positions.push_back(std::make_pair (center.first, center.second - (length/2) + i));
+                positions.push_back(coords (center.first, center.second - (length/2) + i));
             }
         break;
     }
