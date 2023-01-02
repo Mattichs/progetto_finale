@@ -1,28 +1,25 @@
-#ifndef MOVEMENT.H
-#define MOVEMENT.H
-
-#include "ship.h"
+#ifndef MOVEMENT_H
+#define MOVEMENT_H
 
 #include <utility>
 #include <vector>
 
+//All possible way to place a ship
 enum class asset {Vertical, Horizontal};
-typedef std::pair<short, short> coords; //Userei il primo numero per la riga e il secondo per la colonna
-typedef std::pair<char,short> input;
 
-class movement : public ship{
-    protected:
-            asset way = asset::Horizontal;
-            coords center;
-            //coords position;
-            input totranslate;
+//User input coordinates to translate --> Char for row and short for column
+typedef std::pair<char,short> user_coords;
 
-    public:
-            asset get_way() const;
+//A two short coordinate used for the methods instead of the char,short coordinate
+typedef std::pair<short, short> coords;
 
-            coords coords_translation(input){}
-            std::vector<coords> get_position(coords center, short length, asset way){}
+//Translate the user input (char,short) in a (short,short) coordinate
+coords coords_translation(user_coords);
 
-};
+//Return a vector of coordinates which contain all boxes occupied by the ship
+std::vector<coords> get_position(coords&, short, asset);
+
+//Check if the coords given are valid
+bool valid_box(coords&);
 
 #endif
