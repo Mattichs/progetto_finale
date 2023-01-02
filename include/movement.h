@@ -3,10 +3,6 @@
 
 #include <utility>
 #include <vector>
-#include <esploratore.h>
-#include <supporto.h>
-#include <corazzata.h>
-#include <empty.h>
 
 //All possible way to place a ship
 enum class asset {Vertical, Horizontal};
