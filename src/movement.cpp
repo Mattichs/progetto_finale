@@ -1,5 +1,5 @@
 #include "../include/movement.h"
-#include <exception>
+#include <stdexcept>
 
 bool valid_box(coords& target){
     if(target.first < 1 || target.first > 12 || target.second < 1 || target.second > 12) 
@@ -26,28 +26,26 @@ std::vector<coords> get_position(coords& center, short length, asset way){
     std::vector<coords> positions;
 
     if(length == 1){ 
-        positions[0] = center;
+        positions.push_back(center);
     }
 
     switch(way){
         case asset::Horizontal:
             for(int i = 0; i < length; i++){
-                positions[i].first = center.first - (length/2) + i; //first = riga
-                positions[i].second = center.second;                //second = colonna
+                positions.push_back(std::make_pair (center.first - (length/2) + i, center.second));
             }
         break;
 
         case asset::Vertical:
             for(int i = 0; i < length; i++){
-                positions[i].first = center.first;
-                positions[i].second = center.second - (length/2) + i;
+                positions.push_back(std::make_pair (center.first, center.second - (length/2) + i));
             }
         break;
     }
 
     for(int i = 0; i < length; i++){
         if(!valid_box(positions[i]))
-            throw std::invalid_argument();
+            throw std::invalid_argument("");
     }
 
     return positions;               
