@@ -13,6 +13,7 @@ char ship::get_alias() const { return alias; }
 asset ship::get_way() const { return way; }
 std::vector<short> ship::get_hp() const { return hp; }
 short ship::get_length() const { return length; }
+coords ship::get_center() const {return center; }
 
 void ship::get_hit(coords& target){
     std::vector<coords> positions;

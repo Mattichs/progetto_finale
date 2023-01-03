@@ -12,6 +12,8 @@ coords coords_translation(user_coords in){
     coords position;
     position.first = (short) in.first - 65;
     position.second = in.second;
+    position.second = in.second; 
+
     return position;
 }
 
@@ -25,29 +27,32 @@ std::vector<coords> get_position(coords& center, short length, asset way){
     std::vector<coords> positions;
 
     if(length == 1){ 
-        positions[0] = center;
+        positions.push_back(center);
+    } else {
+        switch(way){
+            case asset::Horizontal:
+                for(int i = 0; i < length; i++){
+                    positions.push_back(std::make_pair (center.first - (length/2) + i, center.second));
+                }
+            break;
+
+            case asset::Vertical:
+                for(int i = 0; i < length; i++){
+                    positions.push_back(coords (center.first, center.second - (length/2) + i));
+                }
+            break;
+        }
     }
 
-    switch(way){
-        case asset::Horizontal:
-            for(int i = 0; i < length; i++){
-                positions[i].first = center.first - (length/2) + i; //first = riga
-                positions[i].second = center.second;                //second = colonna
-            }
-        break;
-
-        case asset::Vertical:
-            for(int i = 0; i < length; i++){
-                positions[i].first = center.first;
-                positions[i].second = center.second - (length/2) + i;
-            }
-        break;
-    }
-
+    // controllo che le posizioni della barca sia valida
     for(int i = 0; i < length; i++){
-        if(!valid_box(positions[i]))
+        if(!valid_box(positions[i])) {
+
+            //std::cout << positions[i].first << "," << positions[i].second << std::endl; 
+            //std::cout << "errore" << std::endl;
             throw std::invalid_argument("");
+        }
     }
 
-    return positions;                            
+    return positions;               
 }
