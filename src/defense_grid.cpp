@@ -8,13 +8,15 @@
 defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e): battleships(c), healers(s),scouts(e){
     for(int i=0;i<12;i++){
         for(int j=0;j<12;j++)
-            matrix[i][j]=' ';
+            matrix[i][j]='#';
     }
     try{       
-        // 
+        //
         for(corazzata el:battleships){
             coords center=el.get_center();
             if(asset::Vertical==el.get_way()){
+                if(center.first+1||center.first-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                    throw std::invalid_argument("centro non valido");
                     matrix[center.first][center.second]='C'; 
                     matrix[center.first+1][center.second]='C';
                     matrix[center.first+2][center.second]='C';
@@ -22,7 +24,9 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
                     matrix[center.first-2][center.second]='C';
             }     
             if(asset::Horizontal==el.get_way()){
-                    matrix[center.first][center.second]='C'; 
+                if(center.second+1||center.second-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                    throw std::invalid_argument("centro non valido");
+                matrix[center.first][center.second]='C'; 
                     matrix[center.first][center.second+1]='C';
                     matrix[center.first][center.second+2]='C';
                     matrix[center.first][center.second-1]='C';
@@ -37,14 +41,18 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
         for(supporto el:healers){
             coords center=el.get_center();
            if(asset::Vertical==el.get_way()){
-                    matrix[center.first][center.second]='S'; 
-                    matrix[center.first+1][center.second]='S';
-                    matrix[center.first-1][center.second]='S';
+                if(center.first+1||center.first-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                    throw std::invalid_argument("centro non valido");
+                 matrix[center.first][center.second]='S'; 
+                 matrix[center.first+1][center.second]='S';
+                 matrix[center.first-1][center.second]='S';
            }     
             if(asset::Horizontal==el.get_way()){
-                     matrix[center.first][center.second]='S'; 
-                    matrix[center.first][center.second+1]='S';
-                    matrix[center.first][center.second-1]='S';     
+                if(center.second+1||center.second-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                    throw std::invalid_argument("centro non valido");
+                matrix[center.first][center.second]='S'; 
+                matrix[center.first][center.second+1]='S';
+                matrix[center.first][center.second-1]='S';     
             }
         }
     }catch(const char& e){
@@ -52,6 +60,9 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
     }
     try{        
         for(esploratore el:scouts){
+            coords center=el.get_center();
+            if(center.first>=12||center.second>=12||center.first<0||center.second<0)
+                throw std::invalid_argument("centro non valido");
             coords center=el.get_center();
             matrix[center.first][center.second]='E';
         }
@@ -109,9 +120,9 @@ coords defense_grid::move(coords c, short i){
                     matrix[c.first+1][c.second]=matrix[center.first+1][center.second];
                     matrix[c.first-1][c.second]=matrix[center.first-1][center.second];
                     //clearing old positions
-                    matrix[center.first][center.second]=' '; 
-                    matrix[center.first+1][center.second]=' ';
-                    matrix[center.first-1][center.second]=' ';
+                    matrix[center.first][center.second]='#'; 
+                    matrix[center.first+1][center.second]='#';
+                    matrix[center.first-1][center.second]='#';
                     return c;
            }     
             if(asset::Horizontal==ship.get_way()&&!(is_ship(c)||is_ship(coords(c.first,c.second+1))||is_ship(coords(c.first,c.second-1)))&&!ship.is_dead()){
@@ -119,9 +130,9 @@ coords defense_grid::move(coords c, short i){
                     matrix[c.first][c.second+1]=matrix[center.first][center.second+1];
                     matrix[c.first][c.second-1]=matrix[center.first][center.second-1]; 
                     //clearing old positions
-                    matrix[center.first][center.second]=' '; 
-                    matrix[center.first][center.second+1]=' ';
-                    matrix[center.first][center.second-1]=' '; 
+                    matrix[center.first][center.second]='#'; 
+                    matrix[center.first][center.second+1]='#';
+                    matrix[center.first][center.second-1]='#'; 
                     return c;   
             }
          return ship.get_center(); 
@@ -131,7 +142,7 @@ coords defense_grid::move(coords c, short i){
    esploratore ship=scouts[i-3];
    if(!is_ship(c)&&!ship.is_dead()){
     matrix[c.first][c.second]=matrix[ship.get_center().first][ship.get_center().second];
-    matrix[ship.get_center().first][ship.get_center().second]=' ';
+    matrix[ship.get_center().first][ship.get_center().second]='#';
    }
     return ship.get_center();
             
