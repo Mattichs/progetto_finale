@@ -1,3 +1,4 @@
+//@FedericoCognolatto
 #include "../include/corazzata.h"
 #include "../include/esploratore.h"
 #include "../include/supporto.h"
@@ -5,11 +6,8 @@
 #include "../include/defense_grid.hpp"
 #include <stdexcept>
 
-defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e): battleships(c), healers(s),scouts(e){
-    for(int i=0;i<12;i++){
-        for(int j=0;j<12;j++)
-            matrix[i][j]='#';
-    }
+defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e): battleships(c), healers(s),scouts(e),grid(){
+
     try{       
         //
         for(corazzata el:battleships){

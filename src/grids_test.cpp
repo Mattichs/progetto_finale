@@ -1,3 +1,4 @@
+//@FedericoCognolatto
 #include <iostream>
 #include "../include/defense_grid.hpp"
 #include "../include/attack_grid.hpp"
@@ -8,7 +9,6 @@ int main(){
      try{
     for(int i=0;i<3;i++){
         coords center {3+i,5};
-        //std::cout<<"dio cane "<<center.first<<center.second;
         battleships.push_back(corazzata(asset::Horizontal, center));
         
     } 
@@ -20,7 +20,6 @@ int main(){
     try{
         for(int i=0;i<3;i++){
         coords center {10,4+i};
-        std::cout<<"dio porco";
         healers.push_back(supporto(asset::Vertical, center));
         
     }
@@ -31,7 +30,6 @@ int main(){
     try{
     for(int i=0;i<2;i++){
         coords center {7+i,8};
-        std::cout<<"dio bastardo" << std::endl;
         scouts.push_back(esploratore(asset::Vertical,center));
         
     }
