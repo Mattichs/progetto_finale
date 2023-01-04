@@ -15,7 +15,7 @@ class ship {
 			
 		public: 
 			ship(asset way, coords& center);
-			
+			virtual ~ship() {}
 			//Get alias for each piece
 			char get_alias() const;
 

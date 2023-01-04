@@ -9,6 +9,6 @@ class grid {
     public:
         grid();
         virtual ~grid();
-         virtual bool fire(coords c);
+        virtual bool fire(coords c);
 };
 #endif
