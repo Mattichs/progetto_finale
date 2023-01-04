@@ -19,20 +19,20 @@ coords coords_translation(user_coords in){
 
 /*
 *
-*Funzione che ritorna un array di coords con le coordinate di ogni casella occupata dalla barca
+* Funzione che ritorna un array di coords con le coordinate di ogni casella occupata dalla barca
 *
 */
 
 std::vector<coords> get_position(coords& center, short length, asset way){
     std::vector<coords> positions;
-
     if(length == 1){ 
         positions.push_back(center);
     } else {
         switch(way){
             case asset::Horizontal:
                 for(int i = 0; i < length; i++){
-                    positions.push_back(std::make_pair (center.first - (length/2) + i, center.second));
+                    positions.push_back(coords(center.first - (length/2) + i, center.second));
+                    //std::cout << positions[i].first << "," << positions[i].second << std::endl;
                 }
             break;
 
@@ -47,10 +47,9 @@ std::vector<coords> get_position(coords& center, short length, asset way){
     // controllo che le posizioni della barca sia valida
     for(int i = 0; i < length; i++){
         if(!valid_box(positions[i])) {
-
             //std::cout << positions[i].first << "," << positions[i].second << std::endl; 
             //std::cout << "errore" << std::endl;
-            throw std::invalid_argument("aaaaaa");
+            throw std::invalid_argument("Position not valid");
         }
     }
 

@@ -5,7 +5,6 @@
 ship::ship(asset _way, coords& _center) {
     way = _way;
     center = _center;
-    std::vector<coords> positions = get_position(center, length, way);
 }
 
 char ship::get_alias() const { return alias; }
