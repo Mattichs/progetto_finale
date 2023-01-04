@@ -1,5 +1,5 @@
-#ifndef ATTACK_GRID.H
-#define ATTACK_GRID.H
+#ifndef ATTACK_GRID_H
+#define ATTACK_GRID_H
 #include "corazzata.h"
 #include "esploratore.h"
 #include "supporto.h"

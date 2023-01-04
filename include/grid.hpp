@@ -1,5 +1,5 @@
-#ifndef GRID.H
-#define GRID.H
+#ifndef GRID_H
+#define GRID_H
 #include <iostream>
 
 class grid{

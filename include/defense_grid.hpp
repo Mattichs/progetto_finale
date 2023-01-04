@@ -1,5 +1,5 @@
-#ifndef DEFENSE_GRID.H
-#define DEFENSE_GRID.H
+#ifndef DEFENSE_GRID_H
+#define DEFENSE_GRID_H
 #include "corazzata.h"
 #include "esploratore.h"
 #include "supporto.h"
