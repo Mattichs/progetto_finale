@@ -15,7 +15,7 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
         for(corazzata el:battleships){
             coords center=el.get_center();
             if(asset::Vertical==el.get_way()){
-                if(center.first+1||center.first-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                if(center.first+1>=12||center.first-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
                     throw std::invalid_argument("centro non valido");
                     matrix[center.first][center.second]='C'; 
                     matrix[center.first+1][center.second]='C';
@@ -24,7 +24,7 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
                     matrix[center.first-2][center.second]='C';
             }     
             if(asset::Horizontal==el.get_way()){
-                if(center.second+1||center.second-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                if(center.second+1>=12||center.second-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
                     throw std::invalid_argument("centro non valido");
                 matrix[center.first][center.second]='C'; 
                     matrix[center.first][center.second+1]='C';
@@ -41,14 +41,14 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
         for(supporto el:healers){
             coords center=el.get_center();
            if(asset::Vertical==el.get_way()){
-                if(center.first+1||center.first-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                if(center.first+1>=12||center.first-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
                     throw std::invalid_argument("centro non valido");
                  matrix[center.first][center.second]='S'; 
                  matrix[center.first+1][center.second]='S';
                  matrix[center.first-1][center.second]='S';
            }     
             if(asset::Horizontal==el.get_way()){
-                if(center.second+1||center.second-1||center.first>=12||center.second>=12||center.first<0||center.second<0)
+                if(center.second+1>=12||center.second-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
                     throw std::invalid_argument("centro non valido");
                 matrix[center.first][center.second]='S'; 
                 matrix[center.first][center.second+1]='S';
@@ -63,7 +63,6 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
             coords center=el.get_center();
             if(center.first>=12||center.second>=12||center.first<0||center.second<0)
                 throw std::invalid_argument("centro non valido");
-            coords center=el.get_center();
             matrix[center.first][center.second]='E';
         }
     }catch(const char& e){
