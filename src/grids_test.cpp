@@ -1,7 +1,7 @@
 //@FedericoCognolatto
 #include <iostream>
-#include "../include/defense_grid.hpp"
-#include "../include/attack_grid.hpp"
+#include "../include/grid/defense_grid.hpp"
+#include "../include/grid/attack_grid.hpp"
 #include <stdexcept>
 
 int main(){

@@ -1,4 +1,4 @@
-#include "../include/corazzata.h"
+#include "../include/ship/corazzata.h"
 #include <iostream>
 
 corazzata::corazzata(asset way, coords& center) : ship(way, center){

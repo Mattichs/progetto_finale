@@ -1,9 +1,9 @@
 //@FedericoCognolatto
-#include "../include/corazzata.h"
-#include "../include/esploratore.h"
-#include "../include/supporto.h"
-#include "../include/movement.h"
-#include "../include/defense_grid.hpp"
+#include "../include/ship/corazzata.h"
+#include "../include/ship/esploratore.h"
+#include "../include/ship/supporto.h"
+#include "../include/ship/movement.h"
+#include "../include/grid/defense_grid.hpp"
 #include <stdexcept>
 
 defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e): battleships(c), healers(s),scouts(e),grid(){

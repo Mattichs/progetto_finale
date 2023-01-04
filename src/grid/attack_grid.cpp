@@ -1,9 +1,9 @@
 //@FedericoCognolatto
-#include "../include/corazzata.h"
-#include "../include/esploratore.h"
-#include "../include/supporto.h"
-#include "../include/movement.h"
-#include "../include/attack_grid.hpp"
+#include "../include/ship/corazzata.h"
+#include "../include/ship/esploratore.h"
+#include "../include/ship/supporto.h"
+#include "../include/ship/movement.h"
+#include "../include/grid/attack_grid.hpp"
 #include <stdexcept>
 attack_grid::attack_grid( defense_grid& dg): dgrid(dg), grid(){
 }//fine costruttore attack_grid
