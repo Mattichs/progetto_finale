@@ -8,8 +8,8 @@ int main(){
      try{
     for(int i=0;i<3;i++){
         coords center {3+i,5};
-        std::cout<<"dio cane";
-        battleships[i]=corazzata(asset::Horizontal, center);
+        std::cout<<"dio cane "<<center.first<<center.second;
+        battleships.push_back(corazzata(asset::Horizontal, center));
         
     } 
     }catch(const char& e){
@@ -19,9 +19,9 @@ int main(){
     std::vector<supporto> healers;
     try{
         for(int i=0;i<3;i++){
-        coords center {11,4+i};
+        coords center {10,4+i};
         std::cout<<"dio porco";
-        healers[i]=supporto(asset::Vertical, center);
+        healers.push_back(supporto(asset::Vertical, center));
         
     }
      }catch(const char& e){
@@ -29,10 +29,10 @@ int main(){
      }
     std::vector<esploratore> scouts;
     try{
-    for(int i=0;i<3;i++){
+    for(int i=0;i<2;i++){
         coords center {7+i,8};
         std::cout<<"dio bastardo";
-        scouts[i]=esploratore(asset::Vertical,center);
+        scouts.push_back(esploratore(asset::Vertical,center));
         
     }
      }catch(const char& e){

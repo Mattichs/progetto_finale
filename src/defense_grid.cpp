@@ -10,7 +10,8 @@ defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s,
         for(int j=0;j<12;j++)
             matrix[i][j]=' ';
     }
-    try{        
+    try{       
+        // 
         for(corazzata el:battleships){
             coords center=el.get_center();
             if(asset::Vertical==el.get_way()){
@@ -70,6 +71,7 @@ bool defense_grid::is_ship(coords c){
     return res;
 }//end is_ship
 
+//this function returns true if a ship is hitted, false if the player misses
 bool defense_grid::fire(coords c){
     if(matrix[c.first][c.second]=='C'||matrix[c.first][c.second]=='S'||matrix[c.first][c.second]=='E'){
         //using some for eachs to find the hitted ship
@@ -95,7 +97,7 @@ bool defense_grid::fire(coords c){
     return false;
 }//end fire 
 
-
+//returns the new center of the ship
 coords defense_grid::move(coords c, short i){
     if(i>4)
         throw std::invalid_argument("invalid i");

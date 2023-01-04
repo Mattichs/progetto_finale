@@ -50,7 +50,7 @@ std::vector<coords> get_position(coords& center, short length, asset way){
 
             //std::cout << positions[i].first << "," << positions[i].second << std::endl; 
             //std::cout << "errore" << std::endl;
-            throw std::invalid_argument("");
+            throw std::invalid_argument("aaaaaa");
         }
     }
 
