@@ -1,6 +1,8 @@
 #ifndef ATTACK_GRID.H
 #define ATTACK_GRID.H
-#include "ships.h"
+#include "corazzata.h"
+#include "esploratore.h"
+#include "supporto.h"
 #include "ship.h"
 #include "grid.hpp"
 #include "defense_grid.hpp"
@@ -11,6 +13,7 @@ class attack_grid:public grid{
     public:
         attack_grid(defense_grid& dg);
         bool fire(coords c);
+        friend std::ostream& operator <<( std::ostream& os,const attack_grid&);
 
 };
 #endif

@@ -1,6 +1,8 @@
 #ifndef DEFENSE_GRID.H
 #define DEFENSE_GRID.H
-#include "ships.h"
+#include "corazzata.h"
+#include "esploratore.h"
+#include "supporto.h"
 #include "ship.h"
 #include "grid.hpp"
 #include <vector>
@@ -16,7 +18,8 @@ class defense_grid:public grid{
         bool is_ship(coords c);
         bool fire(coords c);
         coords move(coords c, short i);
-        
+        friend std::ostream& operator <<( std::ostream& os,const defense_grid&);
 
 };
+
 #endif
