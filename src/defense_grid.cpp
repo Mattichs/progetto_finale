@@ -145,6 +145,18 @@ coords defense_grid::move(coords c, short i){
             
 }
 
+std::vector<corazzata> defense_grid::get_battleships(){
+    return battleships;
+}
+
+std::vector<supporto> defense_grid::get_healers(){
+    return healers;
+}
+
+std::vector<esploratore> defense_grid::get_scouts(){
+    return scouts;
+}
+
 std::ostream& operator <<(std::ostream& os,const defense_grid& dg){
     for(int i=0;i<12;i++){
         for(int j=0;j<12;j++){
