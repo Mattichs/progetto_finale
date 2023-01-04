@@ -5,7 +5,7 @@
 #include <utility>
 #include <vector>
 
-class ship{
+class ship {
 		protected:
 			asset way = asset::Horizontal;
 			char alias {' '}; //Char that represent the type of ship (C | S | E) and hp (lowercase | UPPERCASE) in grid output

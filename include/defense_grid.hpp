@@ -7,7 +7,7 @@
 #include "grid.hpp"
 #include <vector>
 #include <iostream>
-class defense_grid:public grid{
+class defense_grid : public grid {
     private:
         std::vector<corazzata> battleships;
         std::vector<supporto> healers;

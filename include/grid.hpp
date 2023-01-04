@@ -2,7 +2,7 @@
 #define GRID_H
 #include <iostream>
 
-class grid{
+class grid {
     protected:
         char matrix[12][12];
     public:
