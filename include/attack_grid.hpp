@@ -1,3 +1,4 @@
+//@FedericoCognolatto
 #ifndef ATTACK_GRID_H
 #define ATTACK_GRID_H
 #include "corazzata.h"
