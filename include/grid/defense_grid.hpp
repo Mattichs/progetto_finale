@@ -19,8 +19,10 @@ class defense_grid : public grid {
         bool is_ship(coords c);
         bool fire(coords c);
         coords move(coords c, short i);
+        std::vector<corazzata> get_battleships();
+        std::vector<supporto> get_healers();
+        std::vector<esploratore> get_scouts();
         friend std::ostream& operator <<( std::ostream& os,const defense_grid&);
-
 };
 
 #endif
