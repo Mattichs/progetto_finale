@@ -1,4 +1,4 @@
-#include "../include/supporto.h"
+#include "../include/ship/supporto.h"
 
 supporto::supporto(asset way, coords& center) : ship(way, center){
 	alias = 'S';

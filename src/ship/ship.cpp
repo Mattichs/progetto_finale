@@ -1,4 +1,4 @@
-#include "../include/ship.h"
+#include "../include/ship/ship.h"
 #include <stdexcept>
 #include <vector>
 

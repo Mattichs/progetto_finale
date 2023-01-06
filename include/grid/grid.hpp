@@ -2,7 +2,7 @@
 #ifndef GRID_H
 #define GRID_H
 #include <iostream>
-#include "movement.h"
+#include "../ship/movement.h"
 
 class grid {
     protected:

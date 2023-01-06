@@ -1,10 +1,10 @@
 //@FedericoCognolatto
 #ifndef DEFENSE_GRID_H
 #define DEFENSE_GRID_H
-#include "corazzata.h"
-#include "esploratore.h"
-#include "supporto.h"
-#include "ship.h"
+#include "../ship/corazzata.h"
+#include "../ship/esploratore.h"
+#include "../ship/supporto.h"
+#include "../ship/ship.h"
 #include "grid.hpp"
 #include <vector>
 #include <iostream>

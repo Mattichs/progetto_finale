@@ -1,4 +1,4 @@
-#include "../include/movement.h"
+#include "../../include/ship/movement.h"
 #include <stdexcept>
 
 bool valid_box(coords& target){
