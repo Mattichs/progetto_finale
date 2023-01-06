@@ -149,9 +149,9 @@ coords defense_grid::move(coords c, short i){
         supporto ship= healers[i];
         coords center=ship.get_center();
         if(asset::Vertical==ship.get_way()&&!(is_ship(c)||is_ship(coords(c.first+1,c.second))||is_ship(coords(c.first-1,c.second)))&&!ship.is_dead()){
-                    matrix[c.first][c.second]=matrix[center.first][center.second]; 
-                    matrix[c.first+1][c.second]=matrix[center.first+1][center.second];
-                    matrix[c.first-1][c.second]=matrix[center.first-1][center.second];
+                    matrix[c.first][c.second]=&ship; 
+                    matrix[c.first+1][c.second]=&ship;
+                    matrix[c.first-1][c.second]=&ship;
                     //clearing old positions
                     matrix[center.first][center.second]=&water; 
                     matrix[center.first+1][center.second]=&water;
