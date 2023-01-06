@@ -2,6 +2,12 @@
 #include <stdexcept>
 #include <vector>
 
+ship::ship(){
+    way = asset::Horizontal;
+    coords c=coords(0,0);
+    center=c;
+}
+
 ship::ship(asset _way, coords& _center) {
     way = _way;
     center = _center;

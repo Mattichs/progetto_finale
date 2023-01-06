@@ -5,17 +5,21 @@
 #include "../ship/esploratore.h"
 #include "../ship/supporto.h"
 #include "../ship/ship.h"
+#include "../ship/empty.h"
 #include "grid.hpp"
 #include <vector>
 #include <iostream>
 class defense_grid : public grid {
     private:
+        ship* matrix[12][12];
+        empty water;
         std::vector<corazzata> battleships;
         std::vector<supporto> healers;
         std::vector<esploratore> scouts;
     public:
         defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e);
         ship& get_ship(coords c);
+        bool insert_ship(ship& s);
         bool is_ship(coords c);
         bool fire(coords c);
         coords move(coords c, short i);

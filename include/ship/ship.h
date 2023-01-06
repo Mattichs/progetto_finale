@@ -14,6 +14,7 @@ class ship {
 			coords center; //Represent the center of the ship in a (short,short) coordinate			
 			
 		public: 
+			ship();
 			ship(asset way, coords& center);
 			virtual ~ship() {}
 			//Get alias for each piece
