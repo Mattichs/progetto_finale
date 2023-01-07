@@ -6,36 +6,11 @@
 #include "../include/grid/defense_grid.hpp"
 #include <stdexcept>
 
-defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e): battleships(c), healers(s),scouts(e){
+defense_grid::defense_grid(){
     water=empty();
     for(int i=0;i<12;i++){
         for(int j=0;j<12;j++)
             matrix[i][j]=&water;
-    }
-    //inserting of the ships into the matrix
-    try{       
-        for(corazzata el:battleships){
-           if(!insert_ship(el))
-                throw std::invalid_argument("posizione corazzata non valida");
-        }
-    }catch(std::invalid_argument& e){
-       throw std::invalid_argument("posizione corazzata non valida");
-    }
-    try{        
-        for(supporto el:healers){
-           if(!insert_ship(el))
-                throw std::invalid_argument("posizione nave supporto non valida");
-        }
-    }catch(std::invalid_argument& e){
-        throw std::invalid_argument("posizione nave supporto non valida");
-    }
-    try{        
-        for(esploratore el:scouts){
-            if(!insert_ship(el))
-                throw std::invalid_argument("posizione esploratore non valida");
-        }
-    }catch(std::invalid_argument& e){
-        throw std::invalid_argument("posizione esploratore non valida");
     }
 
 }//end constructor defense_grid
@@ -141,7 +116,7 @@ bool defense_grid::fire(coords c){
 }//end fire 
 
 //returns the new center of the ship , or the old one if the position is already occupied
-coords defense_grid::move(coords c, short i){
+/*coords defense_grid::move(coords c, ship& s){
     if(i>4)
         throw std::invalid_argument("invalid i");
     //support
@@ -180,19 +155,7 @@ coords defense_grid::move(coords c, short i){
    }
     return ship.get_center();
             
-}
-
-std::vector<corazzata> defense_grid::get_battleships(){
-    return battleships;
-}
-
-std::vector<supporto> defense_grid::get_healers(){
-    return healers;
-}
-
-std::vector<esploratore> defense_grid::get_scouts(){
-    return scouts;
-}
+}*/
 
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     for(int i=0;i<12;i++){
