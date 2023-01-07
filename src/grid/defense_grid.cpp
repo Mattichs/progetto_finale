@@ -194,11 +194,14 @@ std::vector<esploratore> defense_grid::get_scouts(){
     return scouts;
 }
 
-std::ostream& operator <<(std::ostream& os,const defense_grid& dg){
+std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     for(int i=0;i<12;i++){
         for(int j=0;j<12;j++){
             coords c=coords(i,j);
-            os<<dg.matrix[i][j]->print(c)<<" ";
+            if(dg.is_ship(c))
+             os<<dg.matrix[i][j]->print(c)<<" ";
+            else
+                os<<dg.matrix[i][j]->get_alias()<<" ";
         }
          os<<'\n';
     }

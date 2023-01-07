@@ -26,7 +26,7 @@ class defense_grid : public grid {
         std::vector<corazzata> get_battleships();
         std::vector<supporto> get_healers();
         std::vector<esploratore> get_scouts();
-        friend std::ostream& operator <<( std::ostream& os,const defense_grid&);
+        friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
 
 };
 
