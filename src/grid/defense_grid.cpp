@@ -25,19 +25,20 @@ bool defense_grid::is_ship(coords c){
     return res;
 }//end is_ship
 
-bool defense_grid::insert_ship(ship& s){
-    coords c=s.get_center();
-    asset a=s.get_way();
-    short l=s.get_length();
-    std::vector<coords> pos= get_position(c,l,a);   
-    for(coords el:pos){
+void defense_grid::insert_ship(ship& s){
+    coords center = s.get_center();
+    asset asset = s.get_way();
+    if(asset == asset::Horizontal) std::cout << "hor" << std::endl;
+    else std::cout << "ver" << std::endl;
+    short length = s.get_length();
+    std::cout << length << std::endl;
+    std::vector<coords> pos = get_position(center, length, asset);
+    for(coords el : pos){
+        std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el))
-            return false;
+            throw std::invalid_argument("dioporco");
         matrix[el.first][el.second]=&s;
     }
-    
-    return true;
-
 }
 
 

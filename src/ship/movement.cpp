@@ -29,14 +29,14 @@ std::vector<coords> get_position(coords& center, short length, asset way){
         positions.push_back(center);
     } else {
         switch(way){
-            case asset::Horizontal:
+            case asset::Vertical:
                 for(int i = 0; i < length; i++){
                     positions.push_back(coords(center.first - (length/2) + i, center.second));
                     //std::cout << positions[i].first << "," << positions[i].second << std::endl;
                 }
             break;
 
-            case asset::Vertical:
+            case asset::Horizontal:
                 for(int i = 0; i < length; i++){
                     positions.push_back(coords (center.first, center.second - (length/2) + i));
                 }

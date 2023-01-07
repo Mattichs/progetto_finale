@@ -5,23 +5,24 @@
 #include <stdexcept>
 
 int main(){
-    std::vector<corazzata> battleships;
-     try{
-    for(int i=0;i<3;i++){
-        coords center {3+i,5};
-        battleships.push_back(corazzata(asset::Horizontal, center));
-        
-    } 
-    }catch(const char& e){
-        std::cout<<e;
-     }
-   
-    std::vector<supporto> healers;
+    defense_grid dg=defense_grid();
+
     try{
         for(int i=0;i<3;i++){
-        coords center {10,4+i};
-        healers.push_back(supporto(asset::Vertical, center));
-        
+            // coords c {row, column}
+            coords center {3 + i, 5};
+            corazzata c(asset::Horizontal, center);
+            dg.insert_ship(c);  
+        } 
+    }catch(const char& e){
+       std::cout<<e;
+    }
+    
+    try{
+        for(int i=0;i<3;i++){
+        coords center {9 + i, 4};
+        supporto c(asset::Horizontal, center);
+        dg.insert_ship(c);
     }
      }catch(const char& e){
         std::cout<<e;
@@ -29,17 +30,13 @@ int main(){
     std::vector<esploratore> scouts;
     try{
     for(int i=0;i<2;i++){
-        coords center {7+i,8};
-        scouts.push_back(esploratore(asset::Vertical,center));
-        
+        coords center {7 + i, 8};
+        esploratore c(asset::Horizontal, center);
+        dg.insert_ship(c);        
     }
      }catch(const char& e){
         std::cout<<e;
      }
-  
-    defense_grid dg=defense_grid(battleships,healers,scouts);
-    attack_grid ag=attack_grid(dg);
-  
-    std::cout<<dg; 
-    
+
+    std::cout << dg; 
 }

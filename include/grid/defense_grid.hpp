@@ -16,7 +16,7 @@ class defense_grid : public grid {
     public:
         defense_grid();
         ship& get_ship(coords c);
-        bool insert_ship(ship& s);
+        void insert_ship(ship& s);
         bool is_ship(coords c);
         bool fire(coords c);
         coords move(coords c, short i);

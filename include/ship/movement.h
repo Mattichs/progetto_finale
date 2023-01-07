@@ -11,6 +11,7 @@ enum class asset {Vertical, Horizontal};
 typedef std::pair<char,short> user_coords;
 
 //A two short coordinate used for the methods instead of the char,short coordinate
+// <row, column>
 typedef std::pair<short, short> coords;
 
 //Translate the user input (char,short) in a (short,short) coordinate
