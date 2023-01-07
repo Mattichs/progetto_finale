@@ -26,80 +26,15 @@ bool defense_grid::is_ship(coords c){
 }//end is_ship
 
 bool defense_grid::insert_ship(ship& s){
-    if(this->is_ship(s.get_center()))
-        return false;
-    //battleship
-    if(s.get_alias()=='C'){
-         coords center=s.get_center();
-            if(asset::Vertical==s.get_way()){
-                if(!this->is_ship(coords(center.first+1,center.second))||!this->is_ship(coords(center.first-1,center.second))||!this->is_ship(center)||!this->is_ship(coords(center.first+2,center.second))||!this->is_ship(coords(center.first-2,center.second))){
-                    matrix[center.first][center.second]=&s; 
-                    matrix[center.first+1][center.second]=&s;
-                    matrix[center.first+2][center.second]=&s;
-                    matrix[center.first-1][center.second]=&s;
-                    matrix[center.first-2][center.second]=&s;
-                } else{
-                    return false;
-                } 
-            }   
-            if(asset::Horizontal==s.get_way()){
-                 if(!this->is_ship(coords(center.first,center.second+1))||!this->is_ship(coords(center.first,center.second-1))||!this->is_ship(center)||!this->is_ship(coords(center.first,center.second+2))||!this->is_ship(coords(center.first,center.second-2))){
-                    matrix[center.first][center.second]=&s; 
-                    matrix[center.first][center.second+1]=&s;
-                    matrix[center.first][center.second+2]=&s;
-                    matrix[center.first][center.second-1]=&s;
-                    matrix[center.first][center.second-2]=&s;
-                }else{
-                    return false;
-                }
-                    
-            }
+    coords c=s.get_center();
+    asset a=s.get_way();
+    short l=s.get_length();
+    std::vector<coords> pos= get_position(c,l,a);   
+    for(coords el:pos){
+        if(is_ship(el))
+            return false;
+        matrix[el.first][el.second]=&s;
     }
-    //support
-      if(s.get_alias()=='S'){
-         coords center=s.get_center();
-            if(asset::Vertical==s.get_way()){
-                if(!this->is_ship(coords(center.first+1,center.second))||!this->is_ship(coords(center.first-1,center.second))||!this->is_ship(center)){
-                    matrix[center.first][center.second]=&s; 
-                    matrix[center.first+1][center.second]=&s;
-                    matrix[center.first-1][center.second]=&s;
-                    
-                } else{
-                    return false;
-                } 
-            }   
-            if(asset::Horizontal==s.get_way()){
-                 if(!this->is_ship(coords(center.first,center.second+1))||!this->is_ship(coords(center.first,center.second-1))||!this->is_ship(center)){
-                    matrix[center.first][center.second]=&s; 
-                    matrix[center.first][center.second+1]=&s;
-                    matrix[center.first][center.second-1]=&s;
-                }else{
-                    return false;
-                }
-                    
-            }
-      }
-      //scout
-        if(s.get_alias()=='E'){
-         coords center=s.get_center();
-            if(asset::Vertical==s.get_way()){
-                if(!this->is_ship(center)){
-                    matrix[center.first][center.second]=&s; 
-                    
-                } else{
-                    return false;
-                } 
-            }   
-            if(asset::Horizontal==s.get_way()){
-                 if(!this->is_ship(center)){
-                    matrix[center.first][center.second]=&s; 
-                }else{
-                    return false;
-                }
-                    
-            }
-    }
-
     
     return true;
 
