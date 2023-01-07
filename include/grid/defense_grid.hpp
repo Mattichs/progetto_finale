@@ -15,14 +15,11 @@ class defense_grid : public grid {
         empty water;
     public:
         defense_grid();
-        ship& get_ship(coords c);
         void insert_ship(ship& s);
         bool is_ship(coords c);
         bool fire(coords c);
-        coords move(coords c, short i);
-        std::vector<corazzata> get_battleships();
-        std::vector<supporto> get_healers();
-        std::vector<esploratore> get_scouts();
+        void move(coords c, ship& s);
+        ship& get_ship(coords c);
         friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
 
 };
