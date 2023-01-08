@@ -3,9 +3,9 @@
 #include <vector>
 
 ship::ship(){
-    way = asset::Horizontal;
-    coords c=coords(0,0);
-    center=c;
+    //way = asset::Horizontal;
+    //coords c=coords(0,0);S
+    //center=c;
 }
 
 ship::ship(asset _way, coords& _center) {
@@ -18,6 +18,7 @@ asset ship::get_way() const { return way; }
 std::vector<short> ship::get_hp() const { return hp; }
 short ship::get_length() const { return length; }
 coords ship::get_center() const {return center; }
+void ship::set_center(coords c){ center=c;}
 
 void ship::get_hit(coords& target){
     std::vector<coords> positions;

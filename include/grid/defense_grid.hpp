@@ -18,7 +18,8 @@ class defense_grid : public grid {
         void insert_ship(ship& s);
         bool is_ship(coords c);
         bool fire(coords c);
-        void move(coords c, ship& s);
+        void move(coords c, coords s);
+        void clear_position(ship& s);
         ship& get_ship(coords c);
         friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
 

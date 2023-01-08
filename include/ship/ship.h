@@ -36,6 +36,8 @@ class ship {
 			//Get the center of the ship	
 			coords get_center() const;
 
+			void set_center(coords c);
+
 			//Check the vector hp, if all shorts are 0 the ship is "dead"
 			bool is_dead();	
 

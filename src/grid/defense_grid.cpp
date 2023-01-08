@@ -45,34 +45,49 @@ ship& defense_grid::get_ship(coords c){
     return *matrix[c.first][c.second];
 }
 
+
+
 //this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
 bool defense_grid::fire(coords c){
     if(is_ship(c)){
-        matrix[c.first][c.second]->get_hit(c);
+        ship s=get_ship(c);
+        s.get_hit(c);
+        if( s.is_dead())
+            clear_position(s);
         return true;
     }
     return false;
 }//end fire 
 
 //returns the new center of the ship , or the old one if the position is already occupied
-void defense_grid::move(coords c, ship& s){
+void defense_grid::move(coords p, coords c){
+    ship s=get_ship(c);
     if(s.get_alias()!='S'&&s.get_alias()!='E')
         throw std::invalid_argument("tipo di nave non valida");
     coords center = s.get_center();
     asset asset = s.get_way();
     short length = s.get_length();
-    std::vector<coords> pos = get_position(center, length, asset);
-    std::vector<coords> new_pos = get_position(c, length, asset);
+   
+    std::vector<coords> new_pos = get_position(p, length, asset);
     for(coords el : new_pos){
         std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el))
             throw std::invalid_argument("dioporco");
         matrix[el.first][el.second]=&s;
     }
+    clear_position(s);
+    s.set_center(p);
+            
+}
+
+void defense_grid::clear_position(ship& s){
+    coords center = s.get_center();
+    asset asset = s.get_way();
+    short length = s.get_length();
+    std::vector<coords> pos = get_position(center, length, asset);
     for(coords el : pos){
         matrix[el.first][el.second]=&water;
     }
-            
 }
 
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
