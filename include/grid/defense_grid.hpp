@@ -15,6 +15,7 @@ class defense_grid : public grid {
         empty water;
     public:
         defense_grid();
+        ~defense_grid() {};
         void insert_ship(ship& s);
         bool is_ship(coords c);
         bool fire(coords c);

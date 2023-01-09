@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../include/grid/defense_grid.hpp"
 #include "../include/grid/attack_grid.hpp"
+#include "bot.h"
 #include <stdexcept>
 
 // per random 
@@ -30,7 +31,7 @@ int main(){
     defense_grid dg=defense_grid();
 
     try{
-        for(int i=0;i<3;i++){
+        for(int i=0;i<2;i++){
             // coords c {row, column}
             coords center {3 + i, 5};
             corazzata c(asset::Horizontal, center);
@@ -46,9 +47,9 @@ int main(){
         supporto c(asset::Horizontal, center);
         dg.insert_ship(c);
     }
-     }catch(const char& e){
+    }catch(const char& e){
         std::cout<<e;
-     }
+    }
     std::vector<esploratore> scouts;
     try{
     for(int i=0;i<2;i++){
@@ -56,9 +57,14 @@ int main(){
         esploratore c(asset::Horizontal, center);
         dg.insert_ship(c);        
     }
-     }catch(const char& e){
+    }catch(const char& e){
         std::cout<<e;
-     }
+    }
 
     std::cout << dg; 
+    ship& s = dg.get_ship(coords{3,3});
+    std::cout << s.get_alias() << std::endl;
+    coords a = s.get_center();
+    std::cout << a.first << "," << a.second << std::endl; 
+    //bot robot(dg);  
 }

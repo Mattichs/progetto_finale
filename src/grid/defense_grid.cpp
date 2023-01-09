@@ -25,22 +25,26 @@ bool defense_grid::is_ship(coords c){
     return res;
 }//end is_ship
 
+// insert ship, need to handle invalid_argument
 void defense_grid::insert_ship(ship& s){
     coords center = s.get_center();
+    std::cout << "Centro nave insert_ship(): " << center.first << "," << center.second << std::endl;
     asset asset = s.get_way();
-    if(asset == asset::Horizontal) std::cout << "hor" << std::endl;
-    else std::cout << "ver" << std::endl;
+    //if(asset == asset::Horizontal) std::cout << "hor" << std::endl;
+    //else std::cout << "ver" << std::endl;
     short length = s.get_length();
-    std::cout << length << std::endl;
+    //std::cout << length << std::endl;
     std::vector<coords> pos = get_position(center, length, asset);
     for(coords el : pos){
-        std::cout << el.first << "," << el.second << std::endl;
+        //std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el))
-            throw std::invalid_argument("dioporco");
+            throw std::invalid_argument("Nella posizione scelta è già presente una nave!");
         matrix[el.first][el.second]=&s;
+        std::cout << "Centro nave insert_ship() for: " << matrix[el.first][el.second]->get_center().first << "," << matrix[el.first][el.second]->get_center().second << std::endl;
     }
 }
 
+// give position to get ship&
 ship& defense_grid::get_ship(coords c){
     return *matrix[c.first][c.second];
 }
@@ -50,7 +54,7 @@ ship& defense_grid::get_ship(coords c){
 //this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
 bool defense_grid::fire(coords c){
     if(is_ship(c)){
-        ship s=get_ship(c);
+        ship s = get_ship(c);
         s.get_hit(c);
         if( s.is_dead())
             clear_position(s);

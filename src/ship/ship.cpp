@@ -1,6 +1,7 @@
 #include "../include/ship/ship.h"
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 ship::ship(){
     //way = asset::Horizontal;
@@ -11,6 +12,7 @@ ship::ship(){
 ship::ship(asset _way, coords& _center) {
     way = _way;
     center = _center;
+    std::cout << "Centro nave: " << center.first << "," << center.second << std::endl;
 }
 
 char ship::get_alias() const { return alias; }
@@ -21,6 +23,8 @@ coords ship::get_center() const {return center; }
 void ship::set_center(coords c){ center=c;}
 
 void ship::get_hit(coords& target){
+    // positions non lo abbiamo già? dovremmo richiamarlo solo quando
+    // la ship cambia posizione 
     std::vector<coords> positions;
     positions = get_position(center, length, way);
     

@@ -6,4 +6,7 @@ corazzata::corazzata(asset way, coords& center) : ship(way, center){
 	hp = {1, 1, 1, 1, 1};
 	length = 5;
 	std::vector<coords> positions = get_position(center, length, way);
+	for(coords c : positions) {
+		std::cout << c.first << "," << c.second << std::endl;
+	}
 }
