@@ -1,6 +1,7 @@
 #include "../include/ship/ship.h"
 #include <stdexcept>
 #include <vector>
+#include <iostream>
 
 ship::ship(asset _way, coords& _center) {
     way = _way;
@@ -40,7 +41,7 @@ void ship::heal(){
     }
 }
 
-char ship::print(coords& target){
+char ship::print(coords& target, coords& center){
     std::vector<coords> positions;
     positions = get_position(center, length, way);
 

@@ -20,7 +20,7 @@ class defense_grid : public grid {
         bool is_ship(coords& c);
         bool fire(coords& c);
         void move(coords& c, coords& s);
-        void clear_position(std::vector<coords> c);
+        void clear_position(ship& s);
         ship* get_ship(coords& c);
         char ship_at(coords& c);
         friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
