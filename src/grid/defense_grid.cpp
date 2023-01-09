@@ -1,0 +1,154 @@
+#include "../include/ship/corazzata.h"
+#include "../include/ship/esploratore.h"
+#include "../include/ship/supporto.h"
+#include "../include/ship/movement.h"
+#include "../include/grid/defense_grid.hpp"
+#include <stdexcept>
+#include <set>
+
+defense_grid::defense_grid(){
+    water = empty();
+    for(int i=0;i<12;i++){
+        for(int j=0;j<12;j++)
+            matrix[i][j]=&water;
+    }
+}//end constructor defense_grid
+
+std::set<ship*> defense_grid::ship_in_range(coords& c){
+    std::set<ship*> ships;
+    
+    if(!valid_box(c)) throw std::invalid_argument("");
+
+    else{
+    for(int i = 0; i < 3; i++){ //righe
+        for(int j = 0; j < 3; j++){ //colonne
+            coords box = {i,j};
+            if(valid_box(box)){
+                if(is_ship(box)){
+                    ships.insert(get_ship(box));
+                }
+            }
+        }
+    }
+    }
+    return ships;
+}
+
+std::vector<coords> defense_grid::enemy_ships(coords& c){
+    std::vector<coords> positions;
+
+    if(!valid_box(c)) throw std::invalid_argument("");
+
+    else{
+        for(int i = 0; i < 3; i++){ //righe
+            for(int j = 0; j < 3; j++){ //colonne
+                coords box = {i,j};
+                if(valid_box(box)){
+                    if(is_ship(box)){
+                        positions.push_back(box);
+                    }
+                }
+            }
+        }
+    }
+    return positions;
+}
+
+bool defense_grid::is_ship(coords& c){
+    bool res=false;
+    try{
+        res=(get_ship(c)->get_alias()=='C'||get_ship(c)->get_alias()=='E'||get_ship(c)->get_alias()=='S');
+    }catch(const char& e){
+         throw std::invalid_argument("coordinata non valida");
+    }
+    return res;
+}//end is_ship
+
+void defense_grid::insert_ship(ship& s){
+    coords center = s.get_center();
+    asset asset = s.get_way();
+    if(asset == asset::Horizontal) std::cout << "hor" << std::endl;
+    else std::cout << "ver" << std::endl;
+    short length = s.get_length();
+    std::cout << length << std::endl;
+    std::vector<coords> pos = get_position(center, length, asset);
+    for(coords el : pos){
+        std::cout << el.first << "," << el.second << std::endl;
+        if(is_ship(el))
+            throw std::invalid_argument("dioporco");
+        
+        matrix[el.first][el.second]=&s;
+    }
+}
+
+ship* defense_grid::get_ship(coords& c){
+    return matrix[c.first][c.second];
+}
+
+char defense_grid::ship_at(coords& c){
+    return get_ship(c)->print(c);
+}
+
+//this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
+bool defense_grid::fire(coords& c){
+    if(is_ship(c)){
+        get_ship(c)->get_hit(c);
+        return true;
+    }
+    return false;
+}//end fire 
+
+//returns the new center of the ship , or the old one if the position is already occupied
+void defense_grid::move(coords& start, coords& end){
+    ship* s = get_ship(start); 
+    if(s->get_alias()!='S'&& s->get_alias()!='E')
+        throw std::invalid_argument("tipo di nave non valida");
+    coords center = s->get_center();
+    asset asset = s->get_way();
+    short length = s->get_length();
+    std::vector<coords> pos = get_position(center, length, asset);
+    std::vector<coords> new_pos = get_position(end, length, asset);
+    for(coords el : new_pos){
+        std::cout << el.first << "," << el.second << std::endl;
+        if(is_ship(el))
+            throw std::invalid_argument("");
+        matrix[el.first][el.second] = s;
+    }
+    clear_position(pos);
+    s->set_center(end);
+}
+
+void defense_grid::clear_position(std::vector<coords> pos){
+    for(int i = 0; i < pos.size(); i++){
+        matrix[pos[i].first][pos[i].second] = &water;
+    }
+}
+
+std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
+    os << std::endl << "    --- --- --- --- --- --- --- --- --- --- --- ---";
+    
+    for(int i = 11; i >= 0; i--){
+        os << std::endl << i + 1 << " ";
+
+        os << "|";
+        for(int j = 0; j < 12; j++){
+            coords c = {i,j};
+            os << " " << dg.ship_at(c) << " ";
+            if(j!=11)
+                os << "|";
+        }
+        os << "|" << std::endl << "   ";
+
+        if(i!=0)
+            os << "  --- --- --- --- --- --- --- --- --- --- --- ---";
+    }
+
+    os << " --- --- --- --- --- --- --- --- --- --- --- --- " << std::endl << std::endl << "     ";
+
+    for(unsigned int i = 0; i < 1; i++)
+        os << " " << (char) (i+'A') << " ";
+
+    os << std::endl << std::endl;
+
+    return os;
+}

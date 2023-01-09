@@ -5,7 +5,7 @@
 
 class empty : public ship {
 	public:
-		empty(coords&);
+		empty();
 };
 
 #endif

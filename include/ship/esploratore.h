@@ -3,7 +3,7 @@
 
 #include "ship.h"
 
-class esploratore : public ship{
+class esploratore : public ship {
 	public:
 		esploratore(asset, coords&);
 };

@@ -3,7 +3,7 @@
 
 #include "ship.h"
 
-class supporto : public ship{
+class supporto : public ship {
 	public:
 		supporto(asset, coords&);
 };
