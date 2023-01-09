@@ -14,9 +14,8 @@ class ship {
 			coords center; //Represent the center of the ship in a (short,short) coordinate			
 			
 		public: 
-			ship();
 			ship(asset way, coords& center);
-			virtual ~ship() {}
+			
 			//Get alias for each piece
 			char get_alias() const;
 
@@ -35,9 +34,9 @@ class ship {
 
 			//Get the center of the ship	
 			coords get_center() const;
-
-			void set_center(coords c);
-
+			
+			// Set center
+			void set_center(coords& c);
 			//Check the vector hp, if all shorts are 0 the ship is "dead"
 			bool is_dead();	
 
@@ -45,6 +44,6 @@ class ship {
 			void heal();
 
 			//Return the alias of the ship (lowercase --> hit | UPPERCASE --> not hit)
-			char print(coords&);
+			char print(coords&, coords&);
 };
 #endif

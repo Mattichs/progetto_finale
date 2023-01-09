@@ -10,6 +10,10 @@ class grid {
     public:
         grid();
         virtual ~grid();
+<<<<<<< HEAD
         virtual bool fire(coords c);
+=======
+        virtual bool fire(coords& c);
+>>>>>>> 4b8640c57311ef8cb9696297caa21ed7d520d284
 };
 #endif
