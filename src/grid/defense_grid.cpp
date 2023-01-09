@@ -1,156 +1,165 @@
-//@FedericoCognolatto
 #include "../include/ship/corazzata.h"
 #include "../include/ship/esploratore.h"
 #include "../include/ship/supporto.h"
 #include "../include/ship/movement.h"
 #include "../include/grid/defense_grid.hpp"
 #include <stdexcept>
+#include <set>
 
-defense_grid::defense_grid( std::vector<corazzata>& c, std::vector<supporto>& s, std::vector<esploratore>& e): battleships(c), healers(s),scouts(e),grid(){
-
-    try{       
-        //
-        for(corazzata el:battleships){
-            coords center=el.get_center();
-            if(asset::Vertical==el.get_way()){
-                if(center.first+1>=12||center.first-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
-                    throw std::invalid_argument("centro non valido");
-                    matrix[center.first][center.second]='C'; 
-                    matrix[center.first+1][center.second]='C';
-                    matrix[center.first+2][center.second]='C';
-                    matrix[center.first-1][center.second]='C';
-                    matrix[center.first-2][center.second]='C';
-            }     
-            if(asset::Horizontal==el.get_way()){
-                if(center.second+1>=12||center.second-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
-                    throw std::invalid_argument("centro non valido");
-                matrix[center.first][center.second]='C'; 
-                    matrix[center.first][center.second+1]='C';
-                    matrix[center.first][center.second+2]='C';
-                    matrix[center.first][center.second-1]='C';
-                    matrix[center.first][center.second-2]='C';
-                    
-            }
-        }
-    }catch(const char& e){
-        std::cout<<"posizione corazzate non valida";
+defense_grid::defense_grid(){
+    water = empty();
+    for(int i=0;i<12;i++){
+        for(int j=0;j<12;j++)
+            matrix[i][j]=&water;
     }
-    try{        
-        for(supporto el:healers){
-            coords center=el.get_center();
-           if(asset::Vertical==el.get_way()){
-                if(center.first+1>=12||center.first-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
-                    throw std::invalid_argument("centro non valido");
-                 matrix[center.first][center.second]='S'; 
-                 matrix[center.first+1][center.second]='S';
-                 matrix[center.first-1][center.second]='S';
-           }     
-            if(asset::Horizontal==el.get_way()){
-                if(center.second+1>=12||center.second-1<0||center.first>=12||center.second>=12||center.first<0||center.second<0)
-                    throw std::invalid_argument("centro non valido");
-                matrix[center.first][center.second]='S'; 
-                matrix[center.first][center.second+1]='S';
-                matrix[center.first][center.second-1]='S';     
-            }
-        }
-    }catch(const char& e){
-        std::cout<<"posizione navi supporto non valida";
-    }
-    try{        
-        for(esploratore el:scouts){
-            coords center=el.get_center();
-            if(center.first>=12||center.second>=12||center.first<0||center.second<0)
-                throw std::invalid_argument("centro non valido");
-            matrix[center.first][center.second]='E';
-        }
-    }catch(const char& e){
-        std::cout<<"posizione scouts non valida";
-    }
-
 }//end constructor defense_grid
 
-bool defense_grid::is_ship(coords c){
+std::set<ship*> defense_grid::ship_in_range(coords& c){
+    std::set<ship*> ships;
+    
+    if(!valid_box(c)) throw std::invalid_argument("");
+
+    else{
+    for(int i = 0; i < 3; i++){ //righe
+        for(int j = 0; j < 3; j++){ //colonne
+            coords box = {i,j};
+            if(valid_box(box)){
+                if(is_ship(box)){
+                    ships.insert(get_ship(box));
+                }
+            }
+        }
+    }
+    }
+    return ships;
+}
+
+std::vector<coords> defense_grid::enemy_ships(coords& c){
+    std::vector<coords> positions;
+
+    if(!valid_box(c)) throw std::invalid_argument("");
+
+    else{
+        for(int i = 0; i < 3; i++){ //righe
+            for(int j = 0; j < 3; j++){ //colonne
+                coords box = {i,j};
+                if(valid_box(box)){
+                    if(is_ship(box)){
+                        positions.push_back(box);
+                    }
+                }
+            }
+        }
+    }
+    return positions;
+}
+
+bool defense_grid::is_ship(coords& c){
     bool res=false;
     try{
-        res=(matrix[c.first][c.second]=='C'||matrix[c.first][c.second]=='E'||matrix[c.first][c.second]=='S'||matrix[c.first][c.second]=='c'||matrix[c.first][c.second]=='e'||matrix[c.first][c.second]=='s');
+        res=(get_ship(c)->get_alias()=='C'||get_ship(c)->get_alias()=='E'||get_ship(c)->get_alias()=='S');
     }catch(const char& e){
-        std::cout<<"coordinata non valida";
+         throw std::invalid_argument("coordinata non valida");
     }
     return res;
 }//end is_ship
 
-//this function returns true if a ship is hitted, false if the player misses
-bool defense_grid::fire(coords c){
-    if(matrix[c.first][c.second]=='C'||matrix[c.first][c.second]=='S'||matrix[c.first][c.second]=='E'){
-        //using some for eachs to find the hitted ship
-        if(matrix[c.first][c.second]=='C'){
-            matrix[c.first][c.second]='c';
-            for(corazzata el:battleships)
-                el.get_hit(c);
-        }
-        if(matrix[c.first][c.second]=='S'){
-            matrix[c.first][c.second]='s';
-            for(supporto el:healers)
-                el.get_hit(c);
-        }
-        if(matrix[c.first][c.second]=='E'){
-            matrix[c.first][c.second]='e';
-            for(esploratore el:scouts)
-                el.get_hit(c);
-        }
+void defense_grid::insert_ship(ship& s){
+    coords center = s.get_center();
+    std::cout << "insert_ship " << center.first << "," << center.second << std::endl;
+    asset asset = s.get_way();
+    //if(asset == asset::Horizontal) std::cout << "hor" << std::endl;
+    //else std::cout << "ver" << std::endl;
+    short length = s.get_length();
+    //std::cout << length << std::endl;
+    std::vector<coords> pos = get_position(center, length, asset);
+    for(coords el : pos){
+        std::cout << el.first << "," << el.second << std::endl;
+        if(is_ship(el))
+            throw std::invalid_argument("nave presente nel punto scelto");
+        
+        matrix[el.first][el.second]=&s;
+    }
+}
+
+ship* defense_grid::get_ship(coords& c){
+    return matrix[c.first][c.second];
+}
+
+char defense_grid::ship_at(coords& c){
+    ship* s = get_ship(c);
+    coords x = s->get_center();
+    return s->print(c,x);
+}
+
+//this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
+bool defense_grid::fire(coords& c){
+    /* if(is_ship(c)){
+        get_ship(c)->get_hit(c);
         return true;
-    }if(matrix[c.first][c.second]=='c'||matrix[c.first][c.second]=='s'||matrix[c.first][c.second]=='e'){
+    }
+    return false; */
+    if(is_ship(c)){
+        ship* s=get_ship(c);
+        s->get_hit(c);
+        if( s->is_dead())
+            clear_position(*s);
         return true;
     }
     return false;
 }//end fire 
 
-//returns the new center of the ship
-coords defense_grid::move(coords c, short i){
-    if(i>4)
-        throw std::invalid_argument("invalid i");
-    if(i<3){
-        supporto ship= healers[i];
-        coords center=ship.get_center();
-        if(asset::Vertical==ship.get_way()&&!(is_ship(c)||is_ship(coords(c.first+1,c.second))||is_ship(coords(c.first-1,c.second)))&&!ship.is_dead()){
-                    matrix[c.first][c.second]=matrix[center.first][center.second]; 
-                    matrix[c.first+1][c.second]=matrix[center.first+1][center.second];
-                    matrix[c.first-1][c.second]=matrix[center.first-1][center.second];
-                    //clearing old positions
-                    matrix[center.first][center.second]='#'; 
-                    matrix[center.first+1][center.second]='#';
-                    matrix[center.first-1][center.second]='#';
-                    return c;
-           }     
-            if(asset::Horizontal==ship.get_way()&&!(is_ship(c)||is_ship(coords(c.first,c.second+1))||is_ship(coords(c.first,c.second-1)))&&!ship.is_dead()){
-                     matrix[c.first][c.second]=matrix[center.first][center.second]; 
-                    matrix[c.first][c.second+1]=matrix[center.first][center.second+1];
-                    matrix[c.first][c.second-1]=matrix[center.first][center.second-1]; 
-                    //clearing old positions
-                    matrix[center.first][center.second]='#'; 
-                    matrix[center.first][center.second+1]='#';
-                    matrix[center.first][center.second-1]='#'; 
-                    return c;   
-            }
-         return ship.get_center(); 
-      
-
+//returns the new center of the ship , or the old one if the position is already occupied
+void defense_grid::move(coords& start, coords& end){
+    ship* s = get_ship(start); 
+    if(s->get_alias()!='S'&& s->get_alias()!='E')
+        throw std::invalid_argument("tipo di nave non valida");
+    coords center = s->get_center();
+    asset asset = s->get_way();
+    short length = s->get_length();
+    std::vector<coords> pos = get_position(center, length, asset);
+    std::vector<coords> new_pos = get_position(end, length, asset);
+    for(coords el : new_pos){
+        std::cout << el.first << "," << el.second << std::endl;
+        if(is_ship(el))
+            throw std::invalid_argument("");
+        matrix[el.first][el.second] = s;
     }
-   esploratore ship=scouts[i-3];
-   if(!is_ship(c)&&!ship.is_dead()){
-    matrix[c.first][c.second]=matrix[ship.get_center().first][ship.get_center().second];
-    matrix[ship.get_center().first][ship.get_center().second]='#';
-   }
-    return ship.get_center();
-            
+    clear_position(*s);
+    s->set_center(end);
 }
 
-std::ostream& operator <<(std::ostream& os,const defense_grid& dg){
-    for(int i=0;i<12;i++){
-        for(int j=0;j<12;j++){
-            os<<dg.matrix[i][j]<<" ";
-        }
-         os<<'\n';
+void defense_grid::clear_position(ship& s){
+    coords center = s.get_center();
+    asset asset = s.get_way();
+    short length = s.get_length();
+    std::vector<coords> pos = get_position(center, length, asset);
+    for(coords el : pos){
+        matrix[el.first][el.second]=&water;
     }
+}
+
+std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
+    for(int i=0;i<12;i++){
+        if( i < 9) {
+            os << " " << i + 1 << "  ";
+        } else {
+            os << i + 1 << "  ";
+        }
+        for(int j=0;j<12;j++){
+            coords c = coords(i,j);
+            if(dg.is_ship(c))
+                os<<dg.ship_at(c)<<" ";
+            else
+                os<<dg.matrix[i][j]->get_alias()<<" ";
+        }
+        
+        os<<'\n';
+    }
+    os << "    ";
+    for(unsigned int i = 0; i < 12; i++) {
+            os << (char)(i + 'A') << " ";
+    }
+    os << "\n";
     return os;
 }
