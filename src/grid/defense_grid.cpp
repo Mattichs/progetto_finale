@@ -127,7 +127,7 @@ void defense_grid::move(coords& start, coords& end){
     std::vector<coords> new_pos = get_position(end, length, asset);
     for(coords el : new_pos){
         std::cout << el.first << "," << el.second << std::endl;
-        if(is_ship(el))
+        if(is_ship(el)&&get_ship(el)!=s)
             throw std::invalid_argument("");
         matrix[el.first][el.second] = s;
     }
