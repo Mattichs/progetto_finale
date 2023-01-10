@@ -34,6 +34,16 @@ std::set<ship*> defense_grid::ship_in_range(coords& c){
     return ships;
 }
 
+void defense_grid::heal_ships(std::set<ship*> ships){
+    //std::set<ship*> s;
+
+    if(ships.size() != 0){
+        for(auto &p : ships){
+            p->heal();
+        }
+    }
+}
+
 std::vector<coords> defense_grid::enemy_ships(coords& c){
     std::vector<coords> positions;
 
@@ -140,26 +150,41 @@ void defense_grid::clear_position(ship& s){
 }
 
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
-    for(int i=0;i<12;i++){
-        if( i < 9) {
-            os << " " << i + 1 << "  ";
-        } else {
-            os << i + 1 << "  ";
+
+    os << std::endl << "     --- --- --- --- --- --- --- --- --- --- --- --- ";
+
+    for (unsigned int i = 0; i < 12; i++) {
+        if(i<9)
+        os <<  std::endl << " " << (char) (i + 'A') << "  ";
+
+        else
+        os <<  std::endl << " " << (char) (i + 2 + 'A') << "  ";
+
+        os << "|";
+        for (unsigned int j = 0; j < 12; j++) {
+            i - 2;
+            coords c = {i,j};
+            
+            os<< " " << dg.ship_at(c) <<" ";
+
+            if (j!=11)
+                os << "|";
         }
-        for(int j=0;j<12;j++){
-            coords c = coords(i,j);
-            if(dg.is_ship(c))
-                os<<dg.ship_at(c)<<" ";
-            else
-                os<<dg.matrix[i][j]->get_alias()<<" ";
-        }
+        os << "|" << std::endl << "    ";
         
-        os<<'\n';
+        if (i!=11)
+            os << " --- --- --- --- --- --- --- --- --- --- --- --- ";
+
     }
-    os << "    ";
-    for(unsigned int i = 0; i < 12; i++) {
-            os << (char)(i + 'A') << " ";
+    
+    os << " --- --- --- --- --- --- --- --- --- --- --- --- " << std::endl << std::endl << "     ";
+    
+    for (int i = 0; i <= 11; i++){
+        if(i<9) os << " " << i + 1 << "  ";
+
+        else os << i + 1 << "  ";
     }
-    os << "\n";
+    os << std::endl << std::endl;
+
     return os;
 }

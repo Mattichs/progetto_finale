@@ -22,4 +22,7 @@ std::vector<coords> get_position(coords&, short, asset);
 //Check if the coords given are valid
 bool valid_box(coords&);
 
+//Given two coordinates it checks if the ship is positionable and if so returns the orientation of the ship
+asset check_first_position(coords& stern, coords& prow, char c);
+
 #endif
