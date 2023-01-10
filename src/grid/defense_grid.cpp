@@ -74,7 +74,7 @@ void defense_grid::insert_ship(ship& s){
     //std::cout << length << std::endl;
     std::vector<coords> pos = get_position(center, length, asset);
     for(coords el : pos){
-        std::cout << el.first << "," << el.second << std::endl;
+        //std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el))
             throw std::invalid_argument("nave presente nel punto scelto");
         
@@ -114,6 +114,17 @@ std::vector<coords> defense_grid::get_ships(){
     return ships;
 }
 
+void defense_grid::heal_ships(coords& c, coords& final_c){
+    // provo a muovere la barca 
+    move(c, final_c);
+    // creo il quadrato di griglia in cui curare
+    std::set<ship*> ships = ship_in_range(c);
+    if(ships.size() != 0){
+        for(auto &p : ships){
+            p->heal();
+        }
+    }
+}
 
 //returns the new center of the ship , or the old one if the position is already occupied
 void defense_grid::move(coords& start, coords& end){
@@ -126,15 +137,34 @@ void defense_grid::move(coords& start, coords& end){
     std::vector<coords> pos = get_position(center, length, asset);
     std::vector<coords> new_pos = get_position(end, length, asset);
     for(coords el : new_pos){
-        std::cout << el.first << "," << el.second << std::endl;
-        if(is_ship(el))
-            throw std::invalid_argument("");
+        //std::cout << el.first << "," << el.second << std::endl;
+        if(is_ship(el)&&get_ship(el)!=s)
+            throw std::invalid_argument("Posizione occupata da un'altra nave");
         matrix[el.first][el.second] = s;
     }
     clear_position(*s);
     ships.push_back(end);
     s->set_center(end);
 }
+/* void defense_grid::move(coords& start, coords& end){
+    ship* s = get_ship(start); 
+    if(s->get_alias()!='S'&& s->get_alias()!='E')
+        throw std::invalid_argument("tipo di nave non valida");
+    coords center = s->get_center();
+    asset asset = s->get_way();
+    short length = s->get_length();
+    std::vector<coords> pos = get_position(center, length, asset);
+    std::vector<coords> new_pos = get_position(end, length, asset);
+    for(coords el : new_pos){
+        std::cout << el.first << "," << el.second << std::endl;
+        if(is_ship(el))
+            throw std::invalid_argument("Spostamento non valido in queste coordinate");
+        matrix[el.first][el.second] = s;
+    }
+    clear_position(*s);
+    ships.push_back(end);
+    s->set_center(end);
+} */
 
 void defense_grid::clear_position(ship& s){
     coords center = s.get_center();
@@ -152,11 +182,11 @@ void defense_grid::clear_position(ship& s){
 
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     for(int i=0;i<12;i++){
-        if( i < 9) {
-            os << " " << i + 1 << "  ";
+        if(i < 9) {
+            os << (char)(i + 'A') << " ";
         } else {
-            os << i + 1 << "  ";
-        }
+            os << (char)(i + 2 + 'A') << " ";
+        }     
         for(int j=0;j<12;j++){
             coords c = coords(i,j);
             if(dg.is_ship(c))
@@ -167,10 +197,14 @@ std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
         
         os<<'\n';
     }
-    os << "    ";
-    for(unsigned int i = 0; i < 12; i++) {
-            os << (char)(i + 'A') << " ";
+    os << "  ";
+    for(int i = 0; i < 12; i++) {
+            if( i < 9) {
+                os << i + 1 << " ";
+            } else {
+                os << i + 1;
+            }
     }
     os << "\n";
-    return os;
+    return os; 
 }

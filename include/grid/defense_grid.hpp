@@ -28,7 +28,7 @@ class defense_grid : public grid {
         std::set<ship*> ship_in_range(coords& c);
         std::vector<coords> enemy_ships(coords& c);
         std::vector<coords> get_ships();
-        void heal(std::set<ship*>);
+        void heal_ships(coords& c, coords& final_c);
 
 };
 

@@ -2,7 +2,9 @@
 #include <stdexcept>
 
 bool valid_box(coords& target){
-    if(target.first < 1 || target.first > 12 || target.second < 1 || target.second > 12) 
+    // modificato siccome la matrice conta da 0 a 11 
+    // probabilmente un sottomarino in (0,0) da errore
+    if(target.first < 0 || target.first > 12 || target.second < 0 || target.second > 12) 
         return false;
 
     return true;

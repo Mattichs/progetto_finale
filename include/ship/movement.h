@@ -5,8 +5,7 @@
 #include <vector>
 
 //All possible way to place a ship
-enum class asset {Vertical, Horizontal};
-
+enum class asset {Vertical, Horizontal}; 
 //User input coordinates to translate --> Char for row and short for column
 typedef std::pair<char,short> user_coords;
 

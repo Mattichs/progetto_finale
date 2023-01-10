@@ -11,4 +11,5 @@ CTestTestfile.cmake
 _deps
 .vscode
 .DS_Store
-test
+battaglia_navale
+replay
