@@ -115,7 +115,9 @@ std::vector<coords> defense_grid::get_ships(){
 }
 
 void defense_grid::heal_ships(coords& c, coords& final_c){
+    // provo a muovere la barca 
     move(c, final_c);
+    // creo il quadrato di griglia in cui curare
     std::set<ship*> ships = ship_in_range(c);
     if(ships.size() != 0){
         for(auto &p : ships){
