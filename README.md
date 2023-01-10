@@ -2,6 +2,7 @@
 
 cmake . 
 make 
-./test
+./battaglia_navale oppure ./replay
 
-(per il momento test poi cambieremo questo readme)
+
+cambiare il metodo insert con due coords al posto di una e il calcolo del centro dentro di esso.

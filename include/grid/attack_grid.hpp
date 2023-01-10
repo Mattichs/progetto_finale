@@ -11,7 +11,7 @@
 class attack_grid : public grid {
     private:
         char matrix[12][12];
-       defense_grid& dgrid; 
+        defense_grid& dgrid; 
     public:
         attack_grid(defense_grid& dg);
         bool fire(coords c);
