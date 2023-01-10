@@ -1,7 +1,6 @@
 #include "../include/ship/ship.h"
 #include <stdexcept>
 #include <vector>
-#include <iostream>
 
 ship::ship(asset _way, coords& _center) {
     way = _way;
@@ -13,7 +12,7 @@ asset ship::get_way() const { return way; }
 std::vector<short> ship::get_hp() const { return hp; }
 short ship::get_length() const { return length; }
 coords ship::get_center() const {return center; }
-void ship::set_center(coords& c) { center = c; }
+void ship::set_center(coords& c) { center = c;}
 
 void ship::get_hit(coords& target){
     std::vector<coords> positions;

@@ -80,6 +80,7 @@ void defense_grid::insert_ship(ship& s){
         
         matrix[el.first][el.second]=&s;
     }
+    ships.push_back(center);
 }
 
 ship* defense_grid::get_ship(coords& c){
@@ -109,6 +110,11 @@ bool defense_grid::fire(coords& c){
     return false;
 }//end fire 
 
+std::vector<coords> defense_grid::get_ships(){
+    return ships;
+}
+
+
 //returns the new center of the ship , or the old one if the position is already occupied
 void defense_grid::move(coords& start, coords& end){
     ship* s = get_ship(start); 
@@ -126,6 +132,7 @@ void defense_grid::move(coords& start, coords& end){
         matrix[el.first][el.second] = s;
     }
     clear_position(*s);
+    ships.push_back(end);
     s->set_center(end);
 }
 
@@ -136,6 +143,10 @@ void defense_grid::clear_position(ship& s){
     std::vector<coords> pos = get_position(center, length, asset);
     for(coords el : pos){
         matrix[el.first][el.second]=&water;
+    }
+    for(int i=0;i<ships.size();i++){
+        if(center.first==ships[i].first&&center.second==ships[i].second)
+            ships.erase(ships.begin()+i);
     }
 }
 
