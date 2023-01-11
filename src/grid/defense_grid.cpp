@@ -146,25 +146,6 @@ void defense_grid::move(coords& start, coords& end){
     ships.push_back(end);
     s->set_center(end);
 }
-/* void defense_grid::move(coords& start, coords& end){
-    ship* s = get_ship(start); 
-    if(s->get_alias()!='S'&& s->get_alias()!='E')
-        throw std::invalid_argument("tipo di nave non valida");
-    coords center = s->get_center();
-    asset asset = s->get_way();
-    short length = s->get_length();
-    std::vector<coords> pos = get_position(center, length, asset);
-    std::vector<coords> new_pos = get_position(end, length, asset);
-    for(coords el : new_pos){
-        std::cout << el.first << "," << el.second << std::endl;
-        if(is_ship(el))
-            throw std::invalid_argument("Spostamento non valido in queste coordinate");
-        matrix[el.first][el.second] = s;
-    }
-    clear_position(*s);
-    ships.push_back(end);
-    s->set_center(end);
-} */
 
 void defense_grid::clear_position(ship& s){
     coords center = s.get_center();
