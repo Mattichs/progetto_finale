@@ -6,6 +6,8 @@
 class corazzata : public ship {
 	public:
 		corazzata(asset, coords&);
+		corazzata() {}
 };
+
 
 #endif

@@ -66,21 +66,25 @@ bool defense_grid::is_ship(coords& c){
 
 void defense_grid::insert_ship(ship& s){
     coords center = s.get_center();
-    std::cout << "insert_ship " << center.first << "," << center.second << std::endl;
+    //std::cout << "insert_ship " << center.first << "," << center.second << std::endl;
     asset asset = s.get_way();
     //if(asset == asset::Horizontal) std::cout << "hor" << std::endl;
     //else std::cout << "ver" << std::endl;
     short length = s.get_length();
     //std::cout << length << std::endl;
     std::vector<coords> pos = get_position(center, length, asset);
+    
     for(coords el : pos){
-        //std::cout << el.first << "," << el.second << std::endl;
+        std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el))
             throw std::invalid_argument("nave presente nel punto scelto");
         
         matrix[el.first][el.second]=&s;
     }
     ships.push_back(center);
+    for(auto i : s.get_hp()) {
+        std::cout << "hp:" << i << " \n";
+    } 
 }
 
 ship* defense_grid::get_ship(coords& c){
@@ -199,11 +203,11 @@ std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     }
     os << "  ";
     for(int i = 0; i < 12; i++) {
-            if( i < 9) {
-                os << i + 1 << " ";
-            } else {
-                os << i + 1;
-            }
+        if( i < 9) {
+            os << i + 1 << " ";
+        } else {
+            os << i + 1;
+        }
     }
     os << "\n";
     return os; 
