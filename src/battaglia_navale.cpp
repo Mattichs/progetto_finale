@@ -4,9 +4,11 @@
 #include <iostream>
 #include "../include/grid/defense_grid.hpp"
 #include "../include/grid/attack_grid.hpp"
+#include "../include/utility.h"
+#include "../include/bot.h"
 #include <ctime>
 #include <cstdlib>
-#include <memory>
+//#include <memory>
 
 /* 
     argc è un intero con il numero di argomenti passati a riga di comdando
@@ -45,73 +47,11 @@ int main(int argc, char *argv[]) {
    return 0; 
 }
 
-// cambio coordinate char,int ---> int,int 
-std::vector<coords> coords_translation(std::string s) {
-    coords c1;
-    coords c2;
-    // prendo la stringa la divido in due e procedo
-    std::string s1 = s.substr(0, s.find(" "));
-    std::string s2 = s.substr(s.find(" ") + 1);
-    if(!(isalpha(s1[0]) && isalpha(s2[0]))) throw std::invalid_argument("Inserisci le coordinate in modo corretto! (il primo carattere deve essere una lettera)\n");
-    if(s1.length() == 3) {
-        // prima coordinata
-        c1.first = s1[0] - 96;
-        if(c1.first > 9) c1.first -= 2;
-        c1.second = stoi(s1.substr(1,2));
-    } else {
-        c1.first = s1[0] - 96;
-        if(c1.first > 9) c1.first -= 2;
-        c1.second = s[1] - '0';
-    }
-    if(s2.length() == 3) {
-        // seconda coordinata
-        c2.first = s2[0] - 96;
-        if(c2.first > 9) c2.first -= 2;
-        c2.second = stoi(s2.substr(1,2));
-    } else {
-        c2.first = s2[0] - 96;
-        if(c2.first > 9) c2.first -= 2;
-        c2.second = s2[1] - '0'; // es. conversione '0' -> 0
-    }
-    std::vector<coords> v;
-    v.push_back(c1);
-    v.push_back(c2);
-    return v;
-}
-
-// ottengo il centro da due coordinate
-// siccome gestiamo la matrice da 0 a 11 qui sottraggo uno a quello che inserisce l'utente ottenendo il risultato corretto per l'inserimento
-coords get_center(std::vector<coords> v) {
-    // se i primi due sono uguali è orizzontale
-    if(v[0].first == v[1].first) return coords(v[0].first -1, (v[0].second + v[1].second)/2 -1);
-    else return coords((v[0].first + v[1].first)/2 -1, v[0].second -1);
-}
-
-// non gestisco la barca in diagonale per il momento, sarebbe errore
-asset get_asset(std::vector<coords> v) {
-    if(v[0].first == v[1].first) return asset::Horizontal;
-    else return asset::Vertical;
-}
-
-void print_coords(coords c) {
-    std::cout << "(" << c.first << "," << c.second << ")" << std::endl;
-}
-
-// generate random coords (0 to 11)
-coords generate_rnd_coords() {
-    int x = rand() % 12;
-    int y = rand() % 12;
-    return coords(x,y);
-}
-asset generate_rnd_asset() {
-    int x = rand() % 20;
-    if(x%2 == 0) return asset::Horizontal;
-    else return asset::Vertical;
-}
 void computer_vs_computer() {
     defense_grid dg_bot1;
     attack_grid ag_bot2(dg_bot1);
     defense_grid dg_bot2;
+    attack_grid ag_bot1(dg_bot2);
     bool status = false;
 
     coords rnd;
@@ -119,113 +59,50 @@ void computer_vs_computer() {
     corazzata c;
     for(int i = 0 ; i < 3; i++) {
          while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            c = corazzata(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(c);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }  
+            try {
+                rnd = generate_rnd_coords();
+                c = corazzata(generate_rnd_asset(),rnd); 
+                dg_bot1.insert_ship(c);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
     status = false;
     }
-    coords coor {0,3};
-    ag_bot2.fire(coor);
-    std::cout << ag_bot2;
-    /* corazzata c2;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            c2 = corazzata(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(c2);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }  
+    supporto s;
+    for(int i = 0 ; i < 3; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                s = supporto(generate_rnd_asset(),rnd); 
+                dg_bot1.insert_ship(s);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
     status = false;
-    corazzata c3;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            c3 = corazzata(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(c3);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }  */ /*  
+    }
+    esploratore e;
+    for(int i = 0 ; i < 2; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                e = esploratore(generate_rnd_asset(),rnd); 
+                dg_bot1.insert_ship(e);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
     status = false;
-    // supporto
-    supporto s1;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            s1 = supporto(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(s1);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }   
-    status = false;
-
-    supporto s2;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            s2 = supporto(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(s2);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }   
-    status = false;
-
-    supporto s3;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            s3 = supporto(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(s3);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }   
-    status = false;
-
-    esploratore e1;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            e1 = esploratore(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(e1);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }   
-    status = false;
-
-    esploratore e2;
-    while(!status) {
-        try {
-            rnd = generate_rnd_coords();
-            e2 = esploratore(generate_rnd_asset(),rnd); 
-            dg_bot1.insert_ship(e2);
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }   
-    status = false;
-
-
- */
+    }
     std::cout << dg_bot1;
+
+    bot bot1(dg_bot1, ag_bot1);
+    bot1.rnd_move();
+    bot1.print_grid();
 }
 
 // per il momento l'utente deve essere sicuro che l'inserimento sia corretto
@@ -300,7 +177,7 @@ void giocatore_vs_computer() {
     center = get_center(coords_vec);
     esploratore e1(get_asset(coords_vec), center); 
     dg_player.insert_ship(e1);
-
+ 
     std::cout << "Inserisci posizione secondo esploratore: \n";
     std::getline(std::cin, s);
     coords_vec = coords_translation(s); 
