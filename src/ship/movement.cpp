@@ -4,7 +4,7 @@
 bool valid_box(coords& target){
     // modificato siccome la matrice conta da 0 a 11 
     // probabilmente un sottomarino in (0,0) da errore
-    if(target.first < 0 || target.first > 12 || target.second < 0 || target.second > 12) 
+    if(target.first < 0 || target.first > 11 || target.second < 0 || target.second > 11) 
         return false;
 
     return true;
