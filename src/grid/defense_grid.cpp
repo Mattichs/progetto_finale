@@ -1,3 +1,4 @@
+//@FedericoCognolatto
 #include "../include/ship/corazzata.h"
 #include "../include/ship/esploratore.h"
 #include "../include/ship/supporto.h"
@@ -33,8 +34,24 @@ std::set<ship*> defense_grid::ship_in_range(coords& c){
     }
     return ships;
 }
-
-
+/* 
+std::vector<coords> defense_grid::enemy_ships(coords& c){
+    std::vector<coords> positions;
+    if(!valid_box(c)) throw std::invalid_argument("");
+    else{
+        for(int i = 0; i < 3; i++){ //righe
+            for(int j = 0; j < 3; j++){ //colonne
+                coords box = {i,j};
+                if(valid_box(box)){
+                    if(is_ship(box)){
+                        positions.push_back(box);
+                    }
+                }
+            }
+        }
+    }
+    return positions;
+} */
 
 bool defense_grid::is_ship(coords& c){
     bool res=false;
