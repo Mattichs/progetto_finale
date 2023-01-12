@@ -52,8 +52,9 @@ void computer_vs_computer() {
     attack_grid ag_bot2(dg_bot1);
     defense_grid dg_bot2;
     attack_grid ag_bot1(dg_bot2);
+    
+    // inizio inserimento barche casuale
     bool status = false;
-
     coords rnd;
     asset rnd_asset;
     corazzata c;
@@ -98,30 +99,86 @@ void computer_vs_computer() {
         }  
     status = false;
     }
-    std::cout << dg_bot1;
+    // fine inserimento primo bot
+
+    // inzio inserimento secondo bot
+    corazzata c1;
+    for(int i = 0 ; i < 3; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                c1 = corazzata(generate_rnd_asset(),rnd); 
+                dg_bot2.insert_ship(c1);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
+    status = false;
+    }
+    supporto s1;
+    for(int i = 0 ; i < 3; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                s1 = supporto(generate_rnd_asset(),rnd); 
+                dg_bot2.insert_ship(s1);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
+    status = false;
+    }
+    esploratore e1;
+    for(int i = 0 ; i < 2; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                e1 = esploratore(generate_rnd_asset(),rnd); 
+                dg_bot2.insert_ship(e1);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
+    status = false;
+    }
+    // fine inserimento secondo bot
 
     bot bot1(dg_bot1, ag_bot1);
-    bot1.rnd_move();
-    bot1.print_grid();
+    bot bot2(dg_bot2, ag_bot2);
+    
+    while(true) {
+        std::cout << "griglie bot 1 \n" << dg_bot1;
+        std::cout << "griglia difesa bot 2 \n" << dg_bot2;
+        bot1.rnd_move();
+        std::cout << "griglie bot 1 \n" << dg_bot1 << ag_bot1;
+        for(coords c : dg_bot1.get_ships()) {
+            print_coords(c);
+        }
+        std::string p;
+        std::cin >> p; 
+    } 
 }
 
 // per il momento l'utente deve essere sicuro che l'inserimento sia corretto
 void giocatore_vs_computer() {
     // variabili utili
     defense_grid dg_player;
-    attack_grid ag_player(dg_player);
+    defense_grid dg_bot1;
+    attack_grid ag_player(dg_bot1);
     std::string s;
     std::vector<coords> coords_vec;
     coords center;
     /*
         inserimento corazzate     
-    */
+    *//* 
     std::cout << "Inserisci posizione prima corazzata: \n";
     std::getline(std::cin, s);
     coords_vec = coords_translation(s);
     center = get_center(coords_vec);
     corazzata c1(get_asset(coords_vec), center); 
-
     dg_player.insert_ship(c1);
  
     std::cout << "Inserisci posizione seconda corazzata: \n";
@@ -131,8 +188,6 @@ void giocatore_vs_computer() {
     corazzata c2(get_asset(coords_vec), center);
     dg_player.insert_ship(c2);
 
-    
-    
     std::cout << "Inserisci posizione terza corazzata: \n";
     std::getline(std::cin, s);
     coords_vec = coords_translation(s); 
@@ -142,7 +197,7 @@ void giocatore_vs_computer() {
     
     /*
         inserimento supporti     
-    */
+    
     std::cout << "Inserisci posizione primo supporto: \n";
     std::getline(std::cin, s);
     coords_vec = coords_translation(s);
@@ -169,7 +224,7 @@ void giocatore_vs_computer() {
     
     /* 
         inserimento esploratori     
-    */
+    
     std::cout << "Inserisci posizione primo esploratore: \n";
     std::getline(std::cin, s);
     coords_vec = coords_translation(s);
@@ -177,13 +232,82 @@ void giocatore_vs_computer() {
     center = get_center(coords_vec);
     esploratore e1(get_asset(coords_vec), center); 
     dg_player.insert_ship(e1);
- 
+  */
     std::cout << "Inserisci posizione secondo esploratore: \n";
     std::getline(std::cin, s);
     coords_vec = coords_translation(s); 
     center = get_center(coords_vec);
     esploratore e2(get_asset(coords_vec), center);
     dg_player.insert_ship(e2);
-    
-    std::cout << dg_player;
+
+    // bot
+    // inizio inserimento barche casuale
+    bool status = false;
+    coords rnd;
+    asset rnd_asset;
+    corazzata c;
+    for(int i = 0 ; i < 3; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                c = corazzata(generate_rnd_asset(),rnd); 
+                dg_bot1.insert_ship(c);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
+    status = false;
+    }
+    supporto supp;
+    for(int i = 0 ; i < 3; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                supp = supporto(generate_rnd_asset(),rnd); 
+                dg_bot1.insert_ship(supp);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
+    status = false;
+    }
+    esploratore e;
+    for(int i = 0 ; i < 2; i++) {
+         while(!status) {
+            try {
+                rnd = generate_rnd_coords();
+                e = esploratore(generate_rnd_asset(),rnd); 
+                dg_bot1.insert_ship(e);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+        }  
+    status = false;
+    }
+    // bot
+    std::cout << dg_bot1;
+    std::cout << dg_player << ag_player;
+
+    attack_grid ag_bot1(dg_player);
+    bot bot1(&dg_bot1, &ag_bot1);
+
+    while(true) {
+        std::cout << "muovi il sottomarino \n";
+        std::getline(std::cin, s);
+        coords_vec = coords_translation(s); 
+        // prima muovo poi spotto
+        dg_player.move(coords_vec[0], coords_vec[1]);
+        ag_player.enemy_ships(coords_vec[1]);
+        
+        bot1.rnd_move();
+
+        std::cout << "player \n" << dg_player << ag_player;
+
+        std::cout << "bot: \n" << dg_bot1;
+
+    }
+
 }
