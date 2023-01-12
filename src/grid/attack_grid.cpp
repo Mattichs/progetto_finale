@@ -22,7 +22,6 @@ bool attack_grid::fire(coords c){
 }
 
 void attack_grid::enemy_ships(coords& c){
-    std::vector<coords> enemy_positions;
 
     if(!valid_box(c)) throw std::invalid_argument("");
 
@@ -52,6 +51,7 @@ void attack_grid::enemy_ships(coords& c){
      for(coords el:enemy_positions){
             matrix[el.first][el.second]='Y';
         }
+    
  }
 
 std::ostream& operator <<(std::ostream& os,const attack_grid& ag){
