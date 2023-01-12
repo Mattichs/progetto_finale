@@ -47,60 +47,60 @@ int main(int argc, char *argv[]) {
    return 0; 
 }
 
+
 void computer_vs_computer() {
     defense_grid dg_bot1;
     attack_grid ag_bot2(dg_bot1);
     defense_grid dg_bot2;
     attack_grid ag_bot1(dg_bot2);
+     // inizio inserimento barche casuale
+        bool status = false;
+        coords rnd;
+        asset rnd_asset;
+        corazzata c;
+        for(int i = 0 ; i < 3; i++) {
+            while(!status) {
+                try {
+                    rnd = generate_rnd_coords();
+                    c = corazzata(generate_rnd_asset(),rnd); 
+                    dg_bot1.insert_ship(c);
+                    status = true;
+                } catch(std::invalid_argument e) {
+                    std::cout << e.what() << std::endl;
+                }
+            }  
+        status = false;
+        }
+        supporto s;
+        for(int i = 0 ; i < 3; i++) {
+            while(!status) {
+                try {
+                    rnd = generate_rnd_coords();
+                    s = supporto(generate_rnd_asset(),rnd); 
+                    dg_bot1.insert_ship(s);
+                    status = true;
+                } catch(std::invalid_argument e) {
+                    std::cout << e.what() << std::endl;
+                }
+            }  
+        status = false;
+        }
+        esploratore e;
+        for(int i = 0 ; i < 2; i++) {
+            while(!status) {
+                try {
+                    rnd = generate_rnd_coords();
+                    e = esploratore(generate_rnd_asset(),rnd); 
+                    dg_bot1.insert_ship(e);
+                    status = true;
+                } catch(std::invalid_argument e) {
+                    std::cout << e.what() << std::endl;
+                }
+            }  
+        status = false;
+        }
+        // fine inserimento primo bot
     
-    // inizio inserimento barche casuale
-    bool status = false;
-    coords rnd;
-    asset rnd_asset;
-    corazzata c;
-    for(int i = 0 ; i < 3; i++) {
-         while(!status) {
-            try {
-                rnd = generate_rnd_coords();
-                c = corazzata(generate_rnd_asset(),rnd); 
-                dg_bot1.insert_ship(c);
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-        }  
-    status = false;
-    }
-    supporto s;
-    for(int i = 0 ; i < 3; i++) {
-         while(!status) {
-            try {
-                rnd = generate_rnd_coords();
-                s = supporto(generate_rnd_asset(),rnd); 
-                dg_bot1.insert_ship(s);
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-        }  
-    status = false;
-    }
-    esploratore e;
-    for(int i = 0 ; i < 2; i++) {
-         while(!status) {
-            try {
-                rnd = generate_rnd_coords();
-                e = esploratore(generate_rnd_asset(),rnd); 
-                dg_bot1.insert_ship(e);
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-        }  
-    status = false;
-    }
-    // fine inserimento primo bot
-
     // inzio inserimento secondo bot
     corazzata c1;
     for(int i = 0 ; i < 3; i++) {
@@ -145,21 +145,25 @@ void computer_vs_computer() {
     status = false;
     }
     // fine inserimento secondo bot
-
+    
     bot bot1(dg_bot1, ag_bot1);
+    
     bot bot2(dg_bot2, ag_bot2);
     
     while(true) {
-        std::cout << "griglie bot 1 \n" << dg_bot1;
-        std::cout << "griglia difesa bot 2 \n" << dg_bot2;
+        std::cout << "griglie bot 1 \n";
+        bot1.print_grid();
+        std::cout << "griglia difesa bot 2 \n";
+        bot2.print_grid();
         bot1.rnd_move();
-        std::cout << "griglie bot 1 \n" << dg_bot1 << ag_bot1;
+        std::cout << "griglie bot 1 \n";
+        bot1.print_grid();
         for(coords c : dg_bot1.get_ships()) {
             print_coords(c);
         }
         std::string p;
         std::cin >> p; 
-    } 
+    }  
 }
 
 // per il momento l'utente deve essere sicuro che l'inserimento sia corretto
@@ -292,7 +296,7 @@ void giocatore_vs_computer() {
     std::cout << dg_player << ag_player;
 
     attack_grid ag_bot1(dg_player);
-    bot bot1(&dg_bot1, &ag_bot1);
+    bot bot1(dg_bot1, ag_bot1);
 
     while(true) {
         std::cout << "muovi il sottomarino \n";
