@@ -33,7 +33,7 @@ std::set<ship*> defense_grid::ship_in_range(coords& c){
     }
     return ships;
 }
-
+/* 
 std::vector<coords> defense_grid::enemy_ships(coords& c){
     std::vector<coords> positions;
 
@@ -52,7 +52,7 @@ std::vector<coords> defense_grid::enemy_ships(coords& c){
         }
     }
     return positions;
-}
+} */
 
 bool defense_grid::is_ship(coords& c){
     bool res=false;
