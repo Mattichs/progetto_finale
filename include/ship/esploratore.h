@@ -5,7 +5,7 @@
 
 class esploratore : public ship {
 	public:
-		esploratore(asset, coords&);
+		esploratore(coords&);
 		esploratore() {}
 };
 

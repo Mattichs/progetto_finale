@@ -20,10 +20,12 @@
 class bot {
     defense_grid dg;
     attack_grid ag;
+    std::vector<std::string> text;
     public:
-        bot(defense_grid& dg_, attack_grid& ag_) : dg{dg_}, ag{ag_} {}
+        bot(defense_grid& dg_, attack_grid& ag_, std::vector<std::string> t) : dg{dg_}, ag{ag_}, text{t} {}
         void rnd_move();
         void print_grid();
+        std::vector<std::string> get_text();
 };
 
 #endif

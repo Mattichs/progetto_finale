@@ -41,7 +41,6 @@ void attack_grid::enemy_ships(coords& c){
         }
     }
     for(coords el : enemy_positions){
-        std::cout << "Y \n"; 
         matrix[el.first][el.second]='Y';
     } 
 }
