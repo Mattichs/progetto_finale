@@ -26,7 +26,7 @@ void ship::get_hit(coords& target){
 }
 
 bool ship::is_dead(){
-    short count;
+    short count = 0;
     
     for(int i = 0; i < hp.size(); i++){
         if(hp[i] == 0) count++;    

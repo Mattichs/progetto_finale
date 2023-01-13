@@ -1,6 +1,6 @@
 #include "../include/ship/esploratore.h"
 
-esploratore::esploratore(asset way, coords& center) : ship(way, center){
+esploratore::esploratore(coords& center) : ship(way, center){
 	alias = 'E';
 	hp = {1};
 	length = 1;
