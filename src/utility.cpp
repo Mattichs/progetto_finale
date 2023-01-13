@@ -31,6 +31,7 @@ std::string to_string(coords& c, asset a , char alias) {
         s = to_string_helper(prua, poppa);
     } else {
         // esploratore dimensione uno e asset trascurabile
+        
         s = to_string_helper(c, c);
     }
     return s;
@@ -38,10 +39,10 @@ std::string to_string(coords& c, asset a , char alias) {
 
 std::string to_string_helper(coords& c1, coords& c2) {
     std::string s;
-    char letter;
+    char letter; 
     s += (char)('A' + c1.first);
     s += std::to_string(c1.second) += " ";
-    s += (char)('A' + c1.second);
+    s += (char)('A' + c2.first +1);
     s += std::to_string(c2.second) += '\n';
     return s;
 }
