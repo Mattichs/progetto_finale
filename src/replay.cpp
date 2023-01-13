@@ -22,11 +22,16 @@ int main() {
         defense_grid dg;
         std::vector<coords> coords_vec;
         coords center;
+        asset ass;
         getline(log_file, s);
         corazzata c;
         for(int i = 0; i < 3; i++) {
             coords_vec = coords_translation(s); 
             center = get_center(coords_vec);
+            print_coords(center);
+            ass = get_asset(coords_vec);
+            if(ass ==asset::Horizontal) std::cout << "Hor \n";
+            else std::cout << "Ver \n";
             c = corazzata(get_asset(coords_vec), center);
             dg.insert_ship(c);
             getline(log_file, s);
@@ -39,11 +44,12 @@ int main() {
             dg.insert_ship(supp);
             getline(log_file, s);
         }
-        supporto e;
-        for(int i = 0; i < 3; i++) {
+        esploratore e;
+        for(int i = 0; i < 2; i++) {
+            std::cout << "sott \n";
             coords_vec = coords_translation(s); 
             center = get_center(coords_vec);
-            e = supporto(get_asset(coords_vec), center);
+            e = esploratore(center);
             dg.insert_ship(e);
             getline(log_file, s);
         }

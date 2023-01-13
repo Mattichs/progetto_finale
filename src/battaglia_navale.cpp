@@ -178,6 +178,62 @@ void computer_vs_computer() {
     outfile.close();
 }
 
+corazzata create_corazzata(defense_grid& dg) {
+    bool status = false;
+    coords rnd;
+    asset rnd_asset;
+    
+    // creo 8 navi per avere 8 oggetti diversi e non avere problemi con la griglia
+
+    corazzata c;
+    while(!status) {
+            try { 
+                rnd = generate_rnd_coords();
+                c = corazzata(generate_rnd_asset(),rnd); 
+                dg.insert_ship(c);
+                status = true;
+            } catch(std::invalid_argument e) {
+                std::cout << e.what() << std::endl;
+            }
+    }
+    return c;  
+}
+supporto create_supporto(defense_grid& dg) {
+    bool status = false;
+    coords rnd;
+    asset rnd_asset;
+    
+    supporto s;
+    while(!status) {
+        try { 
+            rnd = generate_rnd_coords();
+            s = supporto(generate_rnd_asset(),rnd);
+            dg.insert_ship(s); 
+            status = true;
+        } catch(std::invalid_argument e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
+    return s;
+}
+esploratore create_esploratore(defense_grid& dg) {
+    bool status = false;
+    coords rnd;
+    
+    esploratore e;
+    while(!status) {
+        try { 
+            rnd = generate_rnd_coords();
+            e = esploratore(rnd); 
+            dg.insert_ship(e);
+            status = true;
+        } catch(std::invalid_argument e) {
+            std::cout << e.what() << std::endl;
+        }
+    }
+    return e;
+}
+
 // per il momento l'utente deve essere sicuro che l'inserimento sia corretto
 void giocatore_vs_computer() {
     // variabili utili
@@ -254,54 +310,27 @@ void giocatore_vs_computer() {
     esploratore e2(center);
     dg_player.insert_ship(e2);
     */
+
     // bot
     // inizio inserimento barche casuale
-    bool status = false;
-    coords rnd;
-    asset rnd_asset;
-    corazzata c;
-    for(int i = 0 ; i < 3; i++) {
-         while(!status) {
-            try {
-                rnd = generate_rnd_coords();
-                c = corazzata(generate_rnd_asset(),rnd); 
-                dg_bot1.insert_ship(c);
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-        }  
-    status = false;
-    }
-    supporto supp;
-    for(int i = 0 ; i < 3; i++) {
-         while(!status) {
-            try {
-                rnd = generate_rnd_coords();
-                supp = supporto(generate_rnd_asset(),rnd); 
-                dg_bot1.insert_ship(supp);
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-        }  
-    status = false;
-    }
-    esploratore e;
-    for(int i = 0 ; i < 2; i++) {
-         while(!status) {
-            try {
-                rnd = generate_rnd_coords();
-                e = esploratore(rnd); 
-                dg_bot1.insert_ship(e);
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-        }  
-    status = false;
-    }
+    // creo 8 navi per avere 8 oggetti diversi e non avere problemi con la griglia
+
+    // TODO stampare il log (aggiungere parametro& e fare push_back)
     std::vector<std::string> set_bot1;
+
+    corazzata bot_c1 = create_corazzata(dg_bot1);
+    corazzata bot_c2= create_corazzata(dg_bot1);
+    corazzata bot_c3= create_corazzata(dg_bot1);
+
+    supporto bot_s1 = create_supporto(dg_bot1);
+    supporto bot_s2 = create_supporto(dg_bot1);
+    supporto bot_s3 = create_supporto(dg_bot1);
+ 
+    esploratore bot_e1 = create_esploratore(dg_bot1);
+    esploratore bot_e2 = create_esploratore(dg_bot1);
+
+     
+    
     attack_grid ag_bot1(dg_player);
     bot bot1(dg_bot1, ag_bot1, set_bot1);
     std::cout << dg_bot1;

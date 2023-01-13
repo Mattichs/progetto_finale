@@ -3,6 +3,7 @@
 #include "../include/ship/supporto.h"
 #include "../include/ship/movement.h"
 #include "../include/grid/defense_grid.hpp"
+#include "../include/utility.h"
 #include <stdexcept>
 #include <set>
 
@@ -95,13 +96,9 @@ char defense_grid::ship_at(coords& c){
 
 //this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
 bool defense_grid::fire(coords& c){
-    /* if(is_ship(c)){
-        get_ship(c)->get_hit(c);
-        return true;
-    }
-    return false; */
     if(is_ship(c)){
         ship* s=get_ship(c);
+        print_coords(s->get_center());
         s->get_hit(c);
         if( s->is_dead())
             clear_position(*s);

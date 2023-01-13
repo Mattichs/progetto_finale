@@ -31,7 +31,6 @@ std::string to_string(coords& c, asset a , char alias) {
         s = to_string_helper(prua, poppa);
     } else {
         // esploratore dimensione uno e asset trascurabile
-        
         s = to_string_helper(c, c);
     }
     return s;
@@ -39,39 +38,44 @@ std::string to_string(coords& c, asset a , char alias) {
 
 std::string to_string_helper(coords& c1, coords& c2) {
     std::string s;
-    char letter; 
-    s += (char)('A' + c1.first);
-    s += std::to_string(c1.second) += " ";
-    s += (char)('A' + c2.first +1);
-    s += std::to_string(c2.second) += '\n';
+    char letter;
+    letter = (char)('A' + c1.first);
+    if(letter > 'I') s+= (letter +=2);
+    else s += (char)('A' + c1.first);
+    s += std::to_string(c1.second+1) += " ";
+    letter = (char)('A' + c2.first);
+    if(letter > 'I') s += (letter +=2);
+    else s += (char)('A' + c2.first);
+    s += std::to_string(c2.second+1) += '\n';
+    std::cout << s << std::endl;
     return s;
 }
 
 // cambio coordinate char,int ---> int,int 
 std::vector<coords> coords_translation(std::string s) {
-    coords c1;
-    coords c2;
+    coords c1 {0,0};
+    coords c2 {0,0};
     // prendo la stringa la divido in due e procedo
     std::string s1 = s.substr(0, s.find(" "));
     std::string s2 = s.substr(s.find(" ") + 1);
     if(!(isalpha(s1[0]) && isalpha(s2[0]))) throw std::invalid_argument("Inserisci le coordinate in modo corretto! (il primo carattere deve essere una lettera)\n");
     if(s1.length() == 3) {
         // prima coordinata
-        c1.first = s1[0] - 96- 1;
+        c1.first = s1[0] - 64 - 1;
         if(c1.first > 9) c1.first -= 2;
         c1.second = stoi(s1.substr(1,2)) -1;
     } else {
-        c1.first = s1[0] - 96- 1;
+        c1.first = s1[0] - 64 - 1;
         if(c1.first > 9) c1.first -= 2;
         c1.second = s[1] - '0' -1;
     }
     if(s2.length() == 3) {
         // seconda coordinata
-        c2.first = s2[0] - 96 -1;
+        c2.first = s2[0] - 64 -1;
         if(c2.first > 9) c2.first -= 2;
         c2.second = stoi(s2.substr(1,2)) -1;
     } else {
-        c2.first = s2[0] - 96 -1;
+        c2.first = s2[0] - 64 -1;
         if(c2.first > 9) c2.first -= 2;
         c2.second = s2[1] - '0' -1; // es. conversione '0' -> 0
     }
