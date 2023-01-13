@@ -3,6 +3,7 @@
 #include "../include/ship/supporto.h"
 #include "../include/ship/movement.h"
 #include "../include/grid/defense_grid.hpp"
+#include "../include/utility.h"
 #include <stdexcept>
 #include <set>
 
@@ -95,13 +96,9 @@ char defense_grid::ship_at(coords& c){
 
 //this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
 bool defense_grid::fire(coords& c){
-    /* if(is_ship(c)){
-        get_ship(c)->get_hit(c);
-        return true;
-    }
-    return false; */
     if(is_ship(c)){
         ship* s=get_ship(c);
+        print_coords(s->get_center());
         s->get_hit(c);
         if( s->is_dead())
             clear_position(*s);
@@ -126,7 +123,6 @@ void defense_grid::heal_ships(coords& c, coords& final_c){
     }
 }
 
-//returns the new center of the ship , or the old one if the position is already occupied
 void defense_grid::move(coords& start, coords& end){
     ship* s = get_ship(start); 
     if(s->get_alias()!='S'&& s->get_alias()!='E')
@@ -140,12 +136,16 @@ void defense_grid::move(coords& start, coords& end){
         //std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el)&&get_ship(el)!=s)
             throw std::invalid_argument("Posizione occupata da un'altra nave");
-        matrix[el.first][el.second] = s;
     }
     clear_position(*s);
+    for(coords el : new_pos){
+        //std::cout << el.first << "," << el.second << std::endl;
+        matrix[el.first][el.second] = s;
+    }
     ships.push_back(end);
     s->set_center(end);
 }
+
 
 void defense_grid::clear_position(ship& s){
     coords center = s.get_center();

@@ -24,10 +24,10 @@ bool attack_grid::fire(coords c){
 void attack_grid::enemy_ships(coords& c){
     if(!valid_box(c)) throw std::invalid_argument("");
 
-    for(int i = 0; i < 3; i++){ //righe
-        for(int j = 0; j < 3; j++){ //colonne
-            short x = c.first - 1 + i;
-            short y = c.second - 1 + j;
+    for(int i = 0; i < 5; i++){ //righe
+        for(int j = 0; j < 5; j++){ //colonne
+            short x = c.first - 2 + i;
+            short y = c.second - 2 + j;
             coords box = {x,y};
             if(valid_box(box)){
                 if(dgrid.is_ship(box)){
@@ -41,6 +41,7 @@ void attack_grid::enemy_ships(coords& c){
         }
     }
     for(coords el : enemy_positions){
+        std::cout << "Y \n"; 
         matrix[el.first][el.second]='Y';
     } 
 }
