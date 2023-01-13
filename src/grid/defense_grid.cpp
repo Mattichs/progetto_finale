@@ -123,7 +123,6 @@ void defense_grid::heal_ships(coords& c, coords& final_c){
     }
 }
 
-//returns the new center of the ship , or the old one if the position is already occupied
 void defense_grid::move(coords& start, coords& end){
     ship* s = get_ship(start); 
     if(s->get_alias()!='S'&& s->get_alias()!='E')
@@ -137,12 +136,16 @@ void defense_grid::move(coords& start, coords& end){
         //std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el)&&get_ship(el)!=s)
             throw std::invalid_argument("Posizione occupata da un'altra nave");
-        matrix[el.first][el.second] = s;
     }
     clear_position(*s);
+    for(coords el : new_pos){
+        //std::cout << el.first << "," << el.second << std::endl;
+        matrix[el.first][el.second] = s;
+    }
     ships.push_back(end);
     s->set_center(end);
 }
+
 
 void defense_grid::clear_position(ship& s){
     coords center = s.get_center();

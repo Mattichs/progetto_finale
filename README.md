@@ -4,4 +4,5 @@ cmake .
 make 
 ./battaglia_navale oppure ./replay
 
-- quando una nave si muove sulla sua posizione attuale scompare?
+ Specificare come abbiamo implementato le robe
+ soprattuto le barche che non si eliminano con le variabili automatiche

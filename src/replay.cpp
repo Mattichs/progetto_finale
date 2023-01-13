@@ -7,6 +7,7 @@
 #include <string>
 
 #include "../include/grid/defense_grid.hpp"
+#include "../include/grid/attack_grid.hpp"
 #include "../include/utility.h"
 
 using namespace std;
@@ -20,6 +21,7 @@ int main() {
         // leggo tutte le linee del file
 
         defense_grid dg;
+        attack_grid ag(dg);
         std::vector<coords> coords_vec;
         coords center;
         asset ass;
@@ -59,6 +61,7 @@ int main() {
         std::cout.rdbuf(out.rdbuf()); 
         
         std::cout << dg;
+        std::cout << ag;
         // reset to standard output
         std::cout.rdbuf(coutbuf); 
         while(getline(log_file, s)) {
