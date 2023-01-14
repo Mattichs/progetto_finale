@@ -8,6 +8,9 @@
 #include <ctime>
 #include <cstdlib>
 
+std::string to_string(coords& c, asset a , char alias);
+std::string to_string_helper(coords& c1, coords& c2);
+
 // cambio coordinate char,int ---> int,int 
 std::vector<coords> coords_translation(std::string s);
 

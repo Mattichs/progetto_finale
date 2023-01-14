@@ -45,8 +45,8 @@ int main(){
     dg.insert_ship(s);
 
     center = {7, 8};
-    esploratore e(asset::Horizontal, center);
-    dg.insert_ship(e);
+    //esploratore e(asset::Horizontal, center);
+    //dg.insert_ship(e);
     /* 
     coords coord {1,1};
     coords coord1 {2,2};

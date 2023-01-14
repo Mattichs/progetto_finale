@@ -17,12 +17,13 @@
 */
 
 class bot {
-    defense_grid dg;
-    attack_grid ag;
+    defense_grid& dg;
+    attack_grid& ag;
     public:
         bot(defense_grid& dg_, attack_grid& ag_) : dg{dg_}, ag{ag_} {}
-        void rnd_move();
+        std::string rnd_move();
         void print_grid();
+        std::vector<std::string> get_text();
 };
 
 #endif

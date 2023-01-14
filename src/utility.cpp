@@ -4,6 +4,49 @@
 
 #include "../include/utility.h"
 
+
+std::string to_string(coords& c, asset a , char alias) {
+    std::string s;
+    coords prua;
+    coords poppa;
+    if(alias == 'C' && a == asset::Horizontal) {
+        // corazzata orizzontale
+        prua = coords(c.first, c.second -2);
+        poppa = coords(c.first, c.second +2);
+        s = to_string_helper(prua, poppa);
+    } else if(alias == 'C' && a == asset::Vertical) {
+        // corazzata verticale
+        prua = coords(c.first - 2, c.second);
+        poppa = coords(c.first + 2, c.second);
+        s = to_string_helper(prua, poppa);
+    } else if(alias == 'S' && a == asset::Horizontal) {
+        // supporto orizzontale
+        prua = coords(c.first, c.second -1);
+        poppa = coords(c.first, c.second +1);
+        s = to_string_helper(prua, poppa);
+    } else if(alias == 'S' && a == asset::Vertical) {
+        // supporto verticale
+        prua = coords(c.first - 1, c.second);
+        poppa = coords(c.first + 1, c.second);
+        s = to_string_helper(prua, poppa);
+    } else {
+        // esploratore dimensione uno e asset trascurabile
+        
+        s = to_string_helper(c, c);
+    }
+    return s;
+}
+
+std::string to_string_helper(coords& c1, coords& c2) {
+    std::string s;
+    char letter; 
+    s += (char)('A' + c1.first);
+    s += std::to_string(c1.second) += " ";
+    s += (char)('A' + c2.first +1);
+    s += std::to_string(c2.second) += '\n';
+    return s;
+}
+
 // cambio coordinate char,int ---> int,int 
 std::vector<coords> coords_translation(std::string s) {
     coords c1;

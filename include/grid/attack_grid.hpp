@@ -1,3 +1,4 @@
+//@FedericoCognolatto
 #ifndef ATTACK_GRID_H
 #define ATTACK_GRID_H
 #include "../ship/corazzata.h"
@@ -12,6 +13,7 @@ class attack_grid : public grid {
         char matrix[12][12];
         defense_grid& dgrid;
         std::vector<coords> enemy_positions; 
+      
     public:
         attack_grid(defense_grid& dg);
         bool fire(coords c);
