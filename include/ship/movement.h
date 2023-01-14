@@ -5,8 +5,7 @@
 #include <vector>
 
 //All possible way to place a ship
-enum class asset {Vertical, Horizontal};
-
+enum class asset {Vertical, Horizontal}; 
 //User input coordinates to translate --> Char for row and short for column
 typedef std::pair<char,short> user_coords;
 
@@ -22,7 +21,8 @@ std::vector<coords> get_position(coords&, short, asset);
 //Check if the coords given are valid
 bool valid_box(coords&);
 
-//Given two coordinates it checks if the ship is positionable and if so returns the orientation of the ship
-asset check_first_position(coords& stern, coords& prow, char c);
+asset check_first_position(coords&, coords&, char);
+
+coords prendi_centro(coords&, coords&);
 
 #endif

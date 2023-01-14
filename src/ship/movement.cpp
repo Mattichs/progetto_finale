@@ -1,16 +1,58 @@
 #include "../../include/ship/movement.h"
 #include <stdexcept>
+#include <iostream>
 
 bool valid_box(coords& target){
-    if(target.first < 1 || target.first > 12 || target.second < 1 || target.second > 12) 
+    // modificato siccome la matrice conta da 0 a 11 
+    // probabilmente un sottomarino in (0,0) da errore
+    if(target.first < 0 || target.first > 11 || target.second < 0 || target.second > 11) 
         return false;
 
     return true;
 }
 
-asset check_first_position(coords& stern, coords& prow, char c){
-    c = std::tolower(c);
+coords coords_translation(user_coords in){
+    coords position;
+	in.first = toupper(in.first);
+	
+	if((short) in.first > 73)	position.first = (short) in.first - 67;
+	else position.first = (short) in.first - 65;
+    
+	position.second = in.second - 1;
 
+    return position;
+}
+
+coords prendi_centro(coords& new_stern, coords& new_prow){
+	short length;	
+
+	if(new_stern.first == new_prow.first && new_stern.second == new_prow.second) return new_stern;
+
+	if(new_stern.first == new_prow.first){
+		length = std::abs(new_stern.second - new_prow.second);			
+
+		for(int i = 0; i < length; i++){
+			if(new_stern.second + i == new_prow.second - i) 
+				return {new_stern.first, new_stern.second + i};
+		
+			else if(new_stern.second - i == new_prow.second + i) 
+				return {new_stern.first, new_stern.second - i};
+		} 
+	}
+	if(new_stern.second == new_prow.second){
+		length = std::abs(new_stern.first - new_prow.first);
+		
+		for(int i = 0; i < length; i++){
+			if(new_stern.first + i == new_prow.first - i)
+				return {new_stern.first + i, new_stern.second};
+
+			else if(new_stern.first - i == new_prow.first + i)
+				return {new_stern.first - i, new_stern.second};
+		}
+	}
+}
+
+asset check_first_position(coords& stern, coords& prow, char c){
     switch(c){
         case 'e':
             if(stern != prow) throw std::invalid_argument("L'esploratore deve avere poppa e prua uguali");
@@ -43,7 +85,7 @@ asset check_first_position(coords& stern, coords& prow, char c){
                 short result = stern.second - prow.second;
                 if(std::abs(result) == 4) return asset::Horizontal;
 
-                else throw std::invalid_argument("La corazzata deve avere una differenza di 2 nella seconda coordinata");
+                else throw std::invalid_argument("La corazzata deve avere una differenza di 4 nella seconda coordinata");
             }
             //case same coloumn
             else if(stern.second == prow.second){
@@ -51,7 +93,7 @@ asset check_first_position(coords& stern, coords& prow, char c){
 
                 if(std::abs(result) == 4) return asset::Vertical;
             
-                else throw std::invalid_argument("La corazzata deve avere una differenza di 2 nella prima coordinata");
+                else throw std::invalid_argument("La corazzata deve avere una differenza di 4 nella prima coordinata");
             }
 
             else throw std::invalid_argument("Per essere posizionata la corazzata deve avere almeno una coordinata uguale");
@@ -60,19 +102,6 @@ asset check_first_position(coords& stern, coords& prow, char c){
     }
 }
 
-coords coords_translation(user_coords in){
-    coords position;
-    
-    if(((short) in.first - 65) > 8)
-        position.first = (short) in.first - 67;
-
-    else 
-        position.first = (short) in.first - 65;
-
-    position.second = in.second; 
-
-    return position;
-}
 
 /*
 *

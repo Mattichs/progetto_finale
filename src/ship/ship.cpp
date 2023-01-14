@@ -13,7 +13,7 @@ asset ship::get_way() const { return way; }
 std::vector<short> ship::get_hp() const { return hp; }
 short ship::get_length() const { return length; }
 coords ship::get_center() const {return center; }
-void ship::set_center(coords& c) { center = c; }
+void ship::set_center(coords& c) { center = c;}
 
 void ship::get_hit(coords& target){
     std::vector<coords> positions;
@@ -26,7 +26,7 @@ void ship::get_hit(coords& target){
 }
 
 bool ship::is_dead(){
-    short count;
+    short count = 0;
     
     for(int i = 0; i < hp.size(); i++){
         if(hp[i] == 0) count++;    
@@ -46,9 +46,12 @@ char ship::print(coords& target, coords& center){
     positions = get_position(center, length, way);
 
     for(int i = 0; i < length; i++){
+        //std::cout << "hp:" << hp[i] << " \n";
         if(target.first == positions[i].first && target.second == positions[i].second){
-            if(hp[i] == 0) return tolower(alias);
+            if(hp[i] == 0) { 
+                return tolower(alias);
+            } 
         }
     }
     return alias;
-}
+} 

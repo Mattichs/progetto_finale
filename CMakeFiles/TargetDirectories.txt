@@ -1,0 +1,4 @@
+/home/luca/Desktop/Testing/progetto_finale/CMakeFiles/battaglia_navale.dir
+/home/luca/Desktop/Testing/progetto_finale/CMakeFiles/replay.dir
+/home/luca/Desktop/Testing/progetto_finale/CMakeFiles/edit_cache.dir
+/home/luca/Desktop/Testing/progetto_finale/CMakeFiles/rebuild_cache.dir

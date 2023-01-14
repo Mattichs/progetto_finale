@@ -10,11 +10,14 @@
 #include <iostream>
 class attack_grid : public grid {
     private:
-       defense_grid& dgrid; 
+        char matrix[12][12];
+        defense_grid& dgrid;
+        std::vector<coords> enemy_positions; 
     public:
         attack_grid(defense_grid& dg);
-        bool fire(coords c);
+        bool fire (coords& c, defense_grid& dg);
         friend std::ostream& operator <<( std::ostream& os,const attack_grid&);
-
+        void enemy_ships(coords& c, defense_grid& dg);
+        void reset_enemy_pos();
 };
 #endif

@@ -13,6 +13,7 @@
 class defense_grid : public grid {
     private:
         ship* matrix[12][12];
+        std::vector<coords> ships;
         empty water;
     public:
         defense_grid();
@@ -26,8 +27,8 @@ class defense_grid : public grid {
         friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
         std::set<ship*> ship_in_range(coords& c);
         std::vector<coords> enemy_ships(coords& c);
-        void heal_ships(std::set<ship*>);
-
+        std::vector<coords> get_ships();
+        void heal_ships(coords& c, coords& final_c);
 };
 
 #endif

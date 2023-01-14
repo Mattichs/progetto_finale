@@ -6,6 +6,7 @@
 class supporto : public ship {
 	public:
 		supporto(asset, coords&);
-};
+		supporto() {}
+};	
 
 #endif
