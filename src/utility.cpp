@@ -53,8 +53,7 @@ std::string to_string_helper(coords& c1, coords& c2) {
 
 // cambio coordinate char,int ---> int,int 
 std::vector<coords> coords_translation(std::string s) {
-	s = toupper(s);
-    coords c1 {0,0};
+	coords c1 {0,0};
     coords c2 {0,0};
     // prendo la stringa la divido in due e procedo
     std::string s1 = s.substr(0, s.find(" "));
