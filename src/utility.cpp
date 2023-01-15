@@ -114,3 +114,27 @@ asset generate_rnd_asset() {
     if(x%2 == 0) return asset::Horizontal;
     else return asset::Vertical;
 }
+corazzata insert_corazzata(std::string messaggio){
+	coords center;
+	coords new_stern;
+	coords new_prow;
+	user_coords stern;
+	user_coords prow;
+	asset way;
+	
+	std::cout << "Guarda la griglia e inserisci poppa e prua " << messaggio << std::endl;
+	std::cin >> stern.first >> stern.second >> prow.first >> prow.second;
+	
+    // converto da alpanumerico a solo numerico poppa e prua
+	new_stern = coords_translation(stern);
+	new_prow = coords_translation(prow);
+    
+	way = check_first_position(new_stern, new_prow, 'c');
+    center = prendi_centro(new_stern, new_prow);
+	corazzata c = corazzata(way, center);
+
+	//std::this_thread::sleep_for(std::chrono::milliseconds(200));
+	system("clear");
+
+	return c;
+}

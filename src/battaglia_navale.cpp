@@ -49,6 +49,10 @@ int main(int argc, char *argv[]) {
 }
 
 
+/* 
+    creo una corazzata randomicamente 
+    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
+*/
 corazzata create_corazzata(defense_grid& dg, std::vector<std::string>& out) {
     bool status = false;
     coords rnd;
@@ -71,6 +75,11 @@ corazzata create_corazzata(defense_grid& dg, std::vector<std::string>& out) {
     }
     return c;  
 }
+
+/* 
+    creo un supporto randomicamente 
+    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
+*/
 supporto create_supporto(defense_grid& dg, std::vector<std::string>& out) {
     bool status = false;
     coords rnd;
@@ -91,6 +100,10 @@ supporto create_supporto(defense_grid& dg, std::vector<std::string>& out) {
     }
     return s;
 }
+/* 
+    creo un esploratore randomicamente 
+    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
+*/
 esploratore create_esploratore(defense_grid& dg, std::vector<std::string>& out) {
     bool status = false;
     coords rnd;
@@ -165,7 +178,6 @@ void computer_vs_computer() {
     outfile.close();
 }
 
-// per il momento l'utente deve essere sicuro che l'inserimento sia corretto
 void giocatore_vs_computer() {
     // variabili utili
     defense_grid dg_player;
@@ -176,26 +188,18 @@ void giocatore_vs_computer() {
     /*
         inserimento corazzate     
     */ 
-    std::cout << "Inserisci posizione prima corazzata: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s);
-    center = get_center(coords_vec);
-    corazzata c1(get_asset(coords_vec), center); 
-    dg_player.insert_ship(c1);
-    
-    std::cout << "Inserisci posizione seconda corazzata: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    corazzata c2(get_asset(coords_vec), center);
-    dg_player.insert_ship(c2);
 
-    std::cout << "Inserisci posizione terza corazzata: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    corazzata c3(get_asset(coords_vec), center);
-    dg_player.insert_ship(c3);
+	std::cout << dg_player;
+	corazzata c1 = insert_corazzata("prima corazzata");	
+	dg_player.insert_ship(c1);
+
+	std::cout << dg_player;
+	corazzata c2 = insert_corazzata("seconda corazzata");
+	dg_player.insert_ship(c2);
+
+	std::cout << dg_player;
+	corazzata c3 = insert_corazzata("terza corazzata");
+	dg_player.insert_ship(c3);
     
     
     //    inserimento supporti     

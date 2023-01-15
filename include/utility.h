@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include "../include/ship/movement.h"
+#include "./include/ship/corazzata.h"
 #include <ctime>
 #include <cstdlib>
 
@@ -28,5 +29,7 @@ void print_coords(coords c);
 coords generate_rnd_coords();
 
 asset generate_rnd_asset();
+
+corazzata insert_corazzata(std::string messaggio);
 
 #endif

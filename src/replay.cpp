@@ -13,6 +13,13 @@
 using namespace std;
 
 int main() {
+
+    /* 
+        -inserisco il bot 2 
+        -devo creare 8 barche per bot per evitare problemis
+        -fare le mosse e stampare ogni turno
+    */
+
     ifstream log_file;
     log_file.open("test.txt");
     string s;
@@ -60,6 +67,7 @@ int main() {
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); 
         
+
         std::cout << dg;
         std::cout << ag;
         // reset to standard output
