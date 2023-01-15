@@ -323,7 +323,9 @@ void giocatore_vs_computer() {
         // il bot fa la mossa e la inserisco su out
         out.push_back(bot_.rnd_move());
 
-        std::cout << dg_player << ag_player;
+        std::cout << "Bot" << std::endl << dg_bot << ag_bot;
+        std::cout << "Giocatore" << std::endl << dg_player << ag_player;
+        
         turni_max--;
     } 
      std::ofstream outfile ("test.txt");
