@@ -8,7 +8,8 @@ make
  soprattuto le barche che non si eliminano con le variabili automatiche
 
 
- //TODO mattia
- - fare 8 barche per giocatore nel replay e fargli eseguire l'azione per poi printare sul file
- - la partita giocatore vs bot non restituisce nessun output 
- - commentare le funzioni e metterle appsto
+ //TODO 
+ - condizione di vittoria?
+ - aggiungere commenti
+ - spostare funzioni dai due main
+ - cmake ottimizzato come vuole il prof
