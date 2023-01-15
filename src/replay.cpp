@@ -6,9 +6,11 @@
 #include <fstream>
 #include <string>
 #include <cstring>
+#include <unistd.h>
 
 #include "../include/grid/defense_grid.hpp"
 #include "../include/grid/attack_grid.hpp"
+#include "../include/player.h"
 #include "../include/utility.h"
 
 void replay_terminale();
@@ -39,7 +41,6 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-void replay_terminale() {}
 
 /*  
     inserisco corazzata 
@@ -80,12 +81,8 @@ esploratore insert_esploratore(defense_grid& dg, std::string s)  {
     dg.insert_ship(e);
     return e;
 }
+
 void replay_file() {
-     /* 
-        -inserisco il bot 2 
-        -devo creare 8 barche per bot per evitare problemis
-        -fare le mosse e stampare ogni turno
-    */
 
     std::ifstream log_file;
     try {
@@ -141,15 +138,14 @@ void replay_file() {
         std::getline(log_file, s);
         esploratore e2_p2 = insert_esploratore(dg_player2, s);
         
-        std::cout << dg_player1 << dg_player2;
+        player player1(dg_player1, ag_player1);
+        player player2(dg_player2, ag_player2);
 
         std::ofstream out("out.txt");
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); 
         
-
-        // reset to standard output
-        std::cout.rdbuf(coutbuf); 
+        // TODO funziona solo per partite patte, se vince il player 1 interrompo prima 
         while(std::getline(log_file, s)) {
             
             /* 
@@ -157,8 +153,93 @@ void replay_file() {
 
                 aspetto i print delle vare griglie
             */
-           std::cout << s << std::endl;
+           std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+           std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+           player1.move(s);
+           std::getline(log_file, s);
+           player2.move(s);
         }
+        // reset to standard output
+        std::cout.rdbuf(coutbuf); 
+
+        // ho chiuso out.txt???
+    } else { 
+        std::cout << "Impossibile aprire il file";
+    }
+    log_file.close();
+}
+
+
+void replay_terminale() {
+    std::ifstream log_file;
+    try {
+        log_file.open("test.txt");
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+    }
+    
+    std::string s;
+    // verifico che il file sia stato aperto correttamente
+    if(log_file.is_open()) {
+        // leggo tutte le linee del file
+
+        defense_grid dg_player1;
+        defense_grid dg_player2;
+        attack_grid ag_player1(dg_player2);
+        attack_grid ag_player2(dg_player1);
+        
+        // primo player
+        std::getline(log_file, s);
+        corazzata c1_p1 = insert_corazzata(dg_player1, s);
+        std::getline(log_file, s);
+        corazzata c2_p1 = insert_corazzata(dg_player1, s);
+        std::getline(log_file, s);
+        corazzata c3_p1 = insert_corazzata(dg_player1, s);
+        std::getline(log_file, s);
+        supporto s1_p1 = insert_supporto(dg_player1, s);
+        std::getline(log_file, s);
+        supporto s2_p1 = insert_supporto(dg_player1, s);
+        std::getline(log_file, s);
+        supporto s3_p1 = insert_supporto(dg_player1, s);
+        std::getline(log_file, s);
+        esploratore e1_p1 = insert_esploratore(dg_player1, s);
+        std::getline(log_file, s);
+        esploratore e2_p1 = insert_esploratore(dg_player1, s);        
+        
+        // secondo player
+        std::getline(log_file, s);
+        corazzata c1_p2 = insert_corazzata(dg_player2, s);
+        std::getline(log_file, s);
+        corazzata c2_p2 = insert_corazzata(dg_player2, s);
+        std::getline(log_file, s);
+        corazzata c3_p2 = insert_corazzata(dg_player2, s);
+        std::getline(log_file, s);
+        supporto s1_p2 = insert_supporto(dg_player2, s);
+        std::getline(log_file, s);
+        supporto s2_p2 = insert_supporto(dg_player2, s);
+        std::getline(log_file, s);
+        supporto s3_p2 = insert_supporto(dg_player2, s);
+        std::getline(log_file, s);
+        esploratore e1_p2 = insert_esploratore(dg_player2, s);
+        std::getline(log_file, s);
+        esploratore e2_p2 = insert_esploratore(dg_player2, s);
+        
+        player player1(dg_player1, ag_player1);
+        player player2(dg_player2, ag_player2);
+
+        std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+        std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+        // TODO funziona solo per partite patte, se vince il player 1 interrompo prima 
+        while(std::getline(log_file, s)) {
+           player1.move(s);
+           std::getline(log_file, s);
+           player2.move(s);
+           std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+           std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+            sleep(5);
+        }
+        // ho chiuso out.txt???
     } else { 
         std::cout << "Impossibile aprire il file";
     }
