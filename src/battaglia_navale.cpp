@@ -49,6 +49,10 @@ int main(int argc, char *argv[]) {
 }
 
 
+/* 
+    creo una corazzata randomicamente 
+    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
+*/
 corazzata create_corazzata(defense_grid& dg, std::vector<std::string>& out) {
     bool status = false;
     coords rnd;
@@ -71,6 +75,11 @@ corazzata create_corazzata(defense_grid& dg, std::vector<std::string>& out) {
     }
     return c;  
 }
+
+/* 
+    creo un supporto randomicamente 
+    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
+*/
 supporto create_supporto(defense_grid& dg, std::vector<std::string>& out) {
     bool status = false;
     coords rnd;
@@ -91,6 +100,10 @@ supporto create_supporto(defense_grid& dg, std::vector<std::string>& out) {
     }
     return s;
 }
+/* 
+    creo un esploratore randomicamente 
+    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
+*/
 esploratore create_esploratore(defense_grid& dg, std::vector<std::string>& out) {
     bool status = false;
     coords rnd;
@@ -165,7 +178,76 @@ void computer_vs_computer() {
     outfile.close();
 }
 
-// per il momento l'utente deve essere sicuro che l'inserimento sia corretto
+corazzata insert_corazzata(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
+    bool status = false;
+    std::string s;
+    std::vector<coords> coords_vec;
+    coords center;
+    corazzata c;
+    while(!status) {
+        try {
+            std::cout << "Inserisci posizione corazzata nr." << messaggio << std::endl;
+            std::getline(std::cin, s);
+            coords_vec = coords_translation(s);
+            
+            center = get_center(coords_vec);
+            c = corazzata(get_asset(coords_vec), center); 
+            dg.insert_ship(c);
+            out.push_back(s += "\n");
+            status = true;
+        }
+        catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    return c;
+}
+supporto insert_supporto(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
+    bool status = false;
+    std::string s;
+    std::vector<coords> coords_vec;
+    coords center;
+    supporto supp;
+    while(!status) {
+        try {
+            std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
+            std::getline(std::cin, s);
+            coords_vec = coords_translation(s);
+            center = get_center(coords_vec);
+            supp = supporto(get_asset(coords_vec), center); 
+            dg.insert_ship(supp);
+            out.push_back(s+= "\n");
+            status = true;
+        }
+        catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    return supp;
+}
+esploratore insert_esploratore(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
+    bool status = false;
+    std::string s;
+    std::vector<coords> coords_vec;
+    coords center;
+    esploratore e;
+    while(!status) {
+        try {
+            std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
+            std::getline(std::cin, s);
+            coords_vec = coords_translation(s);
+            center = get_center(coords_vec);
+            e = esploratore(center); 
+            dg.insert_ship(e);
+            out.push_back(s += "\n");
+            status = true;
+        }
+        catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
+    }
+    return e;
+}
 void giocatore_vs_computer() {
     // variabili utili
     defense_grid dg_player;
@@ -173,108 +255,52 @@ void giocatore_vs_computer() {
     std::string s;
     std::vector<coords> coords_vec;
     coords center;
-    /*
-        inserimento corazzate     
-    */ 
-    std::cout << "Inserisci posizione prima corazzata: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s);
-    center = get_center(coords_vec);
-    corazzata c1(get_asset(coords_vec), center); 
-    dg_player.insert_ship(c1);
-    
-    std::cout << "Inserisci posizione seconda corazzata: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    corazzata c2(get_asset(coords_vec), center);
-    dg_player.insert_ship(c2);
 
-    std::cout << "Inserisci posizione terza corazzata: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    corazzata c3(get_asset(coords_vec), center);
-    dg_player.insert_ship(c3);
-    
-    
-    //    inserimento supporti     
-    
-    std::cout << "Inserisci posizione primo supporto: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s);
-    
-    center = get_center(coords_vec);
-    supporto s1(get_asset(coords_vec), center); 
-    dg_player.insert_ship(s1);
-    
+    std::vector<std::string> out;
 
-    std::cout << "Inserisci posizione secondo supporto: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    supporto s2(get_asset(coords_vec), center);
-    dg_player.insert_ship(s2);
+	corazzata c1 = insert_corazzata("1", dg_player, out);	
+    corazzata c2 = insert_corazzata("2", dg_player, out);	
+    corazzata c3 = insert_corazzata("3", dg_player, out);	
+	std::cout << dg_player;
+    supporto s1 = insert_supporto("1", dg_player, out); 
+    supporto s2 = insert_supporto("2", dg_player, out); 
+    supporto s3 = insert_supporto("3", dg_player, out);   
+    std::cout << dg_player;
+    esploratore e1 = insert_esploratore("1", dg_player, out);
+    esploratore e2 = insert_esploratore("2", dg_player, out);
 
-    std::cout << "Inserisci posizione terzo supporto: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    supporto s3(get_asset(coords_vec), center);
-    dg_player.insert_ship(s3);
-    
-    
-    //    inserimento esploratori     
-    
-    std::cout << "Inserisci posizione primo esploratore: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s);
-    
-    center = get_center(coords_vec);
-    esploratore e1(center); 
-    dg_player.insert_ship(e1);
-  
-    std::cout << "Inserisci posizione secondo esploratore: \n";
-    std::getline(std::cin, s);
-    coords_vec = coords_translation(s); 
-    center = get_center(coords_vec);
-    esploratore e2(center);
-    dg_player.insert_ship(e2);
-
-
+    std::cout << dg_player;
+      
     // bot
     // inizio inserimento barche casuale
     // creo 8 navi per avere 8 oggetti diversi e non avere problemi con la griglia
 
-    // TODO stampare il log (aggiungere parametro& e fare push_back)
-    std::vector<std::string> out_bot;
 
-    corazzata bot_c1 = create_corazzata(dg_bot, out_bot);
-    corazzata bot_c2= create_corazzata(dg_bot, out_bot);
-    corazzata bot_c3= create_corazzata(dg_bot, out_bot);
-
-    supporto bot_s1 = create_supporto(dg_bot, out_bot);
-    supporto bot_s2 = create_supporto(dg_bot, out_bot);
-    supporto bot_s3 = create_supporto(dg_bot, out_bot);
- 
-    esploratore bot_e1 = create_esploratore(dg_bot, out_bot);
-    esploratore bot_e2 = create_esploratore(dg_bot, out_bot);
+    corazzata bot_c1 = create_corazzata(dg_bot, out);
+    corazzata bot_c2= create_corazzata(dg_bot, out);
+    corazzata bot_c3= create_corazzata(dg_bot, out);
+    supporto bot_s1 = create_supporto(dg_bot, out);
+    supporto bot_s2 = create_supporto(dg_bot, out);
+    supporto bot_s3 = create_supporto(dg_bot, out);
+    esploratore bot_e1 = create_esploratore(dg_bot, out);
+    esploratore bot_e2 = create_esploratore(dg_bot, out);
 
     attack_grid ag_bot(dg_player);
     bot bot_(dg_bot, ag_bot);
     
-    std::cout << dg_bot;
+    //std::cout << dg_bot;
 
     attack_grid ag_player(dg_bot);
 
     int turni_max = 20;
     
+// mettere un OR con la condizione di vittoria
     while(turni_max > 0) {
         std::cout << "Coordinate per l'azione che vuoi eseguire \n";
         std::getline(std::cin, s);
         // il player vuole togliere le Y
-        if(s == "YY YY") {
-            // sistemare sta parte
+        if(s == "AA AA") {
+            // sistemare sta parte o tenere continue?
             ag_player.reset_enemy_pos();
             continue;
         } else {
@@ -292,16 +318,21 @@ void giocatore_vs_computer() {
                     ag_player.enemy_ships(coords_vec[1]);
                 break;
             }
+            out.push_back(s += "\n");
         }
-        
-        
-        bot_.rnd_move();
+        // il bot fa la mossa e la inserisco su out
+        out.push_back(bot_.rnd_move());
 
-        std::cout << "PLAYER \n" << dg_player << ag_player;
-
-        std::cout << "BOT: \n" << dg_bot << ag_bot;
+        std::cout << "Bot" << std::endl << dg_bot << ag_bot;
+        std::cout << "Giocatore" << std::endl << dg_player << ag_player;
+        
         turni_max--;
     } 
+     std::ofstream outfile ("test.txt");
 
+    for(std::string row : out) {
+        outfile << row;
+    }
 
+    outfile.close();
 }

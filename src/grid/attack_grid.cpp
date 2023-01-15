@@ -55,12 +55,26 @@ void attack_grid::enemy_ships(coords& c){
  }
 
 
-std::ostream& operator <<(std::ostream& os,const attack_grid& ag){
+std::ostream& operator <<(std::ostream& os,const  attack_grid& ag){
     for(int i=0;i<12;i++){
+        if(i < 9) {
+            os << (char)(i + 'A') << " ";
+        } else {
+            os << (char)(i + 2 + 'A') << " ";
+        }     
         for(int j=0;j<12;j++){
-            os<<ag.matrix[i][j]<<" ";
+                os << ag.matrix[i][j] << "  ";
         }
-         os<<'\n';
+        os << '\n';
     }
-    return os;
+    os << "  ";
+    for(int i = 0; i < 12; i++) {
+        if( i < 8) {
+            os << i + 1 << "  ";
+        } else {
+            os << i + 1 << " ";
+        }
+    }
+    os << "\n";
+    return os; 
 }

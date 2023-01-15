@@ -1,3 +1,4 @@
+//@FedericoCognolatto
 #ifndef DEFENSE_GRID_H
 #define DEFENSE_GRID_H
 #include "../ship/corazzata.h"
@@ -25,7 +26,7 @@ class defense_grid : public grid {
         ship* get_ship(coords& c);
         char ship_at(coords& c);
         friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
-        std::set<ship*> ship_in_range(coords& c);
+        std::vector<ship*> ship_in_range(coords& c);
         std::vector<coords> enemy_ships(coords& c);
         std::vector<coords> get_ships();
         void heal_ships(coords& c, coords& final_c);
