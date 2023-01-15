@@ -5,10 +5,11 @@
 #include "../include/grid/defense_grid.hpp"
 #include "../include/grid/attack_grid.hpp"
 #include "../include/utility.h"
-#include "../include/bot.h"
+#include "../include/player.h"
 #include <ctime>
 #include <fstream>
 #include <cstdlib>
+#include <cstring>
 //#include <memory>
 
 /* 
@@ -160,12 +161,13 @@ void computer_vs_computer() {
     esploratore bot2_e2 = create_esploratore(dg_bot2, out);
 
 
-    bot bot1(dg_bot1, ag_bot1);
-    bot bot2(dg_bot2, ag_bot2);
+    player bot1(dg_bot1, ag_bot1);
+    player bot2(dg_bot2, ag_bot2);
 
     int turni_max = 20;
-    std::cout << dg_bot1;
     while(turni_max > 0) {
+        std::cout << "Griglia bot 1:"<< std::endl << bot1;
+        std::cout << "Griglia bot 2:"<< std::endl << bot2;   
         out.push_back(bot1.rnd_move());
         out.push_back(bot2.rnd_move());
         turni_max--;
@@ -175,7 +177,7 @@ void computer_vs_computer() {
     for(std::string row : out) {
         outfile << row;
     }
-    outfile.close();
+    outfile.close();    
 }
 
 corazzata insert_corazzata(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
@@ -250,26 +252,24 @@ esploratore insert_esploratore(std::string messaggio, defense_grid& dg, std::vec
 }
 void giocatore_vs_computer() {
     // variabili utili
-    defense_grid dg_player;
+    defense_grid dg_human;
     defense_grid dg_bot;
     std::string s;
-    std::vector<coords> coords_vec;
-    coords center;
 
     std::vector<std::string> out;
 
-	corazzata c1 = insert_corazzata("1", dg_player, out);	
-    corazzata c2 = insert_corazzata("2", dg_player, out);	
-    corazzata c3 = insert_corazzata("3", dg_player, out);	
-	std::cout << dg_player;
-    supporto s1 = insert_supporto("1", dg_player, out); 
-    supporto s2 = insert_supporto("2", dg_player, out); 
-    supporto s3 = insert_supporto("3", dg_player, out);   
-    std::cout << dg_player;
-    esploratore e1 = insert_esploratore("1", dg_player, out);
-    esploratore e2 = insert_esploratore("2", dg_player, out);
+	corazzata c1 = insert_corazzata("1", dg_human, out);	
+    corazzata c2 = insert_corazzata("2", dg_human, out);	
+    corazzata c3 = insert_corazzata("3", dg_human, out);	
+	std::cout << dg_human;
+    supporto s1 = insert_supporto("1", dg_human, out); 
+    supporto s2 = insert_supporto("2", dg_human, out); 
+    supporto s3 = insert_supporto("3", dg_human, out);   
+    std::cout << dg_human;
+    esploratore e1 = insert_esploratore("1", dg_human, out);
+    esploratore e2 = insert_esploratore("2", dg_human, out);
 
-    std::cout << dg_player;
+    std::cout << dg_human;
       
     // bot
     // inizio inserimento barche casuale
@@ -285,47 +285,33 @@ void giocatore_vs_computer() {
     esploratore bot_e1 = create_esploratore(dg_bot, out);
     esploratore bot_e2 = create_esploratore(dg_bot, out);
 
-    attack_grid ag_bot(dg_player);
-    bot bot_(dg_bot, ag_bot);
+    attack_grid ag_bot(dg_human);
+    attack_grid ag_human(dg_bot);
+    player human(dg_human, ag_human);
+    player bot_(dg_bot, ag_bot);
     
-    //std::cout << dg_bot;
-
-    attack_grid ag_player(dg_bot);
 
     int turni_max = 20;
     
-// mettere un OR con la condizione di vittoria
+    // mettere un OR con la condizione di vittoria
+    // con i comandi YY YY e XX XX spreco una mossa
     while(turni_max > 0) {
         std::cout << "Coordinate per l'azione che vuoi eseguire \n";
         std::getline(std::cin, s);
-        // il player vuole togliere le Y
-        if(s == "AA AA") {
-            // sistemare sta parte o tenere continue?
-            ag_player.reset_enemy_pos();
-            continue;
-        } else {
-            coords_vec = coords_translation(s); 
-            // switch per capire che barca ha selezionato il player
-            switch(dg_player.get_ship(coords_vec[0])->get_alias()) {
-                case 'C':
-                    ag_player.fire(coords_vec[1]);
-                break;
-                case 'S':
-                    dg_player.heal_ships(coords_vec[0], coords_vec[1]);
-                break;
-                case 'E':
-                    dg_player.move(coords_vec[0], coords_vec[1]);
-                    ag_player.enemy_ships(coords_vec[1]);
-                break;
-            }
+
+        // mossa del player e inserimento su out
+        try {
+            human.move(s);    
             out.push_back(s += "\n");
+        }
+        catch(const std::exception& e) {
+            std::cerr << e.what() << '\n';
         }
         // il bot fa la mossa e la inserisco su out
         out.push_back(bot_.rnd_move());
 
-        std::cout << "Bot" << std::endl << dg_bot << ag_bot;
-        std::cout << "Giocatore" << std::endl << dg_player << ag_player;
-        
+        std::cout << "Griglia giocatore 1:"<< std::endl << human;
+        std::cout << "Griglia bot:"<< std::endl << bot_;
         turni_max--;
     } 
      std::ofstream outfile ("test.txt");

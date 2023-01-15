@@ -8,7 +8,7 @@
 attack_grid::attack_grid( defense_grid& dg): dgrid(dg){
         for(int i=0;i<12;i++){
         for(int j=0;j<12;j++)
-            matrix[i][j]='#';
+            matrix[i][j]='~';
     }
 }//fine costruttore attack_grid
 
@@ -41,7 +41,6 @@ void attack_grid::enemy_ships(coords& c){
         }
     }
     for(coords el : enemy_positions){
-        std::cout << "Y \n"; 
         matrix[el.first][el.second]='Y';
     } 
 }

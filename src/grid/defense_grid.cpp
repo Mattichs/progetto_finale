@@ -34,13 +34,13 @@ std::vector<ship*> defense_grid::ship_in_range(coords& c){
                     if( get_ship(box)!=get_ship(c)){
                         bool res=false;
                         for(ship* el:ships){
-                            std::cout<<(el==get_ship(box))<<'\n';
+                            //std::cout<<(el==get_ship(box))<<'\n';
                             if(el==get_ship(box))
                                 res=(el==get_ship(box));
         
                         }
                         if(!res){
-                             std::cout<<get_ship(box)<<'\n';
+                            //std::cout<<get_ship(box)<<'\n';
                             ships.push_back(get_ship(box));
                         }
                     }
@@ -143,14 +143,12 @@ void defense_grid::move(coords& start, coords& end){
     std::vector<coords> new_pos = get_position(end, length, asset);
     //verifies if the new positions aren't occupied
     for(coords el : new_pos){
-        //std::cout << el.first << "," << el.second << std::endl;
         if(is_ship(el)&&get_ship(el)!=s)
             throw std::invalid_argument("Posizione occupata da un'altra nave");
     }
     clear_position(*s);
     //inserts the ship into the new positions
     for(coords el : new_pos){
-        //std::cout << el.first << "," << el.second << std::endl;
         matrix[el.first][el.second] = s;
     }
     ships.push_back(end);
@@ -171,6 +169,14 @@ void defense_grid::clear_position(ship& s){
         if(center.first==ships[i].first&&center.second==ships[i].second)
             ships.erase(ships.begin()+i);
     }
+}
+
+char defense_grid::get_pos(int i, int j) {
+    coords c = coords(i,j);
+    if(is_ship(c))
+        return ship_at(c);
+    else
+        return matrix[i][j]->get_alias();
 }
 
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
