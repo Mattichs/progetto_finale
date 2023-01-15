@@ -9,6 +9,7 @@
 #include <ctime>
 #include <fstream>
 #include <cstdlib>
+#include <cstring>
 //#include <memory>
 
 /* 
@@ -163,19 +164,21 @@ void computer_vs_computer() {
     bot bot1(dg_bot1, ag_bot1);
     bot bot2(dg_bot2, ag_bot2);
 
+    std::cout << bot1;
+
     int turni_max = 20;
-    std::cout << dg_bot1;
     while(turni_max > 0) {
         out.push_back(bot1.rnd_move());
+        std::cout << bot1;
         out.push_back(bot2.rnd_move());
         turni_max--;
     }   
-    std::ofstream outfile ("test.txt");
+   /*  std::ofstream outfile ("test.txt");
 
     for(std::string row : out) {
         outfile << row;
     }
-    outfile.close();
+    outfile.close(); */
 }
 
 corazzata insert_corazzata(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
@@ -288,8 +291,6 @@ void giocatore_vs_computer() {
     attack_grid ag_bot(dg_player);
     bot bot_(dg_bot, ag_bot);
     
-    //std::cout << dg_bot;
-
     attack_grid ag_player(dg_bot);
 
     int turni_max = 20;

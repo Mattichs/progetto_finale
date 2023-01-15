@@ -30,6 +30,18 @@ class defense_grid : public grid {
         std::vector<coords> enemy_ships(coords& c);
         std::vector<coords> get_ships();
         void heal_ships(coords& c, coords& final_c);
+        
+        // aggiunta
+        /*  
+            ritorno il char di una casella specifica
+        */
+        char get_pos(int i, int j) {
+            coords c = coords(i,j);
+            if(is_ship(c))
+                return ship_at(c);
+            else
+                return matrix[i][j]->get_alias();
+        }
 };
 
 #endif

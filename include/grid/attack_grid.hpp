@@ -20,5 +20,13 @@ class attack_grid : public grid {
         friend std::ostream& operator <<( std::ostream& os,const attack_grid&);
         void enemy_ships(coords& c);
         void reset_enemy_pos();
+        
+        // aggiunta
+        /*  
+            ritorno il char di una casella specifica
+        */
+        char get_pos(int i, int j) {
+            return matrix[i][j];
+        }
 };
 #endif
