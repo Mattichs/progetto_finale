@@ -13,3 +13,4 @@ make
  - aggiungere commenti
  - spostare funzioni dai due main
  - cmake ottimizzato come vuole il prof
+ - sistemare out su file (cambiare tab con spazi o con for di spazi)
