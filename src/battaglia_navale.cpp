@@ -293,9 +293,8 @@ void giocatore_vs_computer() {
 
     int turni_max = 20;
     
-    // mettere un OR con la condizione di vittoria
-    // con i comandi YY YY e XX XX spreco una mossa
-    while(turni_max > 0) {
+    // o finiscoo i turni oppure una delle due griglie non ha più barche
+    while(turni_max > 0 || dg_human.is_empty() || dg_bot.is_empty()) {
         std::cout << "Coordinate per l'azione che vuoi eseguire \n";
         std::getline(std::cin, s);
 
@@ -314,6 +313,7 @@ void giocatore_vs_computer() {
             }
             catch(const std::exception& e) {
                 std::cerr << e.what() << '\n';
+                continue;
             }
         }
         

@@ -41,9 +41,8 @@ std::string player::rnd_move() {
 
 void player::move(std::string s) {
     std::vector<coords> coords_vec;
-    coords center;
     coords_vec = coords_translation(s); 
-
+    if(!dg.is_center(coords_vec[0])) throw std::invalid_argument("inserisci il centro di una nave perfavore");
     // switch per capire che barca ha selezionato il player
     switch(dg.get_ship(coords_vec[0])->get_alias()) {
         case 'C':
