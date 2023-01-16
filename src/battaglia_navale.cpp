@@ -165,7 +165,7 @@ void computer_vs_computer() {
     player bot2(dg_bot2, ag_bot2);
 
     int turni_max = 20;
-    while(turni_max > 0) {
+    while(turni_max > 0 || dg_bot1.is_empty() || dg_bot2.is_empty()) {
         std::cout << "Griglia bot 1:"<< std::endl << bot1;
         std::cout << "Griglia bot 2:"<< std::endl << bot2;   
         out.push_back(bot1.rnd_move());
