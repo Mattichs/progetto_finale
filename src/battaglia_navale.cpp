@@ -27,13 +27,13 @@ int main(int argc, char *argv[]) {
 
     if(argc == 1) std::cout << "Perfavore inserisci un argomento valido" << std::endl;
     else if(argc == 2) {
-        if(strcmp(argv[1], "pc") == 0) {
+        if(strcmp(argv[1], "-pc") == 0) {
             std::cout << "Hai scelto la partita giocatore vs computer \n";
             /* 
                 gioco player vs bot
             */
             giocatore_vs_computer();
-        } else if(strcmp(argv[1], "cc") == 0) {
+        } else if(strcmp(argv[1], "-cc") == 0) {
             std::cout << "Hai scelto la partita computer vs computer \n";
             /* 
                 gioco bot vs bot
@@ -172,7 +172,7 @@ void computer_vs_computer() {
         out.push_back(bot2.rnd_move());
         turni_max--;
     }   
-    std::ofstream outfile ("test.txt");
+    std::ofstream outfile ("file_log_cc.txt");
 
     for(std::string row : out) {
         outfile << row;
@@ -250,8 +250,8 @@ esploratore insert_esploratore(std::string messaggio, defense_grid& dg, std::vec
     }
     return e;
 }
+
 void giocatore_vs_computer() {
-    // variabili utili
     defense_grid dg_human;
     defense_grid dg_bot;
     std::string s;
@@ -261,11 +261,11 @@ void giocatore_vs_computer() {
 	corazzata c1 = insert_corazzata("1", dg_human, out);	
     corazzata c2 = insert_corazzata("2", dg_human, out);	
     corazzata c3 = insert_corazzata("3", dg_human, out);	
-	std::cout << dg_human;
+	//std::cout << dg_human;
     supporto s1 = insert_supporto("1", dg_human, out); 
     supporto s2 = insert_supporto("2", dg_human, out); 
     supporto s3 = insert_supporto("3", dg_human, out);   
-    std::cout << dg_human;
+    //std::cout << dg_human;
     esploratore e1 = insert_esploratore("1", dg_human, out);
     esploratore e2 = insert_esploratore("2", dg_human, out);
 
@@ -300,21 +300,31 @@ void giocatore_vs_computer() {
         std::getline(std::cin, s);
 
         // mossa del player e inserimento su out
-        try {
-            human.move(s);    
-            out.push_back(s += "\n");
+        if(s == "AA AA") {
+            // sistemare sta parte o tenere continue?
+            ag_human.reset_enemy_pos();
+            continue;
+        } else if(s == "XX XX") {
+            std::cout << human;
+            continue;
+        } else {
+            try {
+                human.move(s);    
+                out.push_back(s += "\n");
+            }
+            catch(const std::exception& e) {
+                std::cerr << e.what() << '\n';
+            }
         }
-        catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
-        }
+        
         // il bot fa la mossa e la inserisco su out
         out.push_back(bot_.rnd_move());
 
-        std::cout << "Griglia giocatore 1:"<< std::endl << human;
-        std::cout << "Griglia bot:"<< std::endl << bot_;
+        /* std::cout << "Griglia giocatore 1:"<< std::endl << human;
+        std::cout << "Griglia bot:"<< std::endl << bot_; */
         turni_max--;
     } 
-     std::ofstream outfile ("test.txt");
+     std::ofstream outfile ("file_log_pc.txt");
 
     for(std::string row : out) {
         outfile << row;

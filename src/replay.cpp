@@ -14,23 +14,23 @@
 #include "../include/utility.h"
 
 void replay_terminale();
-void replay_file();
+void replay_file(char* file_log, char* file_output);
 
 int main(int argc, char *argv[]) {
     if(argc == 1) std::cout << "Perfavore inserisci un argomento valido" << std::endl;
-    else if(argc == 2) {
-        if(strcmp(argv[1], "v") == 0) {
+    else if(argc == 4) {
+        if(strcmp(argv[1], "-v") == 0) {
             std::cout << "Hai scelto il replay su terminale \n";
             /* 
                 replay su terminale
             */
             replay_terminale();
-        } else if(strcmp(argv[1], "f") == 0) {
+        } else if(strcmp(argv[1], "-f") == 0) {
             std::cout << "Hai scelto il replay su file \n";
             /* 
                 replay su file
             */
-            replay_file();
+            replay_file(argv[2], argv[3]);
         } else {
             std::cout << "Perfavore inserisci un argomento valido" << std::endl;
         }
@@ -82,11 +82,11 @@ esploratore insert_esploratore(defense_grid& dg, std::string s)  {
     return e;
 }
 
-void replay_file() {
+void replay_file(char* file_log, char* file_output) {
 
     std::ifstream log_file;
     try {
-        log_file.open("test.txt");
+        log_file.open(file_log);
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << '\n';
@@ -141,7 +141,7 @@ void replay_file() {
         player player1(dg_player1, ag_player1);
         player player2(dg_player2, ag_player2);
 
-        std::ofstream out("out.txt");
+        std::ofstream out(file_output);
         std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
         std::cout.rdbuf(out.rdbuf()); 
         

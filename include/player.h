@@ -8,7 +8,10 @@
 #include "grid/attack_grid.hpp"
 #include "utility.h"
 
-
+/*  
+    la classe player ha come membri due reference alle griglie di attacco del giocatore che può essere umano, ma anche un bot
+    come funzioni invece abbiamo la possibilità di effettuare una mossa casuale oppure una mossa scelta dall'utente
+*/
 class player {
     defense_grid& dg;
     attack_grid& ag;
@@ -25,7 +28,6 @@ class player {
         */
         void move(std::string s);  
 
-        std::vector<std::string> get_text();
         friend std::ostream& operator << (std::ostream& os,  player& p);
 };
 
