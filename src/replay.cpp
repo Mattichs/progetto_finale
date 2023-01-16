@@ -13,27 +13,23 @@
 #include "../include/player.h"
 #include "../include/utility.h"
 
-void replay_terminale();
+void replay_terminale(char* file_log);
 void replay_file(char* file_log, char* file_output);
 
 int main(int argc, char *argv[]) {
     if(argc == 1) std::cout << "Perfavore inserisci un argomento valido" << std::endl;
-    else if(argc == 4) {
-        if(strcmp(argv[1], "-v") == 0) {
+    else if(argc == 3 && strcmp(argv[1], "-v") == 0) {
             std::cout << "Hai scelto il replay su terminale \n";
             /* 
                 replay su terminale
             */
-            replay_terminale();
-        } else if(strcmp(argv[1], "-f") == 0) {
+            replay_terminale(argv[2]);
+    } else if(argc == 4 && strcmp(argv[1], "-f") == 0) {
             std::cout << "Hai scelto il replay su file \n";
             /* 
                 replay su file
             */
             replay_file(argv[2], argv[3]);
-        } else {
-            std::cout << "Perfavore inserisci un argomento valido" << std::endl;
-        }
     } else {
         std::cout << "Perfavore inserisci un argomento valido" << std::endl;
     }
@@ -65,8 +61,8 @@ supporto insert_supporto(defense_grid& dg, std::string s)  {
     std::vector<coords> coords_vec;
     coords center;
     asset a;
-    a = get_asset(coords_vec, 'e');
     coords_vec = coords_translation(s);
+    a = get_asset(coords_vec, 's');
     center = get_center(coords_vec);
     supporto supp = supporto(a, center); 
     dg.insert_ship(supp);
@@ -89,6 +85,7 @@ esploratore insert_esploratore(defense_grid& dg, std::string s)  {
 void replay_file(char* file_log, char* file_output) {
 
     std::ifstream log_file;
+    std::cout << file_output;
     try {
         log_file.open(file_log);
     }
@@ -174,15 +171,14 @@ void replay_file(char* file_log, char* file_output) {
 }
 
 
-void replay_terminale() {
+void replay_terminale(char* file_log) {
     std::ifstream log_file;
     try {
-        log_file.open("test.txt");
+        log_file.open(file_log);
     }
     catch(const std::exception& e) {
         std::cerr << e.what() << '\n';
     }
-    
     std::string s;
     // verifico che il file sia stato aperto correttamente
     if(log_file.is_open()) {
