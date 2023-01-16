@@ -166,7 +166,6 @@ void computer_vs_computer() {
 
     int turni_max = 10000;
     while(turni_max > 0) {
-        std::cout << dg_bot1.is_empty() << std::endl;
         std::cout << "Griglia bot 1:"<< std::endl << bot1;
         std::cout << "Griglia bot 2:"<< std::endl << bot2;   
         out.push_back(bot1.rnd_move());
@@ -331,7 +330,7 @@ void giocatore_vs_computer() {
         }
         // controllo se human ha vinto
         if(dg_bot.is_empty()) break;
-        
+
         // il bot fa la mossa e la inserisco su out
         out.push_back(bot_.rnd_move());
 
