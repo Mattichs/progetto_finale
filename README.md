@@ -18,6 +18,15 @@ REPLAY
 SPECIFICHE DI GIOCO
 - L'utente inserisce le coordinate esclusivamente come lettera maiuscola/numero, in caso contrario il programma chiederà di reinserire le coordinate in modo corretto
 
+
+
+
  Specificare come abbiamo implementato le robe
  soprattuto le barche che non si eliminano con le variabili automatiche
 
+
+ //TODO 
+ - aggiungere commenti
+ - spostare funzioni dai due main
+ - cmake ottimizzato come vuole il prof
+ - sistemare out su file (cambiare tab con spazi o con for di spazi)
