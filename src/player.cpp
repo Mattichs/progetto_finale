@@ -38,30 +38,25 @@ std::string player::rnd_move() {
     }
     return to_string_helper(all_center[choice], second_coord);
 }
+
 void player::move(std::string s) {
     std::vector<coords> coords_vec;
-    coords center;
-    if(s == "AA AA") {
-            // sistemare sta parte o tenere continue?
-            ag.reset_enemy_pos();
-    } else if(s == "XX XX") {
-        std::cout << this;
-    } else {
-        coords_vec = coords_translation(s); 
-        // switch per capire che barca ha selezionato il player
-        switch(dg.get_ship(coords_vec[0])->get_alias()) {
-            case 'C':
-                ag.fire(coords_vec[1]);
-            break;
-            case 'S':
-                dg.heal_ships(coords_vec[0], coords_vec[1]);
-            break;
-            case 'E':
-                dg.move(coords_vec[0], coords_vec[1]);
-                ag.enemy_ships(coords_vec[1]);
-            break;
-        }
+    coords_vec = coords_translation(s); 
+    if(!dg.is_center(coords_vec[0])) throw std::invalid_argument("inserisci il centro di una nave perfavore");
+    // switch per capire che barca ha selezionato il player
+    switch(dg.get_ship(coords_vec[0])->get_alias()) {
+        case 'C':
+            ag.fire(coords_vec[1]);
+        break;
+        case 'S':
+            dg.heal_ships(coords_vec[0], coords_vec[1]);
+        break;
+        case 'E':
+            dg.move(coords_vec[0], coords_vec[1]);
+            ag.enemy_ships(coords_vec[1]);
+        break;
     }
+    
 }
 
 std::ostream& operator << (std::ostream& os,  player& p) {
