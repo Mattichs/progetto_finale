@@ -25,6 +25,8 @@ class defense_grid : public grid {
         void clear_position(ship& s);
         ship* get_ship(coords& c);
         char ship_at(coords& c);
+        bool is_center(coords& c);
+        bool is_empty();
         friend std::ostream& operator <<( std::ostream& os,  defense_grid& dg);
         std::vector<ship*> ship_in_range(coords& c);
         std::vector<coords> enemy_ships(coords& c);

@@ -173,6 +173,22 @@ void defense_grid::clear_position(ship& s){
     }
 }
 
+//checks if the given position is the center of a ship
+bool defense_grid::is_center(coords& c){
+    for(coords el:ships){
+        if(el==c)
+            return true;
+    }
+    return false;
+}
+
+//checks if the grid contains ships 
+bool defense_grid::is_empty(){
+    if(ships.size()==0)
+        return true;
+    return false;
+}
+
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     for(int i=0;i<12;i++){
         if(i < 9) {
