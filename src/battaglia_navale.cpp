@@ -164,12 +164,16 @@ void computer_vs_computer() {
     player bot1(dg_bot1, ag_bot1);
     player bot2(dg_bot2, ag_bot2);
 
-    int turni_max = 20;
-    while(turni_max > 0 || dg_bot1.is_empty() || dg_bot2.is_empty()) {
+    int turni_max = 10000;
+    while(turni_max > 0) {
         std::cout << "Griglia bot 1:"<< std::endl << bot1;
         std::cout << "Griglia bot 2:"<< std::endl << bot2;   
         out.push_back(bot1.rnd_move());
+        // controllo se il bot1 ha vinto
+        if(dg_bot2.is_empty()) break;
+        // controllo se il bot2 ha vinto
         out.push_back(bot2.rnd_move());
+        if(dg_bot1.is_empty()) break;
         turni_max--;
     }   
     std::ofstream outfile ("file_log_cc.txt");
@@ -324,10 +328,14 @@ void giocatore_vs_computer() {
                 continue;
             }
         }
-        
+        // controllo se human ha vinto
+        if(dg_bot.is_empty()) break;
+
         // il bot fa la mossa e la inserisco su out
         out.push_back(bot_.rnd_move());
 
+        // controllo se il bot ha vinto
+        if(dg_human.is_empty()) break;
         /* std::cout << "Griglia giocatore 1:"<< std::endl << human;
         std::cout << "Griglia bot:"<< std::endl << bot_; */
         turni_max--;
