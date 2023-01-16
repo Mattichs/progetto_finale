@@ -20,7 +20,7 @@ coords get_center(std::vector<coords> v);
 
 
 // non gestisco la barca in diagonale per il momento, sarebbe errore
-asset get_asset(std::vector<coords> v);
+asset get_asset(std::vector<coords> v, char letter);
 
 void print_coords(coords c);
 

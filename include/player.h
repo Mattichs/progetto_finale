@@ -26,7 +26,7 @@ class player {
             il player fa una mossa specifica date due coordinate
             passo come parametro una stringa con le due coordinate
         */
-        void move(std::string s);  
+        void make_move(std::string s);  
 
         friend std::ostream& operator << (std::ostream& os,  player& p);
 };

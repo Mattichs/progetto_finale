@@ -94,9 +94,58 @@ coords get_center(std::vector<coords> v) {
 }
 
 // non gestisco la barca in diagonale per il momento, sarebbe errore
-asset get_asset(std::vector<coords> v) {
+/* asset get_asset(std::vector<coords> v, char letter) {
     if(v[0].first == v[1].first) return asset::Horizontal;
     else return asset::Vertical;
+} */
+asset get_asset(std::vector<coords> v, char letter){
+    switch(letter){
+        case 'e':
+            if(v[0] != v[1]) throw std::invalid_argument("L'esploratore deve avere poppa e prua uguali");
+
+            else return asset::Horizontal; //default choice
+        break;
+
+        case 's':
+            //Case same row
+            if(v[0].first == v[1].first){
+                short result = v[0].second - v[1].second;
+
+                if(std::abs(result) == 2) return asset::Horizontal;
+
+                else throw std::invalid_argument("Il supporto deve avere una differenza di 2 nella seconda coordinata");
+            }
+            else if(v[0].second == v[1].second){
+                short result = v[0].first - v[1].first;
+
+                if(std::abs(result) == 2) return asset::Vertical;
+            
+                else throw std::invalid_argument("Il supporto deve avere una differenza di 2 nella prima coordinata");
+            }
+            else throw std::invalid_argument("Per essere posizionato l'esploratore deve avere almeno una coordinata uguale");
+        break;
+        
+        case 'c':
+            //Case same row
+            if(v[0].first == v[1].first){
+                short result = v[0].second - v[1].second;
+                if(std::abs(result) == 4) return asset::Horizontal;
+
+                else throw std::invalid_argument("La corazzata deve avere una differenza di 4 nella seconda coordinata");
+            }
+            //case same coloumn
+            else if(v[0].second == v[1].second){
+                short result = v[0].first - v[1].first;
+
+                if(std::abs(result) == 4) return asset::Vertical;
+            
+                else throw std::invalid_argument("La corazzata deve avere una differenza di 4 nella prima coordinata");
+            }
+
+            else throw std::invalid_argument("Per essere posizionata la corazzata deve avere almeno una coordinata uguale");
+
+        break;
+    }
 }
 
 void print_coords(coords c) {

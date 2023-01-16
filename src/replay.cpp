@@ -49,9 +49,11 @@ int main(int argc, char *argv[]) {
 corazzata insert_corazzata(defense_grid& dg, std::string s)  {
     std::vector<coords> coords_vec;
     coords center;
+    asset a;
     coords_vec = coords_translation(s);
+    a = get_asset(coords_vec, 'c');
     center = get_center(coords_vec);
-    corazzata c = corazzata(get_asset(coords_vec), center); 
+    corazzata c = corazzata(a, center); 
     dg.insert_ship(c);
     return c;
 }
@@ -62,9 +64,11 @@ corazzata insert_corazzata(defense_grid& dg, std::string s)  {
 supporto insert_supporto(defense_grid& dg, std::string s)  {
     std::vector<coords> coords_vec;
     coords center;
+    asset a;
+    a = get_asset(coords_vec, 'e');
     coords_vec = coords_translation(s);
     center = get_center(coords_vec);
-    supporto supp = supporto(get_asset(coords_vec), center); 
+    supporto supp = supporto(a, center); 
     dg.insert_ship(supp);
     return supp;
 }
@@ -155,9 +159,9 @@ void replay_file(char* file_log, char* file_output) {
             */
            std::cout << "Griglia giocatore 1:"<< std::endl << player1;
            std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-           player1.move(s);
+           player1.make_move(s);
            std::getline(log_file, s);
-           player2.move(s);
+           player2.make_move(s);
         }
         // reset to standard output
         std::cout.rdbuf(coutbuf); 
@@ -232,9 +236,9 @@ void replay_terminale() {
         std::cout << "Griglia giocatore 2:"<< std::endl << player2;
         // TODO funziona solo per partite patte, se vince il player 1 interrompo prima 
         while(std::getline(log_file, s)) {
-           player1.move(s);
+           player1.make_move(s);
            std::getline(log_file, s);
-           player2.move(s);
+           player2.make_move(s);
            std::cout << "Griglia giocatore 1:"<< std::endl << player1;
            std::cout << "Griglia giocatore 2:"<< std::endl << player2;
             sleep(5);

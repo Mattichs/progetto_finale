@@ -39,7 +39,7 @@ std::string player::rnd_move() {
     return to_string_helper(all_center[choice], second_coord);
 }
 
-void player::move(std::string s) {
+void player::make_move(std::string s) {
     std::vector<coords> coords_vec;
     coords_vec = coords_translation(s); 
     if(!dg.is_center(coords_vec[0])) throw std::invalid_argument("inserisci il centro di una nave perfavore");

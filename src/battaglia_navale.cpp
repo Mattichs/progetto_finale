@@ -185,15 +185,17 @@ corazzata insert_corazzata(std::string messaggio, defense_grid& dg, std::vector<
     std::string s;
     std::vector<coords> coords_vec;
     coords center;
+    asset a;
     corazzata c;
     while(!status) {
         try {
             std::cout << "Inserisci posizione corazzata nr." << messaggio << std::endl;
             std::getline(std::cin, s);
             coords_vec = coords_translation(s);
-            
             center = get_center(coords_vec);
-            c = corazzata(get_asset(coords_vec), center); 
+            // ottengo e controllo
+            a = get_asset(coords_vec, 'c');
+            c = corazzata(a, center); 
             dg.insert_ship(c);
             out.push_back(s += "\n");
             status = true;
@@ -209,14 +211,17 @@ supporto insert_supporto(std::string messaggio, defense_grid& dg, std::vector<st
     std::string s;
     std::vector<coords> coords_vec;
     coords center;
+    asset a;
     supporto supp;
     while(!status) {
         try {
             std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
             std::getline(std::cin, s);
             coords_vec = coords_translation(s);
+            // ottengo e controllo
+            a = get_asset(coords_vec, 's');
             center = get_center(coords_vec);
-            supp = supporto(get_asset(coords_vec), center); 
+            supp = supporto(a, center); 
             dg.insert_ship(supp);
             out.push_back(s+= "\n");
             status = true;
@@ -232,14 +237,17 @@ esploratore insert_esploratore(std::string messaggio, defense_grid& dg, std::vec
     std::string s;
     std::vector<coords> coords_vec;
     coords center;
+    asset a;
     esploratore e;
     while(!status) {
         try {
             std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
             std::getline(std::cin, s);
             coords_vec = coords_translation(s);
+            // ottengo e controllo
+            a = get_asset(coords_vec, 'e');
             center = get_center(coords_vec);
-            e = esploratore(center); 
+            e = esploratore( center); 
             dg.insert_ship(e);
             out.push_back(s += "\n");
             status = true;
@@ -308,7 +316,7 @@ void giocatore_vs_computer() {
             continue;
         } else {
             try {
-                human.move(s);    
+                human.make_move(s);    
                 out.push_back(s += "\n");
             }
             catch(const std::exception& e) {
