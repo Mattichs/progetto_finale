@@ -14,12 +14,21 @@
 #include <cstring> 
 
 /* 
-    argc è un intero con il numero di argomenti passati a riga di comdando
-    argv è un array di puntatori agli argomenti passati
-    argv[0] è il nome del programma
+    argc as 'int' --> contains number of element passed in command line
+    argv as 'char* []' --> contains the elements
+    argv[0] is the name of the program
 */
 
+/**
+ * @brief human vs bot, human inserts ship from user input. bot makes random insert. Then choose who starts and play the game
+ * 
+ */
 void giocatore_vs_computer();
+
+/**
+ * @brief computer vs computer, inserts and moves are random
+ * 
+ */
 void computer_vs_computer();
 
 int main(int argc, char *argv[]) {
@@ -56,7 +65,7 @@ void computer_vs_computer() {
     attack_grid ag_bot1(dg_bot2);
     attack_grid ag_bot2(dg_bot1);
     
-    // inizio inserimento barche casuale
+    // ship insert random first bot
 
     std::vector<std::string> out;
 
@@ -71,7 +80,7 @@ void computer_vs_computer() {
     esploratore bot1_e1 = create_esploratore(dg_bot1, out);
     esploratore bot1_e2 = create_esploratore(dg_bot1, out);
 
-    // fine inserimento primo bot
+    // ship insert random second bot
 
     corazzata bot2_c1 = create_corazzata(dg_bot2, out);
     corazzata bot2_c2= create_corazzata(dg_bot2, out);
@@ -89,6 +98,7 @@ void computer_vs_computer() {
     player bot2(dg_bot2, ag_bot2);
 
     int turni_max = 10000;
+
     while(turni_max > 0) {
         std::cout << "Griglia bot 1:"<< std::endl << bot1;
         std::cout << "Griglia bot 2:"<< std::endl << bot2;   
@@ -100,6 +110,7 @@ void computer_vs_computer() {
         if(dg_bot1.is_empty()) break;
         turni_max--;
     }   
+    // print to output file
     std::ofstream outfile ("file_log_cc.txt");
 
     for(std::string row : out) {
@@ -115,6 +126,7 @@ void giocatore_vs_computer() {
 
     std::vector<std::string> out;
 
+    // human insert
 	corazzata c1 = insert_corazzata("1", dg_human, out);	
     corazzata c2 = insert_corazzata("2", dg_human, out);	
     corazzata c3 = insert_corazzata("3", dg_human, out);	
@@ -128,8 +140,7 @@ void giocatore_vs_computer() {
     std::cout << dg_human;
       
     // bot
-    // inizio inserimento barche casuale
-    // creo 8 navi per avere 8 oggetti diversi e non avere problemi con la griglia
+    // ship insert is random
 
     corazzata bot_c1 = create_corazzata(dg_bot, out);
     corazzata bot_c2= create_corazzata(dg_bot, out);
@@ -157,9 +168,8 @@ void giocatore_vs_computer() {
             std::cout << "Coordinate per l'azione che vuoi eseguire \n";
             std::getline(std::cin, s);
 
-            // mossa del player e inserimento su out
+            // player move and save moves on out
             if(s == "AA AA") {
-                // sistemare sta parte o tenere continue?
                 ag_human.reset_enemy_pos();
                 continue;
             } else if(s == "XX XX") {
@@ -175,33 +185,32 @@ void giocatore_vs_computer() {
                     continue;
                 }
             }
-            // controllo se human ha vinto
+            // check if humans wins
             if(dg_bot.is_empty()) break;
 
-            // il bot fa la mossa e la inserisco su out
+            // bot make moves and save on out
             out.push_back(bot_.rnd_move());
             std::cout << "Il bot ha eseguito la sua mossa \n";
 
-            // controllo se il bot ha vinto
+            // check if bot wins
             if(dg_human.is_empty()) break;
 
         } else {
             // robot starts
-            // il bot fa la mossa e la inserisco su out
+            // bot make moves and save on out
             if(can_bot_make_move) {
                 out.push_back(bot_.rnd_move());
                 std::cout << "Il bot ha eseguito la sua mossa \n";
             }
             
-            // controllo se il bot ha vinto
+            // check if bot wins
             if(dg_human.is_empty()) break;
 
             std::cout << "Coordinate per l'azione che vuoi eseguire \n";
             std::getline(std::cin, s);
 
-            // mossa del player e inserimento su out
+            // player move and save moves on out
             if(s == "AA AA") {
-                // sistemare sta parte o tenere continue?
                 ag_human.reset_enemy_pos();
                 can_bot_make_move = false;
                 continue;
@@ -220,7 +229,7 @@ void giocatore_vs_computer() {
                     continue;
                 }
             }
-            // controllo se human ha vinto
+            // check if human wins
             if(dg_bot.is_empty()) break;
             
         }  

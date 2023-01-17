@@ -21,8 +21,13 @@ SPECIFICHE DI GIOCO
 
 
 
- Specificare come abbiamo implementato le robe
- soprattuto le barche che non si eliminano con le variabili automatiche
+ IMPLEMENTAZIONE DELLE GRIGLIE
+ - Le griglie sono state gestiste con delle matrici e dei vettori di supporto. 
+
+ - La griglia di difesa è composta da una matrice di puntatori di oggetti ship, da un vettore di coordinate che rappresenta i centri delle navi e un'apposita barca per identificare una posizione vuota. 
+
+ - La griglia d'attacco è composta da una griglia di caratteri, un vettore di coordinate che rappresenta le posizioni delle navi nemiche e una reference ad una griglia di difesa per gestire l'aggiornamento delle navi. Abbiamo deciso di non gestire il reset delle 'X'. 
+ 
 
 
  //TODO 

@@ -1,10 +1,6 @@
 //@FedericoCognolatto
 #ifndef ATTACK_GRID_H
 #define ATTACK_GRID_H
-#include "../ship/corazzata.h"
-#include "../ship/esploratore.h"
-#include "../ship/supporto.h"
-#include "../ship/ship.h"
 #include "grid.hpp"
 #include "defense_grid.hpp"
 #include <iostream>
@@ -20,7 +16,7 @@ class attack_grid : public grid {
         attack_grid(defense_grid& dg);
 
         /// @brief shoots to a given position 
-        /// @param c position to shoot
+        /// @param c position to
         /// @return true if the player hits a ship 
         bool fire(coords& c);
 
