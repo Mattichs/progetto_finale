@@ -1,4 +1,4 @@
-#include "../../include/ship/movement.h"
+#include "../include/ship/movement.h"
 #include <stdexcept>
 
 /**

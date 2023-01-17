@@ -126,15 +126,14 @@ void replay_file(char* file_log, char* file_output) {
            std::cout << "Griglia giocatore 1:"<< std::endl << player1;
            std::cout << "Griglia giocatore 2:"<< std::endl << player2;
            player1.make_move(s);
-           if(dg_player2.is_empty()) {
-                // if player 1 wins break
-                std::cout << "Griglia giocatore 1:"<< std::endl << player1;
-                std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-                break;
-            }
+           // if player 1 wins break break;
+           if(dg_player2.is_empty()) break;
            std::getline(log_file, s);
            player2.make_move(s);
         }
+        std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+        std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+               
         // reset to standard output
         std::cout.rdbuf(coutbuf); 
         out.close();
