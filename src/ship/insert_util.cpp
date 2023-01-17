@@ -8,7 +8,7 @@ corazzata create_corazzata(defense_grid& dg, std::vector<std::string>& out) {
     coords rnd;
     asset rnd_asset;
     corazzata c;
-    // loop util ship position is valid
+    // loop until ship position is valid
     while(!status) {
             try { 
                 rnd = generate_rnd_coords();
@@ -29,7 +29,7 @@ supporto create_supporto(defense_grid& dg, std::vector<std::string>& out) {
     coords rnd;
     asset rnd_asset;
     supporto s;
-    // loop util ship position is valid
+    // loop until ship position is valid
     while(!status) {
         try { 
             rnd = generate_rnd_coords();
@@ -51,7 +51,7 @@ esploratore create_esploratore(defense_grid& dg, std::vector<std::string>& out) 
     coords rnd;
     asset rnd_asset;
     esploratore e;
-    // loop util ship position is valid
+    // loop until ship position is valid
     while(!status) {
         try { 
             rnd = generate_rnd_coords();
@@ -74,7 +74,7 @@ corazzata insert_corazzata(std::string messaggio, defense_grid& dg, std::vector<
     coords center;
     asset a;
     corazzata c;
-    // loop util ship position is valid
+    // loop until ship position is valid
     while(!status) {
         try {
             std::cout << "Inserisci posizione corazzata nr." << messaggio << std::endl;
@@ -128,7 +128,7 @@ esploratore insert_esploratore(std::string messaggio, defense_grid& dg, std::vec
     coords center;
     asset a;
     esploratore e;
-    // loop util ship position is valid
+    // loop until ship position is valid
     while(!status) {
         try {
             std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
@@ -155,8 +155,11 @@ corazzata insert_corazzata(defense_grid& dg, std::string s)  {
     std::vector<coords> coords_vec;
     coords center;
     asset a;
+    // get two coords in std::vector
     coords_vec = coords_translation(s);
+    // get asset
     a = get_asset(coords_vec, 'c');
+    // get center
     center = get_center(coords_vec);
     corazzata c = corazzata(a, center); 
     dg.insert_ship(c);
@@ -167,8 +170,11 @@ supporto insert_supporto(defense_grid& dg, std::string s)  {
     std::vector<coords> coords_vec;
     coords center;
     asset a;
+    // get two coords in std::vector
     coords_vec = coords_translation(s);
+    // get asset
     a = get_asset(coords_vec, 's');
+    // get center
     center = get_center(coords_vec);
     supporto supp = supporto(a, center); 
     dg.insert_ship(supp);
@@ -178,7 +184,9 @@ supporto insert_supporto(defense_grid& dg, std::string s)  {
 esploratore insert_esploratore(defense_grid& dg, std::string s)  {
     std::vector<coords> coords_vec;
     coords center;
+    // get two coords in std::vector
     coords_vec = coords_translation(s);
+    // get center
     center = get_center(coords_vec);
     esploratore e = esploratore(center); 
     dg.insert_ship(e);
