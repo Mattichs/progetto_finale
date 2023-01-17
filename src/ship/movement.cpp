@@ -29,6 +29,7 @@ std::vector<coords> coords_translation(std::string s) {
     if(s1[0] == 'K' || s1[0] == 'J' || s2[0] == 'K' || s2[0] == 'J') throw std::invalid_argument("J e K non fanno parte della griglia... \n");
 
     if(!(isalpha(s1[0]) && isalpha(s2[0]))) throw std::invalid_argument("Inserisci le coordinate in modo corretto! (il primo carattere deve essere una lettera)\n");
+    
     if(s1.length() == 3) {
         // first coordinate
         if((short) s1[0] > 73)	c1.first = (short) s1[0] - 67;
