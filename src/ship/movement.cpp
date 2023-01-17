@@ -27,6 +27,7 @@ std::vector<coords> coords_translation(std::string s) {
     std::string s2 = s.substr(s.find(" ") + 1);
 
     if(!(isalpha(s1[0]) && isalpha(s2[0]))) throw std::invalid_argument("Inserisci le coordinate in modo corretto! (il primo carattere deve essere una lettera)\n");
+    
     if(s1.length() == 3) {
         // first coordinate
         if((short) s1[0] > 73)	c1.first = (short) s1[0] - 67;
@@ -50,9 +51,15 @@ std::vector<coords> coords_translation(std::string s) {
         throw std::invalid_argument("Inserisci le coordinate in modo corretto \n");
     }
     std::vector<coords> v;
-    v.push_back(c1);
-    v.push_back(c2);
-    return v;
+
+    if(valid_box(c1) && valid_box(c2)){
+        v.push_back(c1);
+        v.push_back(c2);
+        return v;
+    } else {
+        throw std::invalid_argument("Coordinate non valide, reinseriscile...");
+    }
+
 }
 
 std::vector<coords> get_position(coords& center, short length, asset way){
