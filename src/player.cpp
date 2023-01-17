@@ -6,10 +6,13 @@
 // player makes random move
 std::string player::rnd_move() {
     //std::cout << "Random move \n"; 
+    // get all possible ship centers
     std::vector<coords> all_center = dg.get_ships();
+    // make random choice
     int choice = rand() % all_center.size();
     bool status = false;
     coords second_coord;
+    // loop until second_coords is valid
     while(!status) {
         try {
             second_coord = generate_rnd_coords();
@@ -38,11 +41,13 @@ std::string player::rnd_move() {
 
 void player::make_move(std::string s) {
     std::vector<coords> coords_vec;
+    // translate string s
     coords_vec = coords_translation(s); 
-    if(!dg.is_center(coords_vec[0])) throw std::invalid_argument("inserisci il centro di una nave perfavore");
-    // switch per capire che barca ha selezionato il player
+    if(!dg.is_center(coords_vec[0])) throw std::invalid_argument("inserisci il centro di una nave perfavore \n");
+    // switch to get the type of ship 
     switch(dg.get_ship(coords_vec[0])->get_alias()) {
         case 'C':
+            // if hit print colpito else print acqua
             if(ag.fire(coords_vec[1])) {
                 std::cout << "COLPITO! \n";
             } else {
@@ -50,9 +55,11 @@ void player::make_move(std::string s) {
             }
         break;
         case 'S':
+            // move and heal ship in range
             dg.heal_ships(coords_vec[0], coords_vec[1]);
         break;
         case 'E':
+            // move to target coords then get enemy positions
             dg.move(coords_vec[0], coords_vec[1]);
             ag.enemy_ships(coords_vec[1]);
         break;
