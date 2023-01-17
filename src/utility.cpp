@@ -1,42 +1,45 @@
 /* 
-    BASTIANELLO MATTIA 2032551
+    BASTIANELLO MATTIA 
 */
 
 #include "../include/utility.h"
 
 
-std::string to_string(coords& c, asset a , char alias) {
+std::string get_prow_stern(coords& c, asset a , char alias) {
     std::string s;
-    coords prua;
-    coords poppa;
+    coords prow;
+    coords stern;
     if(alias == 'C' && a == asset::Horizontal) {
-        // corazzata orizzontale
-        prua = coords(c.first, c.second -2);
-        poppa = coords(c.first, c.second +2);
-        s = to_string_helper(prua, poppa);
+        // corazzata horizotal
+        prow = coords(c.first, c.second -2);
+        stern = coords(c.first, c.second +2);
+        s = two_coords_to_string(prow, stern);
     } else if(alias == 'C' && a == asset::Vertical) {
-        // corazzata verticale
-        prua = coords(c.first - 2, c.second);
-        poppa = coords(c.first + 2, c.second);
-        s = to_string_helper(prua, poppa);
+        // corazzata vertical
+        prow = coords(c.first - 2, c.second);
+        stern = coords(c.first + 2, c.second);
+        s = two_coords_to_string(prow, stern);
     } else if(alias == 'S' && a == asset::Horizontal) {
-        // supporto orizzontale
-        prua = coords(c.first, c.second -1);
-        poppa = coords(c.first, c.second +1);
-        s = to_string_helper(prua, poppa);
+        // supporto horizotal
+        prow = coords(c.first, c.second -1);
+        stern = coords(c.first, c.second +1);
+        s = two_coords_to_string(prow, stern);
     } else if(alias == 'S' && a == asset::Vertical) {
-        // supporto verticale
-        prua = coords(c.first - 1, c.second);
-        poppa = coords(c.first + 1, c.second);
-        s = to_string_helper(prua, poppa);
+        // supporto vertical
+        prow = coords(c.first - 1, c.second);
+        stern = coords(c.first + 1, c.second);
+        s = two_coords_to_string(prow, stern);
     } else {
-        // esploratore dimensione uno e asset trascurabile
-        s = to_string_helper(c, c);
+        // esploratore dimension 1 
+        s = two_coords_to_string(c, c);
     }
     return s;
 }
 
-std::string to_string_helper(coords& c1, coords& c2) {
+std::string two_coords_to_string(coords& c1, coords& c2) {
+    // grid position go from 1 to 12: need add 1 to every letter or number so it can be insert iin the grid
+    // Example: if input is 0 in the grid this is 1
+    // and for letters need to skip J,K
     std::string s;
     char letter;
     letter = (char)('A' + c1.first);
@@ -51,7 +54,7 @@ std::string to_string_helper(coords& c1, coords& c2) {
     return s;
 }
 
-// cambio coordinate char,int ---> int,int 
+// change coords char,int ---> int,int 
 std::vector<coords> coords_translation(std::string s) {
     coords c1 {0,0};
     coords c2 {0,0};
@@ -63,21 +66,23 @@ std::vector<coords> coords_translation(std::string s) {
         // prima coordinata
         if((short) s1[0] > 73)	c1.first = (short) s1[0] - 67;
 	    else c1.first = (short) s1[0] - 65;
-        c1.second = stoi(s1.substr(1,2)) -1;
+        c1.second = stoi(s1.substr(1,2)) - 1;
     } else {
         if((short) s1[0] > 73)	c1.first = (short) s1[0] - 67;
 	    else c1.first = (short) s1[0] - 65;
-        c1.second = s[1] - '0' -1;
+        c1.second = s[1] - '0' - 1;
     }
     if(s2.length() == 3) {
         // seconda coordinata
         if((short) s2[0] > 73)	c2.first = (short) s2[0] - 67;
 	    else c2.first = (short) s2[0] - 65;
         c2.second = stoi(s2.substr(1,2)) -1;
-    } else {
+    } else if(s2.length() == 2){
         if((short) s2[0] > 73)	c2.first = (short) s2[0] - 67;
 	    else c2.first = (short) s2[0] - 65;
         c2.second = s2[1] - '0' -1; // es. conversione '0' -> 0
+    } else {
+        throw std::invalid_argument("Inserisci le coordinate in modo corretto \n");
     }
     std::vector<coords> v;
     v.push_back(c1);
@@ -85,23 +90,17 @@ std::vector<coords> coords_translation(std::string s) {
     return v;
 }
 
-// ottengo il centro da due coordinate
-// siccome gestiamo la matrice da 0 a 11 qui sottraggo uno a quello che inserisce l'utente ottenendo il risultato corretto per l'inserimento
+
 coords get_center(std::vector<coords> v) {
     // se i primi due sono uguali è orizzontale
     if(v[0].first == v[1].first) return coords(v[0].first, (v[0].second + v[1].second)/2);
     else return coords((v[0].first + v[1].first)/2, v[0].second);
 }
 
-// non gestisco la barca in diagonale per il momento, sarebbe errore
-/* asset get_asset(std::vector<coords> v, char letter) {
-    if(v[0].first == v[1].first) return asset::Horizontal;
-    else return asset::Vertical;
-} */
 asset get_asset(std::vector<coords> v, char letter){
     switch(letter){
         case 'e':
-            if(v[0] != v[1]) throw std::invalid_argument("L'esploratore deve avere poppa e prua uguali");
+            if(v[0] != v[1]) throw std::invalid_argument("L'esploratore deve avere stern e prow uguali");
 
             else return asset::Horizontal; //default choice
         break;
@@ -146,18 +145,15 @@ asset get_asset(std::vector<coords> v, char letter){
 
         break;
     }
+    return asset::Horizontal;
 }
 
-void print_coords(coords c) {
-    std::cout << "(" << c.first << "," << c.second << ")" << std::endl;
-}
-
-// generate random coords (0 to 11)
 coords generate_rnd_coords() {
     int x = rand() % 12;
     int y = rand() % 12;
     return coords(x,y);
 }
+
 asset generate_rnd_asset() {
     int x = rand() % 20;
     if(x%2 == 0) return asset::Horizontal;
