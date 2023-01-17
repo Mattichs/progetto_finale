@@ -13,6 +13,7 @@
 
 #include <utility>
 #include <vector>
+#include <string>
 
 //All possible way to place a ship
 enum class asset {Vertical, Horizontal}; 

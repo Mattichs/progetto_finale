@@ -47,12 +47,7 @@ void player::make_move(std::string s) {
     // switch to get the type of ship 
     switch(dg.get_ship(coords_vec[0])->get_alias()) {
         case 'C':
-            // if hit print colpito else print acqua
-            if(ag.fire(coords_vec[1])) {
-                std::cout << "COLPITO! \n";
-            } else {
-                std::cout << "ACQUA! \n";
-            }
+            ag.fire(coords_vec[1]);
         break;
         case 'S':
             // move and heal ship in range
