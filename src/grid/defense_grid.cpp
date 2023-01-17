@@ -124,6 +124,8 @@ void defense_grid::heal_ships(coords& c, coords& final_c){
 
 
 void defense_grid::move(coords& start, coords& end){
+    if(start == end) throw std::invalid_argument("Non ti puoi spostare rimanendo nella stessa casella \n");
+
     //retrives the ship
     ship* s = get_ship(start); 
     if(s->get_alias()!='S'&& s->get_alias()!='E')
