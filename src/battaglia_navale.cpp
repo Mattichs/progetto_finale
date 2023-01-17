@@ -1,16 +1,17 @@
 /* 
-    Bastianello Mattia
+    BASTIANELLO MATTIA
 */
 #include <iostream>
 #include "../include/grid/defense_grid.hpp"
 #include "../include/grid/attack_grid.hpp"
 #include "../include/utility.h"
+#include "../include/ship/insert_util.h"
 #include "../include/player.h"
+
 #include <ctime>
 #include <fstream>
 #include <cstdlib>
-#include <cstring>
-//#include <memory>
+#include <cstring> 
 
 /* 
     argc è un intero con il numero di argomenti passati a riga di comdando
@@ -48,83 +49,6 @@ int main(int argc, char *argv[]) {
     
    return 0; 
 }
-
-
-/* 
-    creo una corazzata randomicamente 
-    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
-*/
-corazzata create_corazzata(defense_grid& dg, std::vector<std::string>& out) {
-    bool status = false;
-    coords rnd;
-    asset rnd_asset;
-    
-    // creo 8 navi per avere 8 oggetti diversi e non avere problemi con la griglia
-
-    corazzata c;
-    while(!status) {
-            try { 
-                rnd = generate_rnd_coords();
-                rnd_asset = generate_rnd_asset();
-                c = corazzata(rnd_asset,rnd); 
-                dg.insert_ship(c);
-                out.push_back(to_string(rnd, rnd_asset, c.get_alias()));
-                status = true;
-            } catch(std::invalid_argument e) {
-                std::cout << e.what() << std::endl;
-            }
-    }
-    return c;  
-}
-
-/* 
-    creo un supporto randomicamente 
-    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
-*/
-supporto create_supporto(defense_grid& dg, std::vector<std::string>& out) {
-    bool status = false;
-    coords rnd;
-    asset rnd_asset;
-    
-    supporto s;
-    while(!status) {
-        try { 
-            rnd = generate_rnd_coords();
-            rnd_asset = generate_rnd_asset();
-            s = supporto(rnd_asset,rnd);
-            dg.insert_ship(s); 
-            out.push_back(to_string(rnd, rnd_asset, s.get_alias()));
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }
-    return s;
-}
-/* 
-    creo un esploratore randomicamente 
-    passo come parametri la griglia di difesa e un vettore di stringhe dove aggiungere le coordinate di prua e di poppa
-*/
-esploratore create_esploratore(defense_grid& dg, std::vector<std::string>& out) {
-    bool status = false;
-    coords rnd;
-    asset rnd_asset;
-    
-    esploratore e;
-    while(!status) {
-        try { 
-            rnd = generate_rnd_coords();
-            e = esploratore(rnd); 
-            dg.insert_ship(e);
-            out.push_back(to_string(rnd, rnd_asset, e.get_alias()));
-            status = true;
-        } catch(std::invalid_argument e) {
-            std::cout << e.what() << std::endl;
-        }
-    }
-    return e;
-}
-
 
 void computer_vs_computer() {
     defense_grid dg_bot1;
@@ -184,85 +108,6 @@ void computer_vs_computer() {
     outfile.close();    
 }
 
-corazzata insert_corazzata(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
-    bool status = false;
-    std::string s;
-    std::vector<coords> coords_vec;
-    coords center;
-    asset a;
-    corazzata c;
-    while(!status) {
-        try {
-            std::cout << "Inserisci posizione corazzata nr." << messaggio << std::endl;
-            std::getline(std::cin, s);
-            coords_vec = coords_translation(s);
-            center = get_center(coords_vec);
-            // ottengo e controllo
-            a = get_asset(coords_vec, 'c');
-            c = corazzata(a, center); 
-            dg.insert_ship(c);
-            out.push_back(s += "\n");
-            status = true;
-        }
-        catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
-        }
-    }
-    return c;
-}
-supporto insert_supporto(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
-    bool status = false;
-    std::string s;
-    std::vector<coords> coords_vec;
-    coords center;
-    asset a;
-    supporto supp;
-    while(!status) {
-        try {
-            std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
-            std::getline(std::cin, s);
-            coords_vec = coords_translation(s);
-            // ottengo e controllo
-            a = get_asset(coords_vec, 's');
-            center = get_center(coords_vec);
-            supp = supporto(a, center); 
-            dg.insert_ship(supp);
-            out.push_back(s+= "\n");
-            status = true;
-        }
-        catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
-        }
-    }
-    return supp;
-}
-esploratore insert_esploratore(std::string messaggio, defense_grid& dg, std::vector<std::string>& out)  {
-    bool status = false;
-    std::string s;
-    std::vector<coords> coords_vec;
-    coords center;
-    asset a;
-    esploratore e;
-    while(!status) {
-        try {
-            std::cout << "Inserisci posizione supporto nr." << messaggio << std::endl;
-            std::getline(std::cin, s);
-            coords_vec = coords_translation(s);
-            // ottengo e controllo
-            a = get_asset(coords_vec, 'e');
-            center = get_center(coords_vec);
-            e = esploratore( center); 
-            dg.insert_ship(e);
-            out.push_back(s += "\n");
-            status = true;
-        }
-        catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
-        }
-    }
-    return e;
-}
-
 void giocatore_vs_computer() {
     defense_grid dg_human;
     defense_grid dg_bot;
@@ -273,20 +118,18 @@ void giocatore_vs_computer() {
 	corazzata c1 = insert_corazzata("1", dg_human, out);	
     corazzata c2 = insert_corazzata("2", dg_human, out);	
     corazzata c3 = insert_corazzata("3", dg_human, out);	
-	//std::cout << dg_human;
+    std::cout << dg_human;
     supporto s1 = insert_supporto("1", dg_human, out); 
     supporto s2 = insert_supporto("2", dg_human, out); 
     supporto s3 = insert_supporto("3", dg_human, out);   
-    //std::cout << dg_human;
+    std::cout << dg_human;
     esploratore e1 = insert_esploratore("1", dg_human, out);
     esploratore e2 = insert_esploratore("2", dg_human, out);
-
     std::cout << dg_human;
       
     // bot
     // inizio inserimento barche casuale
     // creo 8 navi per avere 8 oggetti diversi e non avere problemi con la griglia
-
 
     corazzata bot_c1 = create_corazzata(dg_bot, out);
     corazzata bot_c2= create_corazzata(dg_bot, out);
@@ -303,44 +146,89 @@ void giocatore_vs_computer() {
     player bot_(dg_bot, ag_bot);
     
 
-    int turni_max = 20;
-    
-    // o finiscoo i turni oppure una delle due griglie non ha più barche
-    while(turni_max > 0 || dg_human.is_empty() || dg_bot.is_empty()) {
-        std::cout << "Coordinate per l'azione che vuoi eseguire \n";
-        std::getline(std::cin, s);
+    int turni_max = 30;
+    // choose who start
+    int choice = rand() % 20;
 
-        // mossa del player e inserimento su out
-        if(s == "AA AA") {
-            // sistemare sta parte o tenere continue?
-            ag_human.reset_enemy_pos();
-            continue;
-        } else if(s == "XX XX") {
-            std::cout << human;
-            continue;
-        } else {
-            try {
-                human.make_move(s);    
-                out.push_back(s += "\n");
-            }
-            catch(const std::exception& e) {
-                std::cerr << e.what() << '\n';
+    bool can_bot_make_move = true;
+    while(turni_max > 0) {
+        if(choice % 2 == 0) {
+            // player starts
+            std::cout << "Coordinate per l'azione che vuoi eseguire \n";
+            std::getline(std::cin, s);
+
+            // mossa del player e inserimento su out
+            if(s == "AA AA") {
+                // sistemare sta parte o tenere continue?
+                ag_human.reset_enemy_pos();
                 continue;
+            } else if(s == "XX XX") {
+                std::cout << human;
+                continue;
+            } else {
+                try {
+                    human.make_move(s);    
+                    out.push_back(s += "\n");
+                }
+                catch(const std::exception& e) {
+                    std::cerr << e.what() << '\n';
+                    continue;
+                }
             }
-        }
-        // controllo se human ha vinto
-        if(dg_bot.is_empty()) break;
+            // controllo se human ha vinto
+            if(dg_bot.is_empty()) break;
 
-        // il bot fa la mossa e la inserisco su out
-        out.push_back(bot_.rnd_move());
+            // il bot fa la mossa e la inserisco su out
+            out.push_back(bot_.rnd_move());
+            std::cout << "Il bot ha eseguito la sua mossa \n";
 
-        // controllo se il bot ha vinto
-        if(dg_human.is_empty()) break;
-        /* std::cout << "Griglia giocatore 1:"<< std::endl << human;
-        std::cout << "Griglia bot:"<< std::endl << bot_; */
+            // controllo se il bot ha vinto
+            if(dg_human.is_empty()) break;
+
+        } else {
+            // robot starts
+            // il bot fa la mossa e la inserisco su out
+            if(can_bot_make_move) {
+                out.push_back(bot_.rnd_move());
+                std::cout << "Il bot ha eseguito la sua mossa \n";
+            }
+            
+            // controllo se il bot ha vinto
+            if(dg_human.is_empty()) break;
+
+            std::cout << "Coordinate per l'azione che vuoi eseguire \n";
+            std::getline(std::cin, s);
+
+            // mossa del player e inserimento su out
+            if(s == "AA AA") {
+                // sistemare sta parte o tenere continue?
+                ag_human.reset_enemy_pos();
+                can_bot_make_move = false;
+                continue;
+            } else if(s == "XX XX") {
+                std::cout << human;
+                can_bot_make_move = false;
+                continue;
+            } else {
+                try {
+                    human.make_move(s);    
+                    out.push_back(s += "\n");
+                    can_bot_make_move = true;
+                }
+                catch(const std::exception& e) {
+                    std::cerr << e.what() << '\n';
+                    continue;
+                }
+            }
+            // controllo se human ha vinto
+            if(dg_bot.is_empty()) break;
+            
+        }  
         turni_max--;
-    } 
-     std::ofstream outfile ("file_log_pc.txt");
+    }
+    
+    // print to output file
+    std::ofstream outfile ("file_log_pc.txt");
 
     for(std::string row : out) {
         outfile << row;
