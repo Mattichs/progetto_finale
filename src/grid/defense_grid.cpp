@@ -15,15 +15,15 @@ defense_grid::defense_grid(){
     }
 }//end constructor defense_grid
 
-//returns a vector containing ship pointers
+
 std::vector<ship*> defense_grid::ship_in_range(coords& c){
     std::vector<ship*> ships;
     
     if(!valid_box(c)) throw std::invalid_argument("");
 
     else{
-     for(int i = 0; i < 3; i++){ //righe
-        for(int j = 0; j < 3; j++){ //colonne
+     for(int i = 0; i < 3; i++){ //rows
+        for(int j = 0; j < 3; j++){ //columns
             short x = c.first - 1 + i;
             short y = c.second - 1 + j;
             coords box = {x,y};
@@ -40,7 +40,6 @@ std::vector<ship*> defense_grid::ship_in_range(coords& c){
         
                         }
                         if(!res){
-                            //std::cout<<get_ship(box)<<'\n';
                             ships.push_back(get_ship(box));
                         }
                     }
@@ -49,11 +48,10 @@ std::vector<ship*> defense_grid::ship_in_range(coords& c){
         }
     }
     }
-    std::cout<<ships.size()<<'\n';
     return ships;
 }
 
-//checks if the given position contains a ship
+
 bool defense_grid::is_ship(coords& c){
     bool res=false;
     try{
@@ -68,43 +66,38 @@ void defense_grid::insert_ship(ship& s){
     coords center = s.get_center();
     asset asset = s.get_way();
     short length = s.get_length();
-    // posizioni occupate dalla barca
+    //postions to be occupied by the ship
     std::vector<coords> pos = get_position(center, length, asset);
     
-    // prima controllo che non ci siano già presenti navi nelle posizioni della nuova barca
+    // checks if the pos aren't already occupied
     for(coords el : pos) {
-        if(is_ship(el))
+        if(is_ship(el)||!valid_box(el))
             throw std::invalid_argument("nave presente nel punto scelto");
     }
-    // inserisco in griglia
+    // inserts the ship into the grid
     for(coords el : pos) {
         matrix[el.first][el.second]=&s;
     }
     ships.push_back(center);
 }
 
-//returns the element of the matrix at a given position
+
 ship* defense_grid::get_ship(coords& c){
     return matrix[c.first][c.second];
 }
 
-//retruns a char representing the ship at the given position
 char defense_grid::ship_at(coords& c){
     ship* s = get_ship(c);
     coords x = s->get_center();
     return s->print(c,x);
 }
 
-//this function returns true if a ship is hitted(you can hit the same part of a ship more then one time), false if the player misses
+
 bool defense_grid::fire(coords& c){
-    /* if(is_ship(c)){
-        get_ship(c)->get_hit(c);
-        return true;
-    }
-    return false; */
     if(is_ship(c)){
         ship* s=get_ship(c);
         s->get_hit(c);
+        //if the ship dies, clear_position is called
         if( s->is_dead())
             clear_position(*s);
         return true;
@@ -116,7 +109,7 @@ std::vector<coords> defense_grid::get_ships(){
     return ships;
 }
 
-//heal for about 1 hp all the ship in a 3x3 square
+//heals all the ships in a 3x3 square
 void defense_grid::heal_ships(coords& c, coords& final_c){
     // provo a muovere la barca 
     move(c, final_c);
@@ -161,6 +154,7 @@ void defense_grid::clear_position(ship& s){
     asset asset = s.get_way();
     short length = s.get_length();
     std::vector<coords> pos = get_position(center, length, asset);
+    //clears the ship's positions
     for(coords el : pos){
         matrix[el.first][el.second]=&water;
     }
@@ -178,7 +172,8 @@ char defense_grid::get_pos(int i, int j) {
     else
         return matrix[i][j]->get_alias();
 }
-//checks if the given position is the center of a ship
+
+
 bool defense_grid::is_center(coords& c){
     for(coords el:ships){
         if(el==c)
