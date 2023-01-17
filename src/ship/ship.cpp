@@ -1,7 +1,12 @@
 #include "../include/ship/ship.h"
 #include <stdexcept>
 #include <vector>
-#include <iostream>
+
+/*
+*
+*
+*
+*/
 
 ship::ship(asset _way, coords& _center) {
     way = _way;
@@ -46,7 +51,6 @@ char ship::print(coords& target, coords& center){
     positions = get_position(center, length, way);
 
     for(int i = 0; i < length; i++){
-        //std::cout << "hp:" << hp[i] << " \n";
         if(target.first == positions[i].first && target.second == positions[i].second){
             if(hp[i] == 0) { 
                 return tolower(alias);

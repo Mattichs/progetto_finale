@@ -5,6 +5,18 @@
 #include <utility>
 #include <vector>
 
+/*
+*@file ship.h
+*@author Christian Poli (christian.poli.1@studenti.unipd.it)
+*
+*@brief The interface consists in creation of generic ship class
+*
+*@date 17-01-2023 
+*
+*/
+
+
+
 class ship {
 		protected:
 			asset way = asset::Horizontal;

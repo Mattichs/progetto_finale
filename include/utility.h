@@ -24,14 +24,6 @@ std::string get_prow_stern(coords& c, asset a, char alias);
 std::string two_coords_to_string(coords& c1, coords& c2);
 
 /**
- * @brief change input string in two coords returned in a std::vector
- * 
- * @param s as 'std::string'
- * @return std::vector<coords> 
- */
-std::vector<coords> coords_translation(std::string s);
-
-/**
  * @brief Get the center of the ship 
  * 
  * @param v as 'std::vector<coords>'
