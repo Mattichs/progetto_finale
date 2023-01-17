@@ -1,11 +1,15 @@
 #include "../include/ship/ship.h"
 #include <stdexcept>
-#include <vector>
 
-/*
-*
-*
-*
+/**
+ * 
+ * @file ship.cpp
+ * @author Christian Poli (christian.poli.1@studenti.unipd.it)
+ * 
+ * @brief Implementation of ship.h
+ * 
+ * @date 2023-01-17 
+ * 
 */
 
 ship::ship(asset _way, coords& _center) {
@@ -14,19 +18,24 @@ ship::ship(asset _way, coords& _center) {
 }
 
 char ship::get_alias() const { return alias; }
+
 asset ship::get_way() const { return way; }
+
 std::vector<short> ship::get_hp() const { return hp; }
+
 short ship::get_length() const { return length; }
+
 coords ship::get_center() const {return center; }
-void ship::set_center(coords& c) { center = c;}
+
+void ship::set_center(coords& _center) { center = _center;}
 
 void ship::get_hit(coords& target){
     std::vector<coords> positions;
-    positions = get_position(center, length, way);
+    positions = get_position(center, length, way); //Take all position occupied by the ship
     
     for(int i = 0; i < length; i++){
-        if(positions[i].first == target.first && positions[i].second == target.second)
-            hp[i] = 0;
+        if(positions[i].first == target.first && positions[i].second == target.second) //When we have the hit position we change the hp
+            hp[i] = 0;                                                                 //that represents that piece of the ship
     }
 }
 
@@ -37,7 +46,7 @@ bool ship::is_dead(){
         if(hp[i] == 0) count++;    
     }
     
-    return hp.size() == count;
+    return hp.size() == count; 
 }
 
 void ship::heal(){

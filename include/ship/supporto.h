@@ -3,14 +3,14 @@
 
 #include "ship.h"
 
-/*
-*@file supporto.h
-*@author Christian Poli (christian.poli.1@studenti.unipd.it)
-*
-*@brief The interface of the ship "supporto"
-*
-*@date 17-01-2023 
-*
+/**
+ * 
+ * @file supporto.h
+ * @author Christian Poli (christian.poli.1@studenti.unipd.it)
+ * 
+ * @brief This interface consists in the creation of specific ship supporto
+ * 
+ * @date 2023-01-17
 */
 
 class supporto : public ship {

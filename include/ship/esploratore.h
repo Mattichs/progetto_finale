@@ -3,14 +3,15 @@
 
 #include "ship.h"
 
-/*
-*@file esploratore.h
-*@author Christian Poli (christian.poli.1@studenti.unipd.it)
-*
-*@brief The interface of the ship "esploratore"
-*
-*@date 17-01-2023 
-*
+/**
+ * 
+ * @file esploratore.h
+ * @author Christian Poli (christian.poli.1@studenti.unipd.it)
+ * 
+ * @brief This interface consists in the creation of specific ship esploratore
+ * 
+ * @date 2023-01-17 
+ * 
 */
 
 class esploratore : public ship {

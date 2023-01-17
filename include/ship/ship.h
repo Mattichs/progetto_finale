@@ -2,20 +2,17 @@
 #define SHIP_H
 
 #include "movement.h"
-#include <utility>
-#include <vector>
 
-/*
-*@file ship.h
-*@author Christian Poli (christian.poli.1@studenti.unipd.it)
-*
-*@brief The interface consists in creation of generic ship class
-*
-*@date 17-01-2023 
-*
+/**
+ * 
+ * @file ship.h
+ * @author Christian Poli (christian.poli.1@studenti.unipd.it)
+ * 
+ * @brief This interface consists in the creation of generic ship class
+ * 
+ * @date 2023-01-17 
+ * 
 */
-
-
 
 class ship {
 		protected:
@@ -29,28 +26,29 @@ class ship {
 			ship() {}
 			ship(asset way, coords& center);
 			
-			//Get alias for each piece
+			//Get alias for each ship (C | E | S)
 			char get_alias() const;
 
 			//Get the way (Horizzontal | Vertical) of the ship
 			asset get_way() const;
 
-			//Get a vector of short representing the state of each "piece" of the ship
+			//Get a vector of short representing the state of each "piece" of the ship (as many pieces as the ship is long)
 			//0 --> hit, 1 --> not hit
 			std::vector<short> get_hp() const;
 
 			//Get the length of the ship
 			short get_length() const;
 			
-			//Change the hp assigned to the "piece" of the ship to 0
-			void get_hit(coords&);
-
 			//Get the center of the ship	
 			coords get_center() const;
+
+			//Change the hp assigned to the "piece" of the ship to 0
+			void get_hit(coords&);
 			
-			// Set center
+			// Set center of the ship
 			void set_center(coords& c);
-			//Check the vector hp, if all shorts are 0 the ship is "dead"
+
+			//Check the vector hp, if all shorts are 0 the ship is "dead" and the method return true
 			bool is_dead();	
 
 			//"Restore" hp assigning 1 to all shorts

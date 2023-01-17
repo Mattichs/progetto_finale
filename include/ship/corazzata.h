@@ -3,14 +3,15 @@
 
 #include "ship.h"
 
-/*
-*@file corazzata.h
-*@author Christian Poli (christian.poli.1@studenti.unipd.it)
-*
-*@brief The interface of the ship "corazzata"
-*
-*@date 17-01-2023
-*
+/**
+ * 
+ * @file corazzata.h
+ * @author Christian Poli (christian.poli.1@studenti.unipd.it)
+ * 
+ * @brief This interface consists in the creation of specific ship corazzata
+ * 
+ * @date 2023-01-17 
+ * 
 */
 
 class corazzata : public ship {
