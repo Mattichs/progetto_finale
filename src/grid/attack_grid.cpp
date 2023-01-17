@@ -23,7 +23,7 @@ bool attack_grid::fire(coords& c){
     //water
     matrix[c.first][c.second]='O';
     return false;
-}
+}//end fire
 
 void attack_grid::enemy_ships(coords& c){
     if(!valid_box(c)) 
@@ -50,7 +50,7 @@ void attack_grid::enemy_ships(coords& c){
     for(coords el : enemy_positions){
         matrix[el.first][el.second]='Y';
     } 
-}
+}//end enemy_ships
 
  void attack_grid::reset_enemy_pos(){
     for(coords el:enemy_positions){
@@ -59,7 +59,7 @@ void attack_grid::enemy_ships(coords& c){
             matrix[el.first][el.second]=' ';
     }
     enemy_positions.clear();
- }
+ }//end reset_enemy_pos
 
 
 std::ostream& operator <<(std::ostream& os,const  attack_grid& ag){
@@ -84,4 +84,4 @@ std::ostream& operator <<(std::ostream& os,const  attack_grid& ag){
     }
     os << "\n";
     return os; 
-}
+}//end <<

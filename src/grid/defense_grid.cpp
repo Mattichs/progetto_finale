@@ -13,10 +13,10 @@ defense_grid::defense_grid(){
         for(int j=0;j<12;j++)
             matrix[i][j]=&water;
     }
-}//end constructor defense_grid
+}//end defense_grid's constructor 
 
 
-std::vector<ship*> defense_grid::ship_in_range(coords& c){
+std::vector<ship*> defense_grid::ships_in_range(coords& c){
     std::vector<ship*> ships;
     
     if(!valid_box(c)) throw std::invalid_argument("");
@@ -34,11 +34,11 @@ std::vector<ship*> defense_grid::ship_in_range(coords& c){
                     if( get_ship(box)!=get_ship(c)){
                         bool res=false;
                         for(ship* el:ships){
-                            //std::cout<<(el==get_ship(box))<<'\n';
                             if(el==get_ship(box))
                                 res=(el==get_ship(box));
         
                         }
+                        //res is true when the ship has already been found
                         if(!res){
                             ships.push_back(get_ship(box));
                         }
@@ -49,7 +49,7 @@ std::vector<ship*> defense_grid::ship_in_range(coords& c){
     }
     }
     return ships;
-}
+}//end ships_in_range
 
 
 bool defense_grid::is_ship(coords& c){
@@ -79,27 +79,27 @@ void defense_grid::insert_ship(ship& s){
         matrix[el.first][el.second]=&s;
     }
     ships.push_back(center);
-}
+}//end insert_ship
 
 
 ship* defense_grid::get_ship(coords& c){
     return matrix[c.first][c.second];
-}
+}//end get_ship
 
 char defense_grid::ship_at(coords& c){
     ship* s = get_ship(c);
     coords x = s->get_center();
     return s->print(c,x);
-}
+}//end ship_at
 
 
 bool defense_grid::fire(coords& c){
     if(is_ship(c)){
         ship* s=get_ship(c);
         s->get_hit(c);
-        //if the ship dies, clear_position is called
+        //if the ship dies, clear_positions is called
         if( s->is_dead())
-            clear_position(*s);
+            clear_positions(*s);
         return true;
     }
     return false;
@@ -107,20 +107,20 @@ bool defense_grid::fire(coords& c){
 
 std::vector<coords> defense_grid::get_ships(){
     return ships;
-}
+}//end get_ships
 
-//heals all the ships in a 3x3 square
+
 void defense_grid::heal_ships(coords& c, coords& final_c){
-    // provo a muovere la barca 
+    // moves the ship
     move(c, final_c);
-    // creo il quadrato di griglia in cui curare
-    std::vector<ship*> ships = ship_in_range(final_c);
+    // finds the ships to heal
+    std::vector<ship*> ships = ships_in_range(final_c);
     if(ships.size() != 0){
         for(ship* el : ships){
             el->heal();
         }
     }
-}
+}//end heal_ships
 
 
 void defense_grid::move(coords& start, coords& end){
@@ -141,17 +141,17 @@ void defense_grid::move(coords& start, coords& end){
         if(is_ship(el)&&get_ship(el)!=s)
             throw std::invalid_argument("Posizione occupata da un'altra nave");
     }
-    clear_position(*s);
+    clear_positions(*s);
     //inserts the ship into the new positions
     for(coords el : new_pos){
         matrix[el.first][el.second] = s;
     }
     ships.push_back(end);
     s->set_center(end);
-}
+}//end move
 
-//clears the position of a given ship
-void defense_grid::clear_position(ship& s){
+
+void defense_grid::clear_positions(ship& s){
     coords center = s.get_center();
     asset asset = s.get_way();
     short length = s.get_length();
@@ -165,7 +165,7 @@ void defense_grid::clear_position(ship& s){
         if(center.first==ships[i].first&&center.second==ships[i].second)
             ships.erase(ships.begin()+i);
     }
-}
+}//end clear_positions
 
 char defense_grid::get_pos(int i, int j) {
     coords c = coords(i,j);
@@ -173,7 +173,7 @@ char defense_grid::get_pos(int i, int j) {
         return ship_at(c);
     else
         return matrix[i][j]->get_alias();
-}
+}//end get_pos
 
 
 bool defense_grid::is_center(coords& c){
@@ -182,14 +182,14 @@ bool defense_grid::is_center(coords& c){
             return true;
     }
     return false;
-}
+}//end is_center
 
-//checks if the grid contains ships 
+ 
 bool defense_grid::is_empty(){
     if(ships.size()==0)
         return true;
     return false;
-}
+}//end is_empty
 
 std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     for(int i=0;i<12;i++){
@@ -218,4 +218,4 @@ std::ostream& operator <<(std::ostream& os,  defense_grid& dg){
     }
     os << "\n";
     return os; 
-}
+}//end <<
