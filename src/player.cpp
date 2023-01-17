@@ -62,44 +62,44 @@ void player::make_move(std::string s) {
 
 std::ostream& operator << (std::ostream& os,  player& p) {
     os << "Griglia di difesa";
-    for(int i = 0 ; i <25; i++) {
+    for(int i = 0 ; i <39; i++) {
         os << " ";
     }
     os<< "Griglia di attacco \n"; 
     for(int i = 0; i < 12; i++){
         if(i < 9) {
-            os << (char)(i + 'A') << " ";
+            os << (char)(i + 'A') << " | ";
         } else {
-            os << (char)(i + 2 + 'A') << " ";
+            os << (char)(i + 2 + 'A') << " | ";
         }     
         for(int j = 0 ; j < 12; j++){
-            os << p.dg.get_pos(i,j) << "  ";
+            os << p.dg.get_pos(i,j) << " | ";
         }
         os << "    ";
         if(i < 9) {
-            os << (char)(i + 'A') << " ";
+            os << (char)(i + 'A') << " | ";
         } else {
-            os << (char)(i + 2 + 'A') << " ";
+            os << (char)(i + 2 + 'A') << " | ";
         } 
         for(int j = 0 ; j < 12; j++){
-            os << p.ag.get_pos(i,j) << "  ";
+            os << p.ag.get_pos(i,j) << " | ";
         }
         os << '\n';
     }
-    os << "  ";
+    os << "    ";
     for(int i = 0; i < 12; i++) {
         if( i < 8) {
-            os << i + 1 << "  ";
+            os << i + 1 << "   ";
         } else {
-            os << i + 1 << " ";
+            os << i + 1 << "  ";
         }
     }
-    os << "       ";
+    os << "         ";
     for(int i = 0; i < 12; i++) {
         if( i < 8) {
-            os << i + 1 << "  ";
+            os << i + 1 << "   ";
         } else {
-            os << i + 1 << " ";
+            os << i + 1 << "  ";
         }
     } 
     os << "\n";
