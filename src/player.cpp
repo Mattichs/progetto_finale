@@ -1,13 +1,11 @@
 /*  
-    Bastianello Mattia
+    BASTIANELLO MATTIA
 */
 #include "../include/player.h"
-#include <cstdlib>
-
 
 // player makes random move
 std::string player::rnd_move() {
-    std::cout << "Random move \n"; 
+    //std::cout << "Random move \n"; 
     std::vector<coords> all_center = dg.get_ships();
     int choice = rand() % all_center.size();
     bool status = false;
@@ -15,28 +13,27 @@ std::string player::rnd_move() {
     while(!status) {
         try {
             second_coord = generate_rnd_coords();
-            //print_coords(second_coord);
             if(dg.get_ship(all_center[choice])->get_alias() == 'C') {
                 // corazzata
-                std::cout << "sparo \n"; // ???
+                //std::cout << "sparo \n"; 
                 ag.fire(second_coord);
             } else if (dg.get_ship(all_center[choice])->get_alias() == 'E') {
                 // esploratore
-                std::cout << "spotto \n";
+                //std::cout << "spotto \n";
                 dg.move(all_center[choice], second_coord);
                 ag.enemy_ships(second_coord);
             } else {
                 // supporto
-                std::cout << "curo \n";
+                //std::cout << "curo \n";
                 dg.heal_ships(all_center[choice], second_coord);
             }
             status = true;
         }
-        catch(const std::exception& e) {
+        catch(const std::invalid_argument& e) {
             std::cerr << e.what() << '\n';
         }
     }
-    return to_string_helper(all_center[choice], second_coord);
+    return two_coords_to_string(all_center[choice], second_coord);
 }
 
 void player::make_move(std::string s) {
@@ -46,7 +43,11 @@ void player::make_move(std::string s) {
     // switch per capire che barca ha selezionato il player
     switch(dg.get_ship(coords_vec[0])->get_alias()) {
         case 'C':
-            ag.fire(coords_vec[1]);
+            if(ag.fire(coords_vec[1])) {
+                std::cout << "COLPITO! \n";
+            } else {
+                std::cout << "ACQUA! \n";
+            }
         break;
         case 'S':
             dg.heal_ships(coords_vec[0], coords_vec[1]);
@@ -60,7 +61,11 @@ void player::make_move(std::string s) {
 }
 
 std::ostream& operator << (std::ostream& os,  player& p) {
-    os << "Griglia di difesa" << "\t \t \t" << "Griglia di attacco \n"; 
+    os << "Griglia di difesa";
+    for(int i = 0 ; i <25; i++) {
+        os << " ";
+    }
+    os<< "Griglia di attacco \n"; 
     for(int i = 0; i < 12; i++){
         if(i < 9) {
             os << (char)(i + 'A') << " ";
@@ -70,7 +75,7 @@ std::ostream& operator << (std::ostream& os,  player& p) {
         for(int j = 0 ; j < 12; j++){
             os << p.dg.get_pos(i,j) << "  ";
         }
-        os << "\t";
+        os << "    ";
         if(i < 9) {
             os << (char)(i + 'A') << " ";
         } else {
@@ -89,7 +94,7 @@ std::ostream& operator << (std::ostream& os,  player& p) {
             os << i + 1 << " ";
         }
     }
-    os << "\t  ";
+    os << "       ";
     for(int i = 0; i < 12; i++) {
         if( i < 8) {
             os << i + 1 << "  ";

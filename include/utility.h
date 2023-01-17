@@ -1,3 +1,6 @@
+/* 
+    BASTIANELLO MATTIA
+*/
 #ifndef UTILITY_H
 #define UTILITY_H
 
@@ -8,25 +11,55 @@
 #include <ctime>
 #include <cstdlib>
 
-std::string to_string(coords& c, asset a , char alias);
-std::string to_string_helper(coords& c1, coords& c2);
 
-// cambio coordinate char,int ---> int,int 
+/**
+ * @brief Get the prow stern object
+ * 
+ * @param c as 'coords&'
+ * @param a as 'asset'
+ * @param alias as 'char'
+ * @return std::string 
+ */
+std::string get_prow_stern(coords& c, asset a, char alias);
+std::string two_coords_to_string(coords& c1, coords& c2);
+
+/**
+ * @brief change input string in two coords returned in a std::vector
+ * 
+ * @param s as 'std::string'
+ * @return std::vector<coords> 
+ */
 std::vector<coords> coords_translation(std::string s);
 
-// ottengo il centro da due coordinate
-// siccome gestiamo la matrice da 0 a 11 qui sottraggo uno a quello che inserisce l'utente ottenendo il risultato corretto per l'inserimento
+/**
+ * @brief Get the center of the ship 
+ * 
+ * @param v as 'std::vector<coords>'
+ * @return coords 
+ */
 coords get_center(std::vector<coords> v);
 
-
-// non gestisco la barca in diagonale per il momento, sarebbe errore
+/**
+ * @brief Get the asset of the ship
+ * 
+ * @param v as 'std::vector<coords>'
+ * @param letter as 'char'
+ * @return asset 
+ */
 asset get_asset(std::vector<coords> v, char letter);
 
-void print_coords(coords c);
-
-// generate random coords (0 to 11)
+/**
+ * @brief generate random coords range of x,y [0,11]
+ * 
+ * @return coords 
+ */
 coords generate_rnd_coords();
 
+/**
+ * @brief generate random asset
+ * 
+ * @return asset 
+ */
 asset generate_rnd_asset();
 
 #endif
