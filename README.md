@@ -20,7 +20,8 @@ REPLAY
 SPECIFICHE DI GIOCO
 - L'utente inserisce le coordinate esclusivamente come [lettera maiuscola/numero] [lettera maiuscola/numero] , in caso contrario il programma chiederà di reinserire le coordinate in modo corretto.
 - Nel caso di gioco tra due bot non scelgo chi inizia con la casualità siccome è già tutto random, nel caso di bot vs player invece c'è una scelta casuale su chi inizia
-
+- Nel caso del gioco contro bot ogni volta che l'utente finisce di inserire un tipo di barca, la griglia viene stampata per dare un feedback visivo.
+- I comandi speciali, siccome non sono utili allo svilppo della partita non sono presenti sul file di log
 
  IMPLEMENTAZIONE DELLE GRIGLIE
  - Le griglie sono state gestiste con delle matrici e dei vettori di supporto. 

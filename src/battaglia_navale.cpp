@@ -126,6 +126,11 @@ void giocatore_vs_computer() {
 
     std::vector<std::string> out;
 
+    // choose who start, choice can be 1 or 0
+    int choice = rand() % 2;
+    std::string choice_string = std::to_string(choice) += "\n";
+    out.push_back(choice_string);
+
     // human insert
 	corazzata c1 = insert_corazzata("1", dg_human, out);	
     corazzata c2 = insert_corazzata("2", dg_human, out);	
@@ -158,12 +163,10 @@ void giocatore_vs_computer() {
     
 
     int turni_max = 30;
-    // choose who start
-    int choice = rand() % 20;
-
     bool can_bot_make_move = true;
     while(turni_max > 0) {
-        if(choice % 2 == 0) {
+        try {
+            if(choice % 2 == 0) {
             // player starts
             std::cout << "Coordinate per l'azione che vuoi eseguire \n";
             std::getline(std::cin, s);
@@ -234,6 +237,10 @@ void giocatore_vs_computer() {
             
         }  
         turni_max--;
+        } catch(const std::exception& e) {
+            // can give stoi conversion error in conversion for 'AA AA' or 'XX XX'
+            std::cerr << e.what() << '\n';
+        }
     }
     
     // print to output file

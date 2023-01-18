@@ -1,5 +1,6 @@
 #include "../include/ship/movement.h"
 #include <stdexcept>
+#include <iostream>
 
 /**
  * 

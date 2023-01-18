@@ -78,8 +78,23 @@ void replay_file(char* file_log, char* file_output) {
         attack_grid ag_player1(dg_player2);
         attack_grid ag_player2(dg_player1);
         
-        // first player
+        // control who start first
+        int start = 0;
         std::getline(log_file, s);
+        try {
+            if(stoi(s)%2 == 1){
+                start = 1;
+                std::getline(log_file, s);
+            } else {
+                std::getline(log_file, s);
+            }
+        }
+        catch(const std::exception& e) {
+            // order is not important
+            std::cerr << e.what() << '\n';
+        }
+        
+        // first player
         corazzata c1_p1 = insert_corazzata(dg_player1, s);
         std::getline(log_file, s);
         corazzata c2_p1 = insert_corazzata(dg_player1, s);
@@ -122,18 +137,42 @@ void replay_file(char* file_log, char* file_output) {
         // change output to the file_output
         std::cout.rdbuf(out.rdbuf()); 
         
-        while(std::getline(log_file, s)) {
-           std::cout << "Griglia giocatore 1:"<< std::endl << player1;
-           std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-           player1.make_move(s);
-           // if player 1 wins break break;
-           if(dg_player2.is_empty()) break;
-           std::getline(log_file, s);
-           player2.make_move(s);
-        }
-        std::cout << "Griglia giocatore 1:"<< std::endl << player1;
-        std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-               
+        // player 1 first
+        if(start == 0) {
+            std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+            while(std::getline(log_file, s)) {
+                player1.make_move(s);
+                 // if player 1 wins break
+                if(dg_player2.is_empty()) break;
+
+                std::getline(log_file, s);
+                player2.make_move(s);
+                std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+                std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+            }
+            std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+                    
+        } else {
+            // reverse player order 
+            std::cout << "Griglia giocatore 1:"<< std::endl << player2;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player1;
+
+            while(std::getline(log_file, s)) {
+                player2.make_move(s);
+                 // if player 1 wins break
+                if(dg_player1.is_empty()) break;
+
+                std::getline(log_file, s);
+                player1.make_move(s);
+                std::cout << "Griglia giocatore 1:"<< std::endl << player2;
+                std::cout << "Griglia giocatore 2:"<< std::endl << player1;
+            }
+            std::cout << "Griglia giocatore 1:"<< std::endl << player2;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player1;
+                  
+        }   
         // reset to standard output
         std::cout.rdbuf(coutbuf); 
         out.close();
@@ -156,14 +195,29 @@ void replay_terminale(char* file_log) {
     // if file is open correctly do replay else thow std::invalid_argument
     if(log_file.is_open()) {
         // read all file lines
-
+        
         defense_grid dg_player1;
         defense_grid dg_player2;
         attack_grid ag_player1(dg_player2);
         attack_grid ag_player2(dg_player1);
-        
-        // first player
+
+         // control who start first
+        int start = 0;
         std::getline(log_file, s);
+        try {
+            if(stoi(s)%2 == 1){
+                start = 1;
+                std::getline(log_file, s);
+            } else {
+                std::getline(log_file, s);
+            }
+        }
+        catch(const std::exception& e){
+            // order is not important
+            std::cerr << "replay bot vs bot" << '\n';
+        }
+
+        // first player
         corazzata c1_p1 = insert_corazzata(dg_player1, s);
         std::getline(log_file, s);
         corazzata c2_p1 = insert_corazzata(dg_player1, s);
@@ -201,22 +255,45 @@ void replay_terminale(char* file_log) {
         player player1(dg_player1, ag_player1);
         player player2(dg_player2, ag_player2);
 
-        std::cout << "Griglia giocatore 1:"<< std::endl << player1;
-        std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-        while(std::getline(log_file, s)) {
-            player1.make_move(s);
-            if(dg_player2.is_empty()) {
-                // if player 1 wins break
-                std::cout << "Griglia giocatore 1:"<< std::endl << player1;
-                std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-                break;
-            }
-            std::getline(log_file, s);
-            player2.make_move(s);
+        // player 1 first
+        if(start == 0) {
             std::cout << "Griglia giocatore 1:"<< std::endl << player1;
             std::cout << "Griglia giocatore 2:"<< std::endl << player2;
-            sleep(5);
+            while(std::getline(log_file, s)) {
+                player1.make_move(s);
+                 // if player 1 wins break
+                if(dg_player2.is_empty()) break;
+
+                std::getline(log_file, s);
+                player2.make_move(s);
+                std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+                std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+                sleep(5);
+            }
+            std::cout << "Griglia giocatore 1:"<< std::endl << player1;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player2;
+                    
+        } else {
+            // reverse player order 
+            std::cout << "Griglia giocatore 1:"<< std::endl << player2;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player1;
+
+            while(std::getline(log_file, s)) {
+                player2.make_move(s);
+                 // if player 1 wins break
+                if(dg_player1.is_empty()) break;
+
+                std::getline(log_file, s);
+                player1.make_move(s);
+                std::cout << "Griglia giocatore 1:"<< std::endl << player2;
+                std::cout << "Griglia giocatore 2:"<< std::endl << player1;
+                sleep(5);
+            }
+            std::cout << "Griglia giocatore 1:"<< std::endl << player2;
+            std::cout << "Griglia giocatore 2:"<< std::endl << player1;
+                  
         }
+        
         
     } else { 
         std::cout << "Impossibile aprire il file";

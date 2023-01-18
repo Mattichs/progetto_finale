@@ -38,7 +38,7 @@ void attack_grid::enemy_ships(coords& c){
                 if(dgrid.is_ship(box)){
                     bool res=false;
                     for(coords el:enemy_positions)
-                            res=(matrix[box.first][box.second]=='X');
+                            res=((matrix[box.first][box.second])=='X');
                     //res is true if the spotted ship has been already hit
                     if(!res)
                         enemy_positions.push_back(box);
