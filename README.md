@@ -1,24 +1,25 @@
 # progetto_finale
 
+GRUPPO: "Non è un bug, è una feature"
+
 COMANDI CMAKE
 cmake . 
 make 
 
-COMANDI PER ESEGUIRE I FILE
+COMANDI PER ESEGUIRE I FILE, SEMPRE NELLA STESSA DIRECTORY IN CUI C'E' CMAKELISTS.TXT
 
 PARTITA
 - Partita player vs computer: ./battaglia_navale -pc 
 - Partita computer vs computer: ./battaglia_navale -cc
 
 REPLAY
-- Replay su terminale (con delay tra un turno e l'altro di 10 sec): ./replay -v nome_file_log
+- Replay su terminale (con delay tra un turno e l'altro di 5 sec): ./replay -v nome_file_log
 - Replay su file: ./replay -f nome_file_log nome_file_output
 
 
 SPECIFICHE DI GIOCO
-- L'utente inserisce le coordinate esclusivamente come lettera maiuscola/numero, in caso contrario il programma chiederà di reinserire le coordinate in modo corretto
-
-
+- L'utente inserisce le coordinate esclusivamente come [lettera maiuscola/numero] [lettera maiuscola/numero] , in caso contrario il programma chiederà di reinserire le coordinate in modo corretto.
+- Nel caso di gioco tra due bot non scelgo chi inizia con la casualità siccome è già tutto random, nel caso di bot vs player invece c'è una scelta casuale su chi inizia
 
 
  IMPLEMENTAZIONE DELLE GRIGLIE
@@ -29,9 +30,3 @@ SPECIFICHE DI GIOCO
  - La griglia d'attacco è composta da una griglia di caratteri, un vettore di coordinate che rappresenta le posizioni delle navi nemiche e una reference ad una griglia di difesa per gestire l'aggiornamento delle navi. Abbiamo deciso di non gestire il reset delle 'X'. 
  
 
-
- //TODO 
- - aggiungere commenti
- - spostare funzioni dai due main
- - cmake ottimizzato come vuole il prof
- - sistemare out su file (cambiare tab con spazi o con for di spazi)
