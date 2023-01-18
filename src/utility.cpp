@@ -50,7 +50,6 @@ std::string two_coords_to_string(coords& c1, coords& c2) {
     if(letter > 'I') s += (letter +=2);
     else s += (char)('A' + c2.first);
     s += std::to_string(c2.second+1) += '\n';
-    std::cout << s << std::endl;
     return s;
 }
 

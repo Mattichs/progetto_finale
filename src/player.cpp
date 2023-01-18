@@ -5,7 +5,6 @@
 
 // player makes random move
 std::string player::rnd_move() {
-    //std::cout << "Random move \n"; 
     // get all possible ship centers
     std::vector<coords> all_center = dg.get_ships();
     // make random choice
@@ -32,9 +31,7 @@ std::string player::rnd_move() {
             }
             status = true;
         }
-        catch(const std::invalid_argument& e) {
-            std::cerr << e.what() << '\n';
-        }
+        catch(const std::invalid_argument& e){}
     }
     return two_coords_to_string(all_center[choice], second_coord);
 }
