@@ -7,10 +7,10 @@
 #include <vector>
 #include <string>
 #include <iostream>
-#include "../include/ship/movement.h"
 #include <ctime>
 #include <cstdlib>
 
+#include "../include/ship/movement.h"
 
 /**
  * @brief Get the prow stern object
@@ -21,6 +21,13 @@
  * @return std::string 
  */
 std::string get_prow_stern(coords& c, asset a, char alias);
+/**
+ * @brief convert two coords in std::string
+ * 
+ * @param c1 as 'coords&'
+ * @param c2 as 'coords&'
+ * @return std::string 
+ */
 std::string two_coords_to_string(coords& c1, coords& c2);
 
 /**
