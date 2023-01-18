@@ -63,7 +63,7 @@ coords get_center(std::vector<coords> v) {
 asset get_asset(std::vector<coords> v, char letter){
     switch(letter){
         case 'e':
-            if(v[0] != v[1]) throw std::invalid_argument("L'esploratore deve avere stern e prow uguali");
+            if(v[0] != v[1]) throw std::invalid_argument("L'esploratore deve avere poppa e prua uguali");
 
             else return asset::Horizontal; //default choice
         break;

@@ -41,7 +41,7 @@ class defense_grid : public grid {
 
         /// @brief clears all the positions of a given ship in the matrix 
         /// @param s ship to clear
-        void clear_position(ship& s);
+        void clear_positions(ship& s);
 
         /// @brief rerturns a ship at a given position
         /// @param c position of the ship
@@ -71,7 +71,7 @@ class defense_grid : public grid {
         /// @brief finds the ships in a 3x3 square having a ship as its center
         /// @param c center of the ship
         /// @return vector containing pointers of the ships that have been found
-        std::vector<ship*> ship_in_range(coords& c);
+        std::vector<ship*> ships_in_range(coords& c);
 
         /// @brief returns the ships vector
         /// @return vector containing all the centers of the ships

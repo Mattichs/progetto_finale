@@ -26,6 +26,8 @@ std::vector<coords> coords_translation(std::string s) {
     std::string s1 = s.substr(0, s.find(" "));
     std::string s2 = s.substr(s.find(" ") + 1);
 
+    if(s1[0] == 'K' || s1[0] == 'J' || s2[0] == 'K' || s2[0] == 'J') throw std::invalid_argument("J e K non fanno parte della griglia... \n");
+
     if(!(isalpha(s1[0]) && isalpha(s2[0]))) throw std::invalid_argument("Inserisci le coordinate in modo corretto! (il primo carattere deve essere una lettera)\n");
     
     if(s1.length() == 3) {
@@ -57,9 +59,8 @@ std::vector<coords> coords_translation(std::string s) {
         v.push_back(c2);
         return v;
     } else {
-        throw std::invalid_argument("Coordinate non valide, reinseriscile...");
+	throw std::invalid_argument("Coordinate non valide, reinsceriscile...\n");
     }
-
 }
 
 std::vector<coords> get_position(coords& center, short length, asset way){
